@@ -1,14 +1,25 @@
 // script.js
+document.getElementById("claro").addEventListener("click", modoClaro)
+document.getElementById("oscuro").addEventListener("click", modoOscuro)
+document.getElementById("oscuro").style.backgroundColor = "grey";
 
-document.addEventListener("DOMContentLoaded", function () {
-    const mostrarVideoBtn = document.getElementById("mostrarVideo");
-    const videoChocolates = document.getElementById("videoChocolates");
 
-    // Oculta el video al cargar la página
-    videoChocolates.style.display = "none";
+function modoClaro(){
+        document.body.style.backgroundColor = "white"
+        document.getElementById("oscuro").style.backgroundColor = "grey";
+        document.getElementById("barra-derecha").style.backgroundColor = "darkgrey"
+        document.getElementById("barra-izquierda").style.backgroundColor = "darkgrey"
+        document.getElementById("contenedor").style.backgroundColor = "lightgrey"
+        document.body.style.color = "black"
+        document.getElementById("claro").style.backgroundColor = "yellow";  
+}
 
-    mostrarVideoBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-        videoChocolates.style.display = "block";
-    });
-});
+function modoOscuro(){
+    document.getElementById("claro").style.backgroundColor = "grey";
+    document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
+    document.body.style.backgroundColor = "#111"
+    document.getElementById("barra-derecha").style.backgroundColor = "#333"
+    document.getElementById("barra-izquierda").style.backgroundColor = "#333"
+    document.getElementById("contenedor").style.backgroundColor = "#222"
+    document.body.style.color = "white"
+}
