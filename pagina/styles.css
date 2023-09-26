@@ -1,4 +1,10 @@
 /* Estilos generales */
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -11,7 +17,8 @@ body {
     min-height: 100vh;
 }
 
-.contenedor {
+#contenedor {
+    height: 100vh;
     display: flex;
     width: 90%;
     max-width: 1200px;
@@ -27,29 +34,29 @@ body {
 }
 
 /* Estilos de la barra de navegación en la izquierda */
-.barra-izquierda {
+#barra-izquierda {
     flex: 1;
     padding: 20px;
     background-color: #333;
 }
 
-.barra-izquierda ul {
+#barra-izquierda ul {
     list-style: none;
     padding: 0;
 }
 
-.barra-izquierda li {
+#barra-izquierda li {
     margin-bottom: 10px;
 }
 
-.barra-izquierda a {
+#barra-izquierda a {
     text-decoration: none;
     color: #fff;
     font-weight: bold;
     transition: color 0.3s ease-in-out;
 }
 
-.barra-izquierda a:hover {
+#barra-izquierda a:hover {
     color: #00ffcc;
 }
 
@@ -65,17 +72,17 @@ main {
     text-align: center;
 }
 
-.seccion-futurista {
-    background-image: url('futuristic-background.jpg'); /
+#seccion-futurista {
+    background-image: url('futuristic-background.jpg'); 
     padding: 100px;
 }
 
-.seccion-futurista h2 {
+#seccion-futurista h2 {
     font-size: 2.5em;
     color: #00ffcc;
 }
 
-.seccion-futurista p {
+#seccion-futurista p {
     font-size: 1.2em;
     margin-top: 20px;
     color: #fff;
@@ -98,7 +105,18 @@ main {
 }
 
 .tabla-chocolates {
-    margin-top: 40px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30% 15% 30% 15%;
+    grid-template-rows: repeat(3);
+    grid-gap:1em;
+}
+
+.tabla-chocolates > div{
+    background-color: lightgray;
+    color: white;
+    font-size: 4em;
+    text-align: center;
 }
 
 table {
@@ -114,7 +132,7 @@ table td {
 }
 
 /* Estilos de la barra lateral derecha */
-.barra-derecha {
+#barra-derecha {
     flex: 1;
     padding: 20px;
     background-color: #333;
@@ -130,3 +148,40 @@ table td {
 .ultimas-entradas {
     /* Agrega estilos para mostrar los últimos posts */
 }
+
+#claro{
+    background-image: url("imagenes/s1.png");
+    background-size: cover; /* Para ajustar la imagen al tamaño del botón */
+    width: 40px; /* Ancho del botón */
+    height: 40px; /* Alto del botón */
+    border: none; /* Para quitar el borde predeterminado */
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+#claro:hover{
+        animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+
+}
+
+#oscuro{
+    background-image: url("imagenes/l1.png");
+    background-size: cover; /* Para ajustar la imagen al tamaño del botón */
+    width: 40px; /* Ancho del botón */
+    height: 40px; /* Alto del botón */
+    border: none; /* Para quitar el borde predeterminado */
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 10px;
+
+}
+
+@keyframes scale-up-center {
+    0% {
+      transform: scale(0.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
