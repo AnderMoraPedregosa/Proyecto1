@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Futurista</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="contenedor">
+        <nav class="barra-izquierda">
+            <video src="imagenes/logoanimado.mp4" autoplay loop muted class="logo-animado"></video>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Acerca de</a></li>
+                <li><a href="#">Servicios</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </nav>
+        <main>
+            <section class="seccion-futurista">
+                <h2>Bienvenido al Futuro</h2>
+                <p>Explora las maravillas de la tecnología futurista.</p>
+                <a href="#" class="boton" id="mostrarVideo">Más Info</a>
+            </section>
+                  <!-- Agregamos la sección del video, inicialmente oculta -->
+        <section class="video-chocolates" id="videoChocolates" style="display: none;">
+            <video src="imagenes/chocolateanimado.mp4" autoplay loop muted class="video-chocolates"></video>
+        </section>
+            <section class="tabla-chocolates">
+                <!-- Aquí puedes agregar una tabla con información sobre los chocolates -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Chocolate</th>
+                            <th>Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Chocolate 1</td>
+                            <td>Blanco</td>
+                        </tr>
+                        <tr>
+                            <td>Chocolate 2</td>
+                            <td>Negro</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <aside class="barra-derecha">
+            <aside class="barra-derecha">
+                <div class="inicio-sesion-usuario">
+                    <h3>Iniciar Sesión</h3>
+                    <form>
+                        <label for="usuario">Usuario:</label>
+                        <input type="text" id="usuario" name="usuario" required>
+            
+                        <label for="contrasena">Contraseña:</label>
+                        <input type="password" id="contrasena" name="contrasena" required>
+            
+                        <button type="submit">Iniciar Sesión</button>
+                    </form>
+                </div>
+                <div class="ultimas-entradas">
+                    <!-- Aquí puedes mostrar los últimos posts -->
+                </div>
+            </aside
+            <div class="ultimas-entradas">
+                <!-- Aquí puedes mostrar los últimos posts -->
+            </div>
+        </aside>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
