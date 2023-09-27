@@ -12,12 +12,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 #contenedor {
     height: 100vh;
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 6fr 2fr ;
+    grid-template-rows: 90% 10%;
+    grid-template-areas:
+        "nav main login"
+        "foo foo foo";
     width: 90%;
     max-width: 1200px;
     background-color: #222;
@@ -33,6 +37,7 @@ body {
 
 /* Estilos de la barra de navegación en la izquierda */
 #barra-izquierda {
+    grid-area: nav;
     flex: 1;
     padding: 10px;
     background-color: #333;
@@ -65,10 +70,11 @@ body {
 
 
 main {
+    grid-area: main;
     flex: 4;
     padding: 20px;
     text-align: center;
-
+    min-height: calc(100vh -160px);
 }
 
 #seleccionBotones {
@@ -122,6 +128,7 @@ table td {
 
 /* Estilos de la barra lateral derecha */
 #barra-derecha {
+    grid-area: login;
     flex: 1;
     padding: 10px;
     background-color: #333;
@@ -184,11 +191,43 @@ table td {
 #chocolate{
     background-color: white;
     border-radius: 50%;
-    width: 90px;
-    height: 90px;
+    width: 6em;
+    height: 6em;
     grid-area: c;
-    
+    transition: transform 2s ease-in-out; /* Transición en la propiedad 'transform' durante 0.5 segundos con una aceleración/deceleración suave */
 }
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: relative; /* Cambiado de fixed a relative */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.social-icons {
+    grid-area: foo;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.social-icon {
+    font-size: 30px;
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+}
+
 
 @media(max-width: 1000px) {
     #contenedor{
@@ -201,20 +240,12 @@ table td {
             "main main main main"            
     }
 
-    main{
-        grid-area: main;
+  
+
+    .logo-animado {
+        max-width: 50%;
     }
 
-    #barra-izquierda{
-        grid-area: nav;
-    }
-
-    #barra-derecha{
-        grid-area: login;
-    }
-
-
-    
 
   }
 
@@ -231,6 +262,9 @@ table td {
     }
 
 
+    .logo-animado {
+        max-width: 50%;
+    }
 
 
 
