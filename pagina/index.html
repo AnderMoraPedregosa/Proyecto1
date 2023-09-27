@@ -1,6 +1,7 @@
 <!-- DECLARACION VARIABLES-->
 <!-- AWP_In_Variable Name='"mis_datos".marcha' -->
 <!-- AWP_In_Variable Name='"mis_datos".posicion' -->
+<!-- AWP_In_Variable Name='"mis_datos".tipo' -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Futurista</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div id="contenedor">
@@ -21,14 +23,14 @@
                 <div id="botones">
                     <button name="marcha" id="marcha" value="1">Marcha</button>
                     <button name="stop" id="stop" value="0">Stop</button>
-                    <button name="warning" id="warning" value="-1">Warning</button>
+                    <button name="reset" id="reset" value="-1">Reset</button>
                    
                 </div>  
                 <div id="opciones">
-                <input type="radio" name="op" id="automatico" value="automatico">
-                <label for="automatico">Automatico</label><br><br>
-                <input type="radio" name="op" id="manual" value="manual">
-                <label for="manual">Manual</label>
+                    <input type="radio" name="op" id="automatico" value="automatico">
+                    <label for="automatico">Automatico</label><br><br>
+                    <input type="radio" name="op" id="manual" value="manual">
+                    <label for="manual">Manual</label>
                 </div>
                 <div id="chocolate">
                 </div>
@@ -40,31 +42,31 @@
         </section>
         <section class="tabla-chocolates">
             
-            <div class="1">1</div>
-            <div class="2">2</div>
-            <div class="3">3</div>
-            <div class="4">4</div>
-             <div class="5">5</div>
-            <div class="6">6</div>
-             <div class="7">7</div>
-            <div class="8">8</div>
-             <div class="9">9</div>
-             <div class="10">10</div>
-             <div class="11">11</div>
-             <div class="12">12</div>
-            <div class="13">13</div>
-            <div class="14">14</div>
-             <div class="15">15</div>
-             <div class="16">16</div>
-             <div class="17">17</div>
-            <div class="18">18</div>
-            <div class="19">19</div>
-            <div class="20">20</div>
-            <div class="21">21</div>
-             <div class="22">22</div>
-             <div class="23">23</div>
-            <div class="24">24</div>
-             <div class="25">25</div>
+            <div class="a1">1</div>
+            <div class="a2">2</div>
+            <div class="a3">3</div>
+            <div class="a4">4</div>
+             <div class="a5">5</div>
+            <div class="a6">6</div>
+             <div class="a7">7</div>
+            <div class="a8">8</div>
+             <div class="a9">9</div>
+             <div class="a10">10</div>
+             <div class="a11">11</div>
+             <div class="a12">12</div>
+            <div class="a13">13</div>
+            <div class="a14">14</div>
+             <div class="a15">15</div>
+             <div class="a16">16</div>
+             <div class="a17">17</div>
+            <div class="a18">18</div>
+            <div class="a19">19</div>
+            <div class="a20">20</div>
+            <div class="a21">21</div>
+             <div class="a22">22</div>
+             <div class="a23">23</div>
+            <div class="a24">24</div>
+             <div class="a25">25</div>
             </section>
         </main>
 
@@ -76,13 +78,14 @@
                 </div>
                
             </aside>
-            <div class="ultimas-entradas">
-                <!-- Aquí puedes mostrar los últimos posts -->
-            </div>
         </aside>
-
         <footer>
-            
+            <div class="social-icons">
+                <a href="#" class="social-icon" id="facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-icon" id="twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon" id="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon" id="linkedin"><i class="fab fa-linkedin"></i></a>
+            </div>
         </footer>
     </div>
     <script src="script.js"></script>
