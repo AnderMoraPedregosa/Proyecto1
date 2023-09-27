@@ -34,7 +34,7 @@ body {
 /* Estilos de la barra de navegación en la izquierda */
 #barra-izquierda {
     flex: 1;
-    padding: 20px;
+    padding: 10px;
     background-color: #333;
 }
 
@@ -65,7 +65,7 @@ body {
 
 
 main {
-    flex: 2;
+    flex: 4;
     padding: 20px;
     text-align: center;
 }
@@ -105,9 +105,10 @@ main {
 .tabla-chocolates {
     width: 100%;
     display: grid;
-    grid-template-columns: 30% 15% 30% 15%;
-    grid-template-rows: repeat(3);
+    grid-template-columns: 19% 19% 19% 19% 19%;
+    grid-template-rows: repeat(5);
     grid-gap:1em;
+    justify-content: center;
 }
 
 .tabla-chocolates > div{
@@ -132,13 +133,16 @@ table td {
 /* Estilos de la barra lateral derecha */
 #barra-derecha {
     flex: 1;
-    padding: 20px;
+    padding: 10px;
     background-color: #333;
     display: flex;
     flex-direction: column;
 }
 
-.inicio-sesion-usuario {
+#modoFondo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
     /* Agrega estilos para el formulario de inicio de sesión */
 }
@@ -175,9 +179,24 @@ table td {
 
 }
 
+#opciones{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
+#opciones > button{
+    padding: 8px;
+    margin: 10px;
+    border-radius: 10px;
+}
 
-  @media(max-width: 600px) {
+#opciones > input{
+
+}
+
+@media(max-width: 1000px) {
     #contenedor{
         height: 100vh;
         display: grid;
@@ -203,23 +222,23 @@ table td {
     .tabla-chocolates {
         width: 100%;
         display: grid;
-        grid-template-columns: 75% 25%;
-        grid-template-rows: repeat(6);
+        grid-template-columns: 30% 15% 30% 15%;
+        grid-template-rows: repeat(3);
         grid-gap:1em;
     }
 
   }
 
-    @media(max-width: 600px) {
+  @media(max-width: 600px) {
     #contenedor{
         height: 100vh;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: 20% 80%;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 20% 20% 60%;
         grid-template-areas:
-            "login login login login"
-            "nav nav nav nav"
-            "main main main main"            
+            "login login"
+            "nav nav"
+            "main main"            
     }
 
     main{
@@ -243,5 +262,11 @@ table td {
     }
 
   }
+
+
+
+  
+
+
 
 
