@@ -68,39 +68,29 @@ main {
     flex: 4;
     padding: 20px;
     text-align: center;
+
 }
 
-#seccion-futurista {
-    background-image: url('futuristic-background.jpg'); 
-    padding: 100px;
+#seleccionBotones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(2);
+    grid-template-areas:
+    "botones c"
+    "radio ."
 }
 
-#seccion-futurista h2 {
-    font-size: 2.5em;
-    color: #00ffcc;
+#botones{
+    grid-area: botones;
 }
 
-#seccion-futurista p {
-    font-size: 1.2em;
-    margin-top: 20px;
-    color: #fff;
+#opciones{
+    grid-area: radio;
+    justify-items: start;
+    
 }
 
-.boton {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #00ffcc;
-    color: #111;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 5px;
-    margin-top: 20px;
-    transition: background-color 0.3s ease-in-out;
-}
 
-.boton:hover {
-    background-color: #222;
-}
 
 .tabla-chocolates {
     width: 100%;
@@ -112,8 +102,8 @@ main {
 }
 
 .tabla-chocolates > div{
-    background-color: lightgray;
-    color: white;
+    background-color: darkgray;
+    color: darkblue;
     font-size: 4em;
     text-align: center;
 }
@@ -147,9 +137,7 @@ table td {
     /* Agrega estilos para el formulario de inicio de sesión */
 }
 
-.ultimas-entradas {
-    /* Agrega estilos para mostrar los últimos posts */
-}
+
 
 #claro{
     background-image: url("imagenes/s1.png");
@@ -179,21 +167,27 @@ table td {
 
 }
 
-#opciones{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 
-#opciones > button{
+
+ #botones > button{
     padding: 8px;
     margin: 10px;
     border-radius: 10px;
+    cursor: pointer;
+
 }
 
-#opciones > input{
+#opciones{
+    padding: 20px;
+}
 
+#chocolate{
+    background-color: white;
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    grid-area: c;
+    
 }
 
 @media(max-width: 1000px) {
@@ -219,13 +213,8 @@ table td {
         grid-area: login;
     }
 
-    .tabla-chocolates {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 30% 15% 30% 15%;
-        grid-template-rows: repeat(3);
-        grid-gap:1em;
-    }
+
+    
 
   }
 
@@ -241,25 +230,9 @@ table td {
             "main main"            
     }
 
-    main{
-        grid-area: main;
-    }
 
-    #barra-izquierda{
-        grid-area: nav;
-    }
 
-    #barra-derecha{
-        grid-area: login;
-    }
 
-    .tabla-chocolates {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 75% 25%;
-        grid-template-rows: repeat(6);
-        grid-gap:1em;
-    }
 
   }
 
