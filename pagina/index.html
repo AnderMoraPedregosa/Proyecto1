@@ -1,7 +1,7 @@
 <!-- DECLARACION VARIABLES-->
-<!-- AWP_In_Variable Name='"mis_datos".marcha' -->
-<!-- AWP_In_Variable Name='"mis_datos".posicion' -->
-<!-- AWP_In_Variable Name='"mis_datos".tipo' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".MARCHA' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".POSICION' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".TIPO' -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,7 +15,7 @@
     <div id="contenedor">
         <nav id="barra-izquierda">
             <video src="imagenes/logoanimado.mp4" autoplay loop muted class="logo-animado"></video>
-           
+           <p id="pos">:="DB_DATOS_DAW".POSICION:</p>
         </nav>
         <main>
           
@@ -68,6 +68,11 @@
             <div class="a24">24</div>
              <div class="a25">25</div>
             </section>
+            <div class="grafico">
+                <div class="porcion" id="porcion1"></div>
+                <div class="porcion" id="porcion2"></div>
+              </div>
+              
         </main>
 
         <aside id="barra-derecha">
@@ -80,12 +85,13 @@
             </aside>
         </aside>
         <footer>
-            <div class="social-icons">
+            <p>&copy;Txarli y la fabrica de chocolate</p>
+            <div id="redesSociales">
                 <a href="#" class="social-icon" id="facebook"><i class="fab fa-facebook"></i></a>
                 <a href="#" class="social-icon" id="twitter"><i class="fab fa-twitter"></i></a>
                 <a href="#" class="social-icon" id="instagram"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="social-icon" id="linkedin"><i class="fab fa-linkedin"></i></a>
-            </div>
+                </div>
         </footer>
     </div>
     <script src="script.js"></script>
