@@ -6,6 +6,10 @@ document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
 document.getElementById("marcha").addEventListener("click", moverElemento)
 document.getElementById("reset").addEventListener("click", reset)
 
+
+
+
+
 /*
    let mensaje = document.createElement('p');
     mensaje.textContent("Maquina en marcha, espere a que coja el chocolate");
@@ -15,6 +19,8 @@ document.getElementById("reset").addEventListener("click", reset)
 
 var marcha;
 var tipo;
+var numChocoBlanco = 0;
+var numChocoNegro = 0;
 
 
 function modoClaro(){
@@ -42,8 +48,6 @@ function reset(){
 }
 
 function moverElemento() {
- 
-
     const chocolate = document.getElementById("chocolate");
     const posicion = "a24"/* Aquí deberías obtener el valor de mis_datos.posicion */;
 
@@ -66,9 +70,11 @@ function moverElemento() {
 
     if(tipo === 1){
         divObjetivo.style.backgroundColor = "#804000";
+        numChocoNegro=+1;
     }
     else{
         divObjetivo.style.backgroundColor = "white";
+        numChocoBlanco=+1;
     }
 
     setTimeout(() => {
@@ -77,3 +83,4 @@ function moverElemento() {
     }, 2500)
 
 }
+

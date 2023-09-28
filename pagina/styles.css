@@ -197,20 +197,28 @@ table td {
     transition: transform 2s ease-in-out; /* Transición en la propiedad 'transform' durante 0.5 segundos con una aceleración/deceleración suave */
 }
 
-.footer {
-    background-color: #333;
+footer {
+   
+    background-color: black;
     color: #fff;
     text-align: center;
     padding: 20px;
-    position: relative; /* Cambiado de fixed a relative */
-    bottom: 0;
-    left: 0;
     width: 100%;
-    z-index: 1000;
     grid-area: foo;
 }
 
+#redesSociales{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+footer p{
+    display: block;
+}
 .social-icons {
+    background-color: red;
     display: flex;
     justify-content: space-between;
 }
@@ -228,15 +236,19 @@ table td {
 }
 
 
+  
+
+
 @media(max-width: 1000px) {
     #contenedor{
         height: 100vh;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: 20% 80%;
+        grid-template-rows: 20% 60% 20%;
         grid-template-areas:
             "nav nav login login"
-            "main main main main"            
+            "main main main main" 
+            "foo foo foo foo"           
     }
 
   
@@ -253,11 +265,12 @@ table td {
         height: 100vh;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 20% 20% 60%;
+        grid-template-rows: 20% 20% 40% 20%;
         grid-template-areas:
             "login login"
             "nav nav"
-            "main main"            
+            "main main"     
+            "foo foo"       
     }
 
 
