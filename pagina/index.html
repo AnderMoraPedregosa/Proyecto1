@@ -1,7 +1,7 @@
 <!-- DECLARACION VARIABLES-->
-<!-- AWP_In_Variable Name='"DB_DATOS_DAW".MARCHA' -->
-<!-- AWP_In_Variable Name='"DB_DATOS_DAW".POSICION' -->
-<!-- AWP_In_Variable Name='"DB_DATOS_DAW".TIPO' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".marcha' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".posicion' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".tipo' -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,7 +15,7 @@
     <div id="contenedor">
         <nav id="barra-izquierda">
             <video src="imagenes/logoanimado.mp4" autoplay loop muted class="logo-animado"></video>
-           <p id="pos">:="DB_DATOS_DAW".POSICION:</p>
+           <p id="pos">:="DB_DATOS_DAW".posicion:</p>
         </nav>
         <main>
           
@@ -68,9 +68,8 @@
             <div class="a24">24</div>
              <div class="a25">25</div>
             </section>
-            <div class="grafico">
-                <div class="porcion" id="porcion1"></div>
-                <div class="porcion" id="porcion2"></div>
+            <div class="chart-container">
+                <div class="chart" id="chart"></div>
               </div>
               
         </main>
@@ -94,6 +93,8 @@
                 </div>
         </footer>
     </div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>
