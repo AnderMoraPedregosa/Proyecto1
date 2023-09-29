@@ -156,6 +156,7 @@ table td {
 
 #mensaje{
 	  animation: parpadeo 1s infinite;
+	  font-size:1.5em;
 
 }
 
