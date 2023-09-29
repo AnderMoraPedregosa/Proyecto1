@@ -152,6 +152,22 @@ table td {
     flex-direction: column;
 }
 
+
+
+#mensaje{
+	  animation: parpadeo 1s infinite;
+
+}
+
+@keyframes parpadeo {
+            0%, 100% {
+                color: red;
+            }
+            50% {
+                color: black;
+            }
+        }
+
 #modoFondo{
     display: flex;
     align-items: center;
@@ -205,12 +221,12 @@ table td {
 }
 
 #chocolate{
-    background-color: white;
+    background-color: #00ffcc;
     border-radius: 50%;
     width: 6em;
     height: 6em;
     grid-area: c;
-    transition: transform 2s ease-in-out; /* Transición en la propiedad 'transform' durante 0.5 segundos con una aceleración/deceleración suave */
+    transition: transform 3s ease-in-out; /* Transición en la propiedad 'transform' durante 0.5 segundos con una aceleración/deceleración suave */
 }
 
 footer {
