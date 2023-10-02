@@ -3,7 +3,7 @@ document.getElementById("claro").addEventListener("click", modoClaro);
 document.getElementById("oscuro").addEventListener("click", modoOscuro);
 document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
 
-document.getElementById("reset").addEventListener("click", resett);
+document.getElementById("reset").addEventListener("click", reset);
 
 document.getElementById("automatico").addEventListener("click", opciones);
 document.getElementById("manual").addEventListener("click", opciones);
@@ -165,7 +165,7 @@ function modoOscuro() {
     document.body.style.color = "white"
 }
 
-function resett() {
+function reset() {
     location.reload();
 }
 
