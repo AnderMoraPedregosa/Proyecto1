@@ -202,7 +202,7 @@ footer {
     background-color: black;
     color: #fff;
     text-align: center;
-    padding: 20px;
+    padding: .4em;
     width: 100%;
     grid-area: foo;
 }
