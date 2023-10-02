@@ -48,6 +48,8 @@ document.addEventListener("DOMContentLoaded", function()
 			 console.log("Color: " + color);
 			 console.log("martxa: " + martxa);
 			 console.log("automatico: " + automatico);
+			 console.log("contador blanco: " + contadorBlanco);
+			 console.log("contador negro: " + contadorNegro);
 	 
 	     if( color === '2' || martxa === '0')  //0 = false
 		 { 
@@ -105,21 +107,43 @@ document.addEventListener("DOMContentLoaded", function()
 
     function opciones(e)
 	{
-        if(e.target.id = "automatico")
+        if(e.target.id === "automatico")
 		{
-            automatico = '1';
+            automatico === '1';
         }
 			else
 			{
-				if(e.target.id = "martxa")
+				if(e.target.id === "martxa")
 				{
-					marcha = '1';
+					martxa = '1';
 				}
 					else
 					{
 						automatico = '0';
 					}
 			}
+            
+                const url = 'http://10.0.2.100:502'; // Cambia esto con la URL correcta
+                const data = {
+                    martxa: martxa,
+                    automatico: automatico // Cambia esto con el valor que desees
+                };
+            
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Variables actualizadas:', data);
+                })
+                .catch(error => {
+                    console.error('Error al actualizar variables:', error);
+                });
+            
+            
     }
 
 
@@ -149,12 +173,14 @@ function moverElemento()
 		if(color === '1')
 		{
         divObjetivo.style.backgroundColor = "#804000";
+		contadorNegro = contadorNegro +1;
       
 		}
 			else
 			{
 				divObjetivo.style.backgroundColor = "white";
 				divObjetivo.style.color = "black";
+						contadorBlanco = contadorBlanco +1 ;
 
 	
 			}
@@ -216,6 +242,8 @@ function modoOscuro(){
 
 function resett(){
     location.reload();
+	contadorNegro = 0;
+	contadorBlanco = 0;
 }
 
 
