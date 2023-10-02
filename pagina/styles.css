@@ -106,7 +106,7 @@ main {
     gap: 5px;
     width: 350px; /* Ajusta el tamaño según lo necesites */
     height: 350px; /* Ajusta el tamaño según lo necesites */
-    margin: 50px auto;
+    margin: 0 auto;
     background-color: #222;
     border: 2px solid #ccc;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
@@ -222,24 +222,23 @@ table td {
 }
 
 #chocolate{
-    background-color: #00ffcc;
-    border-radius: 50%;
-    width: 6em;
-    height: 6em;
+    background-image: url("imagenes/cn.png");
+    background-size: cover; /* Para ajustar la imagen al tamaño del botón */
+    width: 10em; /* Ancho del botón */
+    height: 10em;
+	position: relative;
     grid-area: c;
     transition: transform 3s ease-in-out; /* Transición en la propiedad 'transform' durante 0.5 segundos con una aceleración/deceleración suave */
 }
 
 footer {
-    height: 100%;
-        bottom: 0;
         background-color: black;
         color: #fff;
         text-align: center;
         padding: 25px;
         width: 100%;
         grid-area: foo;
-            max-width: 1200px;
+        max-width: 1200px;
 }
 
 #redesSociales{
@@ -249,9 +248,7 @@ footer {
 
 }
 
-footer p{
-    display: block;
-}
+
 .social-icons {
     background-color: red;
     display: flex;
@@ -279,7 +276,7 @@ footer p{
         height: 100vh;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: 20% 60% 20%;
+        grid-template-rows: 10% 80% 10%;
         grid-template-areas:
             "nav nav login login"
             "main main main main" 
@@ -289,9 +286,12 @@ footer p{
   
 
     .logo-animado {
-        max-width: 50%;
+        max-width: 30%;
     }
 
+    #chocolate{
+        transform: scale(0.8);
+    }
 
   }
 
@@ -300,7 +300,7 @@ footer p{
         height: 100vh;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 20% 20% 40% 20%;
+        grid-template-rows: 5% 5% 85% 5%;
         grid-template-areas:
             "login login"
             "nav nav"
@@ -310,8 +310,12 @@ footer p{
 
 
     .logo-animado {
-        max-width: 50%;
+        max-width: 10%;
     }
+
+#chocolate{
+    transform: scale(0.5);
+}
 
 
 
