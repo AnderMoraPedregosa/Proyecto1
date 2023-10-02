@@ -18,7 +18,7 @@ body {
     height: 100vh;
     display: grid;
     grid-template-columns: 2fr 6fr 2fr ;
-    grid-template-rows: 90% 10%;
+    grid-template-rows: 88% 12%;
     grid-template-areas:
         "nav main login"
         "foo foo foo";
@@ -98,20 +98,36 @@ main {
 
 
 
+
 .tabla-chocolates {
-    width: 100%;
     display: grid;
-    grid-template-columns: 19% 19% 19% 19% 19%;
-    grid-template-rows: repeat(5);
-    grid-gap:1em;
-    justify-content: center;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 5px;
+    width: 350px; /* Ajusta el tamaño según lo necesites */
+    height: 350px; /* Ajusta el tamaño según lo necesites */
+    margin: 50px auto;
+    background-color: #222;
+    border: 2px solid #ccc;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 5px;
+    width: 80%;
+    height: 70%;
 }
 
-.tabla-chocolates > div{
-    background-color: darkgray;
-    color: darkblue;
-    font-size: 4em;
-    text-align: center;
+.tabla-chocolates > div {
+    background-color: #6c757d; /* Cambia el color de fondo según tu preferencia */
+    border: 2px solid #52575c; /* Cambia el color del borde según tu preferencia */
+    box-shadow: 0 0 10px rgba(0,0,0,0.3); /* Cambia la sombra según tu preferencia */
+    border-radius: 10px;
+    width: 95%; /* Ocupa el 95% del contenedor */
+    height: 95%; /* Ocupa el 95% del contenedor */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.7;
+    font-weight: bold;
 }
 
 table {
@@ -135,6 +151,23 @@ table td {
     display: flex;
     flex-direction: column;
 }
+
+
+
+#mensaje{
+	  animation: parpadeo 1s infinite;
+	  font-size:1.5em;
+
+}
+
+@keyframes parpadeo {
+            0%, 100% {
+                color: red;
+            }
+            50% {
+                color: black;
+            }
+        }
 
 #modoFondo{
     display: flex;
@@ -189,22 +222,24 @@ table td {
 }
 
 #chocolate{
-    background-color: white;
+    background-color: #00ffcc;
     border-radius: 50%;
     width: 6em;
     height: 6em;
     grid-area: c;
-    transition: transform 2s ease-in-out; /* Transición en la propiedad 'transform' durante 0.5 segundos con una aceleración/deceleración suave */
+    transition: transform 3s ease-in-out; /* Transición en la propiedad 'transform' durante 0.5 segundos con una aceleración/deceleración suave */
 }
 
 footer {
-   
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: .4em;
-    width: 100%;
-    grid-area: foo;
+    height: 100%;
+        bottom: 0;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 25px;
+        width: 100%;
+        grid-area: foo;
+            max-width: 1200px;
 }
 
 #redesSociales{
@@ -236,7 +271,7 @@ footer p{
 }
 
 
-  
+
 
 
 @media(max-width: 1000px) {
