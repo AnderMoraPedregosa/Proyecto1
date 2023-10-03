@@ -15,11 +15,20 @@ var elemento = document.getElementById('chocolate'); // Reemplaza 'miElemento' c
 
  //variable global, valor transformacion actual
  var transformacionActual = window.getComputedStyle(elemento).getPropertyValue('transform');
+ 
+  //manual
+			 var boton = document.createElement("button");
+boton.id = "continuar"; // Establece un ID
+boton.classList.add("bContinuar"); // Agrega una clase CSS
+
+document.getElementById("dContinuar").appendChild(boton); // Agrega el botón al cuerpo del documento
+
+document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
+
 
  function detenerAnimacion()
 	{
 	 elemento.style.transform = 'none';
-	 
 	}
 
 document.addEventListener("DOMContentLoaded", function() 
@@ -50,6 +59,9 @@ document.addEventListener("DOMContentLoaded", function()
 			 console.log("automatico: " + automatico);
 			 console.log("contador blanco: " + contadorBlanco);
 			 console.log("contador negro: " + contadorNegro);
+
+			
+
 	 
 	     if( color === '2' || martxa === '0')  //0 = false
 		 { 
@@ -57,6 +69,8 @@ document.addEventListener("DOMContentLoaded", function()
 			document.getElementById("mensaje").style.color = "white";
 			console.log("no he salido");
 			document.getElementById("mensaje").style.display = "block";
+			document.getElementById("continuar").style.display = "none";
+
 
 		}
 		
@@ -65,6 +79,8 @@ document.addEventListener("DOMContentLoaded", function()
 				if(automatico === '1')
 				{ // 1 = true
 				document.getElementById("mensaje").style.display = "none";
+				document.getElementById("continuar").style.display = "none";
+
 					console.log("he salido");
 					cambiarImagen();
 					moverElemento();
@@ -74,6 +90,11 @@ document.addEventListener("DOMContentLoaded", function()
 				else
 				{
 					console.log("manual");
+					document.getElementById("continuar").style.display = "block";
+
+					document.getElementById("continuar").addEventListener("click", cambiarImagen);
+					document.getElementById("continuar").addEventListener("click", moverElemento);
+
 					//cambiar
 					//moverElemento();
 				}
@@ -123,10 +144,10 @@ document.addEventListener("DOMContentLoaded", function()
 					}
 			}
             
-                const url = 'http://10.0.2.100:502'; // Cambia esto con la URL correcta
+                const url = 'http://10.0.2.100:80'; 
                 const data = {
                     martxa: martxa,
-                    automatico: automatico // Cambia esto con el valor que desees
+                    automatico: automatico 
                 };
             
                 fetch(url, {
@@ -180,7 +201,7 @@ function moverElemento()
 			{
 				divObjetivo.style.backgroundColor = "white";
 				divObjetivo.style.color = "black";
-						contadorBlanco = contadorBlanco +1 ;
+				contadorBlanco = contadorBlanco +1 ;
 
 	
 			}

@@ -267,6 +267,19 @@ footer {
     transform: scale(1.2);
 }
 
+.bContinuar{
+    background-image: url("imagenes/bc.png");
+    padding: 10px;
+    border-radius: 10px;
+    align-self: self-end;
+    width: 50px; /* Ancho del botón */
+    height: 45px; /* Alto del botón */
+    border: none; /* Para quitar el borde predeterminado */
+    cursor: pointer;
+	background-size: cover;
+	background-color:greenyellow;
+}
+
 
 
 
