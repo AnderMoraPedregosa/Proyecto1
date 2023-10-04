@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.catch(error => {
 				console.error("Error en la solicitud: ", error);
 			});
-	}, 1);
+	}, 180000);
 });
 
 //var pos = JSON.stringify(posicion);

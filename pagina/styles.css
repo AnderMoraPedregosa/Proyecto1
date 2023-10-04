@@ -3,6 +3,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+
 }
 
 /* Estilos del cuerpo de la página */
@@ -13,6 +14,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 /* Contenedor principal */
@@ -223,6 +225,7 @@ footer {
     width: 100%;
     grid-area: foo;
     max-width: 1200px;
+    height: 100vh;
 }
 
 #redesSociales {
@@ -275,6 +278,8 @@ footer {
             "foo foo foo foo";
     }
 
+
+
     .logo-animado {
         max-width: 30%;
     }
@@ -287,15 +292,20 @@ footer {
 @media (max-width: 600px) {
     #contenedor {
         height: 100vh;
+        
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 5% 5% 85% 5%;
+        grid-template-rows: 5% 5% 1fr 5%; /* Ajuste aquí */
         grid-template-areas:
             "login login"
             "nav nav"
             "main main"
             "foo foo";
+            
     }
+
+
+
 
     .logo-animado {
         max-width: 10%;
@@ -304,4 +314,7 @@ footer {
     #chocolate {
         transform: scale(0.5);
     }
+
+
+  
 }
