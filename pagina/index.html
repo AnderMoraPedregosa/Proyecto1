@@ -1,7 +1,13 @@
 <!-- DECLARACION VARIABLES-->
-<!-- AWP_In_Variable Name='"DB_DATOS_DAW".marcha' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".martxa' -->
 <!-- AWP_In_Variable Name='"DB_DATOS_DAW".posicion' -->
-<!-- AWP_In_Variable Name='"DB_DATOS_DAW".tipo' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".color' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".contadorNegro' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".contadorBlanco' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".automatico' -->
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -11,6 +17,8 @@
     <title>Página Futurista</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -22,9 +30,7 @@
 
             <section id="seleccionBotones">
                 <div id="botones">
-                    <form action="http://10.0.2.100/wp/reto1/index.html" action="POST">
-                        <button type="submit" name="martxa" id="martxa" value="1">Marcha</button>
-                    </form>
+                      <button name="martxa" id="martxa" value="1">Marcha</button>
                     <button name="stop" id="stop" value="0">Stop</button>
                     <button name="reset" id="reset" value="-1">Reset</button>
 
@@ -32,9 +38,10 @@
                 <div id="opciones">
                     <input type="radio" name="op" id="automatico" value="automatico">
                     <label for="automatico">Automatico</label><br><br>
-                    <input type="radio" name="op" id="manual" value="manual">
+                    <input type="radio" name="op" id="manual" value="manual" checked>
                     <label for="manual">Manual</label>
                     <div id="dContinuar"></div>
+                    <p id="etiqueta"></p>
                 </div>
                 <div id="chocolate">
                 </div>
@@ -85,6 +92,9 @@
                     <button name="oscuro" id="oscuro"></button>
                 </div>
                 <p id="mensaje"></p>
+				<!-- Canvas para el gráfico -->
+                                    <canvas id="miGrafico"></canvas>
+
             </aside>
         </aside>
         <footer>

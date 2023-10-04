@@ -45,6 +45,8 @@ body {
     flex: 1;
     padding: 10px;
     background-color: #333;
+    height: 100vh;
+
 }
 
 #barra-izquierda ul {
@@ -78,6 +80,9 @@ main {
     padding: 20px;
     text-align: center;
     min-height: calc(100vh - 160px);
+    overflow-y:auto;
+
+
 }
 
 /* Selección de botones y opciones */
@@ -140,6 +145,7 @@ main {
     background-color: #333;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
 
 /* Animación del mensaje */
@@ -211,9 +217,9 @@ main {
     background-size: cover;
     width: 10em;
     height: 10em;
-    position: sticky;
     grid-area: c;
     transition: transform 3s ease-in-out;
+	position: relative;
 }
 
 /* Pie de página y redes sociales */
@@ -225,7 +231,8 @@ footer {
     width: 100%;
     grid-area: foo;
     max-width: 1200px;
-    height: 100vh;
+    position: fixed;
+    bottom: 0;
 }
 
 #redesSociales {
@@ -287,12 +294,14 @@ footer {
     #chocolate {
         transform: scale(0.8);
     }
+	body #contenedor #miGrafico {
+        display: none !important;
+    }
 }
 
 @media (max-width: 600px) {
     #contenedor {
         height: 100vh;
-        
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 5% 5% 1fr 5%; /* Ajuste aquí */
@@ -306,6 +315,9 @@ footer {
 
 
 
+	body #contenedor #miGrafico {
+        display: none !important;
+    }
 
     .logo-animado {
         max-width: 10%;
