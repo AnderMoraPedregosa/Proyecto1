@@ -38,7 +38,13 @@ function detenerAnimacion() {
 }
 
 
-function moverElemento(color, posicion, martxa, automatico) {
+activarMartxa();
+acivarStop();
+automatico();
+manual();
+
+
+function moverElemento(color, posicion) {
 	console.log("moverElemento: color = "+color+" posicion = "+posicion);
 	const chocolate = document.getElementById("chocolate");
 
@@ -75,6 +81,7 @@ function moverElemento(color, posicion, martxa, automatico) {
 	
 
 }
+		
 
 document.addEventListener("DOMContentLoaded", function () {
 	setInterval(function () {
@@ -104,64 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				console.log("contador negro: " + contadorNegro);
 
 
-
-
-				if (color === '2' || martxa === '0')  //0 = false
-				{
-					document.getElementById("mensaje").textContent = "Espere...";
-					document.getElementById("mensaje").style.color = "white";
-					console.log("no he salido");
-					document.getElementById("mensaje").style.display = "block";
-					document.getElementById("continuar").style.display = "none";
-
-
-				}
-
-				else {
-					if (automatico === '1') { // 1 = true
-						document.getElementById("mensaje").style.display = "none";
-						document.getElementById("continuar").style.display = "none";
-
-						console.log("he salido");
-						cambiarImagen();
-						moverElemento(color, posicion);
-						
-						//GRAFICO
-						sumarContador();
-                        guardarContador();
-
-					}
-
-
-					else {
-						console.log("manual");
-						document.getElementById("continuar").style.display = "block";
-
-						document.getElementById("continuar").addEventListener("click", cambiarImagen);
-						document.getElementById("continuar").addEventListener("click", moverElemento);
-
-						//GRAFICO
-						document.getElementById("continuar").addEventListener("click", sumarContador);
-                        document.getElementById("continuar").addEventListener("click", guardarContador);
-						
-					}
-				}
-
-				function cambiarImagen() {
-					if (color === '1') {
-						document.getElementById("chocolate").style.backgroundImage = "url('imagenes/cn.png')";
-
-						document.getElementById("chocolate").style.height = '10em';
-						document.getElementById("chocolate").style.width = '10em';
-
-					}
-					else {
-						document.getElementById("chocolate").style.backgroundImage = "url('imagenes/cb.png')";
-						document.getElementById("chocolate").style.height = '5em';
-						document.getElementById("chocolate").style.width = '5em';
-					}
-
-				}
+				comprobar(color, martxa, automatico, posicion);
 				
 				
 			//GRAFICO
@@ -186,6 +136,51 @@ document.addEventListener("DOMContentLoaded", function () {
 	}, 18000);
 	
 });
+
+function comprobar(color, martxa, automatico, posicion){
+
+	if (color === '2' || martxa === '0')  //0 = false
+	{
+		document.getElementById("mensaje").textContent = "Espere...";
+		document.getElementById("mensaje").style.color = "white";
+		console.log("no he salido");
+		document.getElementById("mensaje").style.display = "block";
+		document.getElementById("continuar").style.display = "none";
+
+
+	}
+
+	else {
+		if (automatico === '1') { // 1 = true
+			document.getElementById("mensaje").style.display = "none";
+			document.getElementById("continuar").style.display = "none";
+
+			console.log("he salido");
+			cambiarImagen(color);
+			moverElemento(color, posicion);
+			
+			//GRAFICO
+			sumarContador();
+			guardarContador();
+
+		}
+
+
+		else {
+			console.log("manual");
+			document.getElementById("continuar").style.display = "block";
+
+			document.getElementById("continuar").addEventListener("click", function() {
+			cambiarImagen(color); 
+			moverElemento(color, posicion); 
+		});
+			//GRAFICO
+			document.getElementById("continuar").addEventListener("click", sumarContador);
+			document.getElementById("continuar").addEventListener("click", guardarContador);
+			
+		}
+	}
+}
 
 function activarMartxa(){
 	document.getElementById('martxa').addEventListener('click', () => {
@@ -215,10 +210,11 @@ function activarMartxa(){
 	});
 
 }
-//activarMartxa();
+
 
 //STOP
 
+function acivarStop(){
 	document.getElementById('stop').addEventListener('click', () => {
     // Create a data object to send as the request body
     const data = new URLSearchParams();
@@ -238,29 +234,21 @@ function activarMartxa(){
         const contentType = response.headers.get('Content-Type');
         return contentType.includes('application/json') ? response.json() : response.text();
     })
-    .then((responseText) => {
-        // Handle JSON response
-        if (typeof responseText === 'object') {
-            document.getElementById('etiqueta').textContent = responseText.field1;
-			document.getElementById("etiqueta").style.display = "none"; // Oculta el botón por ID
-
-        } else {
-            // Handle HTML response
-            document.getElementById('etiqueta').innerHTML = responseText;
-			document.getElementById("etiqueta").style.display = "none"; // Oculta el botón por ID
-
-        }
-    })
     .catch((error) => {
         console.error('Fetch Error:', error);
     });
 });
+	
+}
+
+	
 
 //automatico y manual
-const radioAutomatico = document.getElementById("automatico");
-    const radioManual = document.getElementById("manual");
+	
+function automatico(){
+	const radioAutomatico = document.getElementById("automatico");
 
- radioAutomatico.addEventListener("change", function() {
+	radioAutomatico.addEventListener("change", function() {
 	 
 	 //ocultar boton
 	 document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
@@ -282,26 +270,18 @@ const radioAutomatico = document.getElementById("automatico");
         const contentType = response.headers.get('Content-Type');
         return contentType.includes('application/json') ? response.json() : response.text();
     })
-    .then((responseText) => {
-        // Handle JSON response
-        if (typeof responseText === 'object') {
-            document.getElementById('etiqueta').textContent = responseText.field1;
-			document.getElementById("etiqueta").style.display = "none"; // Oculta el botón por ID
-
-        } else {
-            // Handle HTML response
-            document.getElementById('etiqueta').innerHTML = responseText;
-			document.getElementById("etiqueta").style.display = "none"; // Oculta el botón por ID
-
-        }
-    })
     .catch((error) => {
         console.error('Fetch Error:', error);
     });
 });
-    
+	
+}
 
-    radioManual.addEventListener("change", function() {
+ 
+ function manual(){
+	     const radioManual = document.getElementById("manual");
+
+	 radioManual.addEventListener("change", function() {
 		
 		//mostrar boton
 		document.getElementById("continuar").style.display = "block"; // Oculta el botón por ID
@@ -323,44 +303,27 @@ const radioAutomatico = document.getElementById("automatico");
         const contentType = response.headers.get('Content-Type');
         return contentType.includes('application/json') ? response.json() : response.text();
     })
-    .then((responseText) => {
-        // Handle JSON response
-        if (typeof responseText === 'object') {
-            document.getElementById('etiqueta').textContent = responseText.field1;
-			document.getElementById("etiqueta").style.display = "none"; // Oculta el botón por ID
-
-        } else {
-            // Handle HTML response
-            document.getElementById('etiqueta').innerHTML = responseText;
-			document.getElementById("etiqueta").style.display = "none"; // Oculta el botón por ID
-
-        }
-    })
     .catch((error) => {
         console.error('Fetch Error:', error);
     });
     });
+ }
 
-//var pos = JSON.stringify(posicion);
+	function cambiarImagen(color) {
+		if (color === '1') {
+			document.getElementById("chocolate").style.backgroundImage = "url('imagenes/cn.png')";
 
+			document.getElementById("chocolate").style.height = '10em';
+			document.getElementById("chocolate").style.width = '10em';
 
+		}
+		else {
+			document.getElementById("chocolate").style.backgroundImage = "url('imagenes/cb.png')";
+			document.getElementById("chocolate").style.height = '5em';
+			document.getElementById("chocolate").style.width = '5em';
+		}
 
-
-
-
-
-/*
-   let mensaje = document.createElement('p');
-	mensaje.textContent("Maquina en marcha, espere a que coja el chocolate");
-	let derecha = document.getElementById("barra-derecha");
-	derecha.appendChild(mensaje);
-*/
-
-var marcha;
-var tipo;
-var numChocoBlanco = 0;
-var numChocoNegro = 0;
-
+	}
 
 function modoClaro() {
 	document.body.style.backgroundColor = "white"
