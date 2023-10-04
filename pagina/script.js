@@ -29,8 +29,8 @@ document.getElementById("dContinuar").appendChild(boton); // Agrega el botón al
 
 //GRAFICO
 // Recuperar contadores de localStorage o inicializarlos si no existen
-let contadorNegro = parseInt(localStorage.getItem('contadorNegro')) || 3;
-let contadorBlanco = parseInt(localStorage.getItem('contadorBlanco')) || 7;
+let contadorNegro = parseInt(localStorage.getItem('contadorNegro')) || 0;
+let contadorBlanco = parseInt(localStorage.getItem('contadorBlanco')) || 0;
 
 
 function detenerAnimacion() {
@@ -114,18 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				comprobar(color, martxa, automatico, posicion);
 				
 				
-			//GRAFICO
-			function sumarContador(){
-				if (color === '1') {
-					contadorNegro++;
-				} else if (color === '0') {
-					contadorBlanco++;
-				}
-				}
-				function guardarContador(){
-				localStorage.setItem('contadorNegro', contadorNegro);
-				localStorage.setItem('contadorBlanco', contadorBlanco);
-				}
+		
 
 				
 
@@ -160,7 +149,7 @@ function comprobar(color, martxa, automatico, posicion){
 			moverElemento(color, posicion);
 			
 			//GRAFICO
-			sumarContador();
+			sumarContador(color);
 			guardarContador();
 
 		}
@@ -175,7 +164,9 @@ function comprobar(color, martxa, automatico, posicion){
 			moverElemento(color, posicion); 
 		});
 			//GRAFICO
-			document.getElementById("continuar").addEventListener("click", sumarContador);
+			document.getElementById("continuar").addEventListener("click", function(){
+				sumarContador(color);
+			});
 			document.getElementById("continuar").addEventListener("click", guardarContador);
 			
 		}
@@ -351,7 +342,18 @@ function resett() {
 	contadorBlanco = 0;
 }
 
-
+	//GRAFICO
+			function sumarContador(color){
+				if (color === '1') {
+					contadorNegro++;
+				} else if (color === '0') {
+					contadorBlanco++;
+				}
+				}
+				function guardarContador(){
+				localStorage.setItem('contadorNegro', contadorNegro);
+				localStorage.setItem('contadorBlanco', contadorBlanco);
+				}
 
 
 document.addEventListener('DOMContentLoaded', function() {
