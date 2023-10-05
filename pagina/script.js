@@ -5,11 +5,15 @@ document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
 
 document.getElementById("reset").addEventListener("click", resett);
 
-document.getElementById("automatico").addEventListener("click", opciones);
-document.getElementById("manual").addEventListener("click", opciones);
+//mensaje espere
+document.getElementById("mensaje").textContent = "Espere...";
+
+//saber si esta en automatico o manual (sin fetch)
+let modoAutomatico = false; // Inicialmente, el modo es manual
+
 
 //stop
-var elemento = document.getElementById('chocolate'); // Reemplaza 'miElemento' con el ID de tu elemento
+var elemento = document.getElementById('chocolate'); 
 
 document.getElementById("stop").addEventListener("click", detenerAnimacion);
 
@@ -18,13 +22,13 @@ var transformacionActual = window.getComputedStyle(elemento).getPropertyValue('t
 
 //manual
 
+/*
 var boton = document.createElement("button");
 boton.id = "continuar"; // Establece un ID
 boton.classList.add("bContinuar"); // Agrega una clase CSS
 
-document.getElementById("dContinuar").appendChild(boton); // Agrega el botón al cuerpo del documento
-
-//document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
+document.getElementById("dContinuar").appendChild(boton); // Agrega el botón al div dContinuar
+*/
 
 
 //GRAFICO
@@ -37,11 +41,22 @@ function detenerAnimacion() {
 	elemento.style.transform = 'none';
 }
 
+//POST
 
-activarMartxa();
-acivarStop();
-automatico();
-manual();
+document.getElementById("martxa").addEventListener("click", activarMartxa);
+document.getElementById("stop").addEventListener("click", activarStop);
+
+const radioAutomatico = document.getElementById("automatico");
+
+radioAutomatico.addEventListener("change", function() {
+	activarAutomatico();
+});
+
+const radioManual = document.getElementById("manual");
+
+radioManual.addEventListener("change", function() {
+	activarManual();
+});
 
 
 function moverElemento(color, posicion) {
@@ -77,12 +92,12 @@ function moverElemento(color, posicion) {
 	setTimeout(() => {
 		// Regresar el círculo al principio
 		chocolate.style.transform = `translate(0, 0)`;
-	}, 10000)
+	}, 9000)
 	
 
 }
 		
-
+/*
 document.addEventListener("DOMContentLoaded", function () {
 	setInterval(function () {
 		fetch("variables.html")
@@ -114,9 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				comprobar(color, martxa, automatico, posicion);
 				
 				
-		
-
-				
 
 			})
 			.catch(error => {
@@ -125,12 +137,51 @@ document.addEventListener("DOMContentLoaded", function () {
 	}, 18000);
 	
 });
+*/
+
+function cogerValores(){
+	setInterval(function () {
+		fetch("variables.html")
+			.then(response => response.text())
+			.then(data => {
+				var variables = data.trim().split("\n");
+				console.log("Variables recuperadas:", variables);
+
+				// Usar las variables almacenadas en el array
+				var martxa = variables[0].trim();
+				var resett = variables[1].trim();
+				var pos = variables[2].trim();
+				var contadorNegro = variables[3].trim();
+				var contadorBlanco = variables[4].trim();
+				var automatico = variables[5].trim();
+				var color = variables[6].trim();
+
+				var posicion = "a" + pos;
+
+				//comprobaciones
+				console.log("Posición actual: " + posicion);
+				console.log("Color: " + color);
+				console.log("martxa: " + martxa);
+				console.log("automatico: " + automatico);
+				console.log("contador blanco: " + contadorBlanco);
+				console.log("contador negro: " + contadorNegro);
+
+
+				comprobar(color, martxa, automatico, posicion);
+				
+				
+
+			})
+			.catch(error => {
+				console.error("Error en la solicitud: ", error);
+			});
+	}, 9000);
+}
 
 function comprobar(color, martxa, automatico, posicion){
 
 	if (color === '2' || martxa === '0')  //0 = false
 	{
-		document.getElementById("mensaje").textContent = "Espere...";
 		document.getElementById("mensaje").style.color = "white";
 		console.log("no he salido");
 		document.getElementById("mensaje").style.display = "block";
@@ -140,7 +191,7 @@ function comprobar(color, martxa, automatico, posicion){
 	}
 
 	else {
-		if (automatico === '1') { // 1 = true
+		if (modoAutomatico) { // 1 = true
 			document.getElementById("mensaje").style.display = "none";
 			document.getElementById("continuar").style.display = "none";
 
@@ -156,12 +207,19 @@ function comprobar(color, martxa, automatico, posicion){
 
 
 		else {
+
 			console.log("manual");
 			document.getElementById("continuar").style.display = "block";
+			document.getElementById("mensaje").style.display = "block";
+
 
 			document.getElementById("continuar").addEventListener("click", function() {
-			cambiarImagen(color); 
-			moverElemento(color, posicion); 
+				document.getElementById("mensaje").style.display = "none";
+				
+				cogerValores();
+
+				cambiarImagen(color); 
+				moverElemento(color, posicion); 
 		});
 			//GRAFICO
 			document.getElementById("continuar").addEventListener("click", function(){
@@ -173,132 +231,40 @@ function comprobar(color, martxa, automatico, posicion){
 	}
 }
 
-function activarMartxa(){
-	document.getElementById('martxa').addEventListener('click', () => {
-		// Create a data object to send as the request body
-		const data = new URLSearchParams();
-		data.append('"DB_DATOS_DAW".martxa', '1');
 
-		fetch("http://10.0.2.100/awp/reto1/index.html", {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-			body: data,
-		})
-		.then((response) => {
-			console.log(response);
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			const contentType = response.headers.get('Content-Type');
-			return contentType.includes('application/json') ? response.json() : response.text();
-		})
-		
-		.catch((error) => {
-			console.error('Fetch Error:', error);
-		});
-	});
 
+
+function activarMartxa() {
+	cogerValores();
+	
+    const data = new URLSearchParams();
+    data.append('"DB_DATOS_DAW".martxa', '1');
+    enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
 }
 
-
-//STOP
-
-function acivarStop(){
-	document.getElementById('stop').addEventListener('click', () => {
-    // Create a data object to send as the request body
+function activarStop() {
     const data = new URLSearchParams();
     data.append('"DB_DATOS_DAW".martxa', '0');
-
-    fetch("http://10.0.2.100/awp/reto1/index.html", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: data,
-    })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const contentType = response.headers.get('Content-Type');
-        return contentType.includes('application/json') ? response.json() : response.text();
-    })
-    .catch((error) => {
-        console.error('Fetch Error:', error);
-    });
-});
-	
+    enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
 }
 
-	
-
-//automatico y manual
-	
-function automatico(){
-	const radioAutomatico = document.getElementById("automatico");
-
-	radioAutomatico.addEventListener("change", function() {
-	 
-	 //ocultar boton
-	 document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
-
-	 
-	  const data = new URLSearchParams();
+function activarAutomatico() {
+	modoAutomatico  = true;
+		document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
+    const data = new URLSearchParams();
     data.append('"DB_DATOS_DAW".automatico', '1');
-        fetch("http://10.0.2.100/awp/reto1/index.html", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: data,
-    })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const contentType = response.headers.get('Content-Type');
-        return contentType.includes('application/json') ? response.json() : response.text();
-    })
-    .catch((error) => {
-        console.error('Fetch Error:', error);
-    });
-});
-	
+    enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
 }
 
- 
- function manual(){
-	     const radioManual = document.getElementById("manual");
-
-	 radioManual.addEventListener("change", function() {
-		
-		//mostrar boton
+function activarManual() {
+	modoAutomatico = false;
+	//mostrar boton
 		document.getElementById("continuar").style.display = "block"; // Oculta el botón por ID
-
-		
-        const data = new URLSearchParams();
+    const data = new URLSearchParams();
     data.append('"DB_DATOS_DAW".automatico', '0');
-        fetch("http://10.0.2.100/awp/reto1/index.html", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: data,
-    })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const contentType = response.headers.get('Content-Type');
-        return contentType.includes('application/json') ? response.json() : response.text();
-    })
-    .catch((error) => {
-        console.error('Fetch Error:', error);
-    });
-    });
- }
+    enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+}
+
 
 	function cambiarImagen(color) {
 		if (color === '1') {
@@ -315,6 +281,26 @@ function automatico(){
 		}
 
 	}
+	
+	function enviarDatos(url, data) {
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: data,
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const contentType = response.headers.get('Content-Type');
+        return contentType.includes('application/json') ? response.json() : response.text();
+    })
+    .catch((error) => {
+        console.error('Fetch Error:', error);
+    });
+}
 
 function modoClaro() {
 	document.body.style.backgroundColor = "white"
