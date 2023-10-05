@@ -5,11 +5,14 @@ document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
 
 document.getElementById("reset").addEventListener("click", resett);
 
+document.getElementById("opciones").style.display = "none";
+
 //mensaje espere
 document.getElementById("mensaje").textContent = "Espere...";
 
 //saber si esta en automatico o manual (sin fetch)
-let modoAutomatico = false; // Inicialmente, el modo es manual
+var modoAutomatico = null; // Inicialmente, el modo es manual
+var posActual = '0';
 
 
 //stop
@@ -55,6 +58,8 @@ const radioAutomatico = document.getElementById("automatico");
 radioAutomatico.addEventListener("change", function () {
 	try {
 		activarAutomatico();
+		cogerValores();
+
 	} catch (error) {
 		console.log(error);
 	}
@@ -65,6 +70,7 @@ const radioManual = document.getElementById("manual");
 radioManual.addEventListener("change", function () {
 	try {
 		activarManual();
+
 	} catch (error) {
 		console.log(error);
 	}
@@ -73,40 +79,56 @@ radioManual.addEventListener("change", function () {
 
 function moverElemento(color, posicion) {
 	try {
-		console.log("moverElemento: color = " + color + " posicion = " + posicion);
-		const chocolate = document.getElementById("chocolate");
+		console.log("pos: " + posicion);
+		console.log("actual: " +posActual);
+		if(posActual !== posicion){
+							document.getElementById("mensaje").textContent = "Moviendo...";
 
-		// Obtener el div objetivo
-		const divObjetivo = document.querySelector(`.tabla-chocolates .${posicion}`);
 
-		const rectChoco = chocolate.getBoundingClientRect();
-		const rectObjetivo = divObjetivo.getBoundingClientRect();
+			console.log("moverElemento: color = " + color + " posicion = " + posicion);
+			const chocolate = document.getElementById("chocolate");
 
-		// Calcular la distancia
-		const distanciaX = rectObjetivo.left + (rectObjetivo.width / 2) - (rectChoco.width / 2) - rectChoco.left;
-		const distanciaY = rectObjetivo.top + (rectObjetivo.height / 2) - (rectChoco.height / 2) - rectChoco.top;
+			// Obtener el div objetivo
+			const divObjetivo = document.querySelector(`.tabla-chocolates .${posicion}`);
 
-		console.log("[moverElemento()]: distanciaX = " + distanciaX + " distanciaY =  " + distanciaY);
-		// Mover el chocolate al centro del objetivo
-		chocolate.style.transform = `translate(${distanciaX}px, ${distanciaY}px)`;
+			const rectChoco = chocolate.getBoundingClientRect();
+			const rectObjetivo = divObjetivo.getBoundingClientRect();
 
-		//cambiar color fondo, 1 blanco 0 negro
-		if (color === '1') {
-			divObjetivo.style.backgroundColor = "#804000";
+			// Calcular la distancia
+			const distanciaX = rectObjetivo.left + (rectObjetivo.width / 2) - (rectChoco.width / 2) - rectChoco.left;
+			const distanciaY = rectObjetivo.top + (rectObjetivo.height / 2) - (rectChoco.height / 2) - rectChoco.top;
+
+			console.log("[moverElemento()]: distanciaX = " + distanciaX + " distanciaY =  " + distanciaY);
+			// Mover el chocolate al centro del objetivo
+			chocolate.style.transform = `translate(${distanciaX}px, ${distanciaY}px)`;
+
+			//cambiar color fondo, 1 blanco 0 negro
+			if (color === '1') {
+				divObjetivo.style.backgroundColor = "#804000";
+
+			}
+			else {
+				divObjetivo.style.backgroundColor = "white";
+				divObjetivo.style.color = "black";
+			}
+
+			console.log("acabado")
+			
+
+			setTimeout(() => {
+				// Regresar el círculo al principio
+				chocolate.style.transform = `translate(0, 0)`;
+							document.getElementById("mensaje").textContent = "Espere...";
+
+
+			}, 9000)
+
+			
+			posActual = posicion;
 
 		}
-		else {
-			divObjetivo.style.backgroundColor = "white";
-			divObjetivo.style.color = "black";
-		}
-
-		console.log("acabado")
-
-		setTimeout(() => {
-			// Regresar el círculo al principio
-			chocolate.style.transform = `translate(0, 0)`;
-		}, 9000)
-
+		
+		
 
 	} catch (error) {
 		console.log(error)
@@ -161,42 +183,89 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function cogerValores() {
 	try {
+		console.log(modoAutomatico + ".......................");
+		if(false){
+		
 		setInterval(function () {
+				fetch("variables.html")
+					.then(response => response.text())
+					.then(data => {
+						var variables = data.trim().split("\n");
+						console.log("Variables recuperadas:", variables);
+						
+						console.log("ander estuvo aqui")
+
+						// Usar las variables almacenadas en el array
+						var martxa = variables[0].trim();
+						var resett = variables[1].trim();
+						var pos = variables[2].trim();
+						var contadorNegro = variables[3].trim();
+						var contadorBlanco = variables[4].trim();
+						var automatico = variables[5].trim();
+						var color = variables[6].trim();
+
+						var posicion = "a" + pos;
+						
+
+						//comprobaciones
+						console.log("Posición actual: " + posicion);
+						console.log("Color: " + color);
+						console.log("martxa: " + martxa);
+						console.log("automatico: " + automatico);
+						console.log("contador blanco: " + contadorBlanco);
+						console.log("contador negro: " + contadorNegro);
+
+
+						comprobar(color, martxa, automatico, posicion);
+
+
+
+					})
+					.catch(error => {
+						console.error("Error en la solicitud: ", error);
+					});
+			}, 9000);
+		}
+		else{
 			fetch("variables.html")
-				.then(response => response.text())
-				.then(data => {
-					var variables = data.trim().split("\n");
-					console.log("Variables recuperadas:", variables);
+					.then(response => response.text())
+					.then(data => {
+						var variables = data.trim().split("\n");
+						console.log("Variables recuperadas:", variables);
 
-					// Usar las variables almacenadas en el array
-					var martxa = variables[0].trim();
-					var resett = variables[1].trim();
-					var pos = variables[2].trim();
-					var contadorNegro = variables[3].trim();
-					var contadorBlanco = variables[4].trim();
-					var automatico = variables[5].trim();
-					var color = variables[6].trim();
+						console.log("javi estuvo aqui")
 
-					var posicion = "a" + pos;
+						// Usar las variables almacenadas en el array
+						var martxa = variables[0].trim();
+						var resett = variables[1].trim();
+						var pos = variables[2].trim();
+						var contadorNegro = variables[3].trim();
+						var contadorBlanco = variables[4].trim();
+						var automatico = variables[5].trim();
+						var color = variables[6].trim();
 
-					//comprobaciones
-					console.log("Posición actual: " + posicion);
-					console.log("Color: " + color);
-					console.log("martxa: " + martxa);
-					console.log("automatico: " + automatico);
-					console.log("contador blanco: " + contadorBlanco);
-					console.log("contador negro: " + contadorNegro);
+						var posicion = "a" + pos;
+						
 
 
-					comprobar(color, martxa, automatico, posicion);
+						//comprobaciones
+						console.log("Posición actual: " + posicion);
+						console.log("Color: " + color);
+						console.log("martxa: " + martxa);
+						console.log("automatico: " + automatico);
+						console.log("contador blanco: " + contadorBlanco);
+						console.log("contador negro: " + contadorNegro);
+
+
+						comprobar(color, martxa, automatico, posicion);
 
 
 
-				})
-				.catch(error => {
-					console.error("Error en la solicitud: ", error);
-				});
-		}, 9000);
+					})
+					.catch(error => {
+						console.error("Error en la solicitud: ", error);
+					});
+		}
 	} catch (error) {
 		console.log(error);
 	}
@@ -239,9 +308,8 @@ function comprobar(color, martxa, automatico, posicion) {
 
 
 				document.getElementById("continuar").addEventListener("click", function () {
-					document.getElementById("mensaje").style.display = "none";
 
-					cogerValores();
+						cogerValores();
 
 					cambiarImagen(color);
 					moverElemento(color, posicion);
@@ -264,11 +332,19 @@ function comprobar(color, martxa, automatico, posicion) {
 
 function activarMartxa() {
 	try {
-		cogerValores();
+		document.getElementById("opciones").style.display = "block";
+		document.getElementById("martxa").style.backgroundColor = "greenyellow";
+		document.getElementById("stop").style.backgroundColor = "red";
 
+
+		if(modoAutomatico === null){
+			cogerValores();
+			
 		const data = new URLSearchParams();
 		data.append('"DB_DATOS_DAW".martxa', '1');
 		enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+		}
+
 	} catch (error) {
 		console.log(error);
 	}
@@ -276,9 +352,19 @@ function activarMartxa() {
 
 function activarStop() {
 	try {
-		const data = new URLSearchParams();
-		data.append('"DB_DATOS_DAW".martxa', '0');
-		enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+		console.log(modoAutomatico);
+		document.getElementById("martxa").style.backgroundColor = "red";
+		document.getElementById("opciones").style.display = "none";
+		document.getElementById("stop").style.backgroundColor = "greenyellow";
+
+
+
+		if(modoAutomatico !== null){
+			const data = new URLSearchParams();
+			data.append('"DB_DATOS_DAW".martxa', '0');
+			enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+			modoAutomatico = null;
+		}
 	} catch (error) {
 		console.log(error);
 	}
@@ -286,11 +372,13 @@ function activarStop() {
 
 function activarAutomatico() {
 	try {
-		modoAutomatico = true;
-		document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
-		const data = new URLSearchParams();
-		data.append('"DB_DATOS_DAW".automatico', '1');
-		enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+		if(!modoAutomatico){
+			modoAutomatico = true;
+			document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
+			const data = new URLSearchParams();
+			data.append('"DB_DATOS_DAW".automatico', '1');
+			enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+		}
 	} catch (error) {
 		console.log(error);
 	}
@@ -298,12 +386,14 @@ function activarAutomatico() {
 
 function activarManual() {
 	try {
-		modoAutomatico = false;
-		//mostrar boton
-		document.getElementById("continuar").style.display = "block"; // Oculta el botón por ID
-		const data = new URLSearchParams();
-		data.append('"DB_DATOS_DAW".automatico', '0');
-		enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+		if(modoAutomatico){
+			modoAutomatico = false;
+			//mostrar boton
+			document.getElementById("continuar").style.display = "block"; // Oculta el botón por ID
+			const data = new URLSearchParams();
+			data.append('"DB_DATOS_DAW".automatico', '0');
+			enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+		}
 	} catch (error) {
 		console.log(error);
 	}
