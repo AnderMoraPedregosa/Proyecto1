@@ -149,11 +149,11 @@ document.addEventListener("DOMContentLoaded", function () {
 							document.getElementById("continuar").style.display = "block";
 
 							document.getElementById("continuar").addEventListener("click", cambiarImagen);
-							document.getElementById("continuar").addEventListener("click", moverElemento);
+							document.getElementById("Dcontinuar").addEventListener("click", moverElemento);
 
 							//GRAFICO
-							document.getElementById("continuar").addEventListener("click", sumarContador);
-							document.getElementById("continuar").addEventListener("click", guardarContador);
+							document.getElementById("dContinuar").addEventListener("click", sumarContador);
+							document.getElementById("dContinuar").addEventListener("click", guardarContador);
 
 						}
 					}
@@ -221,7 +221,7 @@ function activarMartxa() {
 				.then((response) => {
 					console.log(response);
 					if (!response.ok) {
-						throw new Error('Network response was not ok');
+						throw new Error('Error en la red');
 					}
 					const contentType = response.headers.get('Content-Type');
 					return contentType.includes('application/json') ? response.json() : response.text();
@@ -290,7 +290,7 @@ radioAutomatico.addEventListener("change", function () {
 
 	try {
 		//ocultar boton
-		document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
+		document.getElementById("dContinuar").style.display = "none"; // Oculta el botón por ID
 
 
 		const data = new URLSearchParams();
@@ -304,7 +304,7 @@ radioAutomatico.addEventListener("change", function () {
 		})
 			.then((response) => {
 				if (!response.ok) {
-					throw new Error('Network response was not ok');
+					throw new Error('La red dev');
 				}
 				const contentType = response.headers.get('Content-Type');
 				return contentType.includes('application/json') ? response.json() : response.text();
@@ -335,7 +335,7 @@ radioManual.addEventListener("change", function () {
 
 	try {
 		//mostrar boton
-		document.getElementById("continuar").style.display = "block"; // Oculta el botón por ID
+		document.getElementById("dContinuar").style.display = "block"; // Oculta el botón por ID
 
 
 		const data = new URLSearchParams();
@@ -349,7 +349,7 @@ radioManual.addEventListener("change", function () {
 		})
 			.then((response) => {
 				if (!response.ok) {
-					throw new Error('Network response was not ok');
+					throw new Error('Error en la red');
 				}
 				const contentType = response.headers.get('Content-Type');
 				return contentType.includes('application/json') ? response.json() : response.text();

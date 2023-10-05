@@ -17,7 +17,7 @@
     <title>Página Futurista</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -30,17 +30,17 @@
 
             <section id="seleccionBotones">
                 <div id="botones">
-                      <button name="martxa" id="martxa" value="1">Marcha</button>
+                    <button name="martxa" id="martxa" value="1">Marcha</button>
                     <button name="stop" id="stop" value="0">Stop</button>
                     <button name="reset" id="reset" value="-1">Reset</button>
-
+                    <button id="dContinuar"></button>
                 </div>
                 <div id="opciones">
                     <input type="radio" name="op" id="automatico" value="automatico">
                     <label for="automatico">Automatico</label><br><br>
                     <input type="radio" name="op" id="manual" value="manual" checked>
                     <label for="manual">Manual</label>
-                    <div id="dContinuar"></div>
+
                     <p id="etiqueta"></p>
                 </div>
                 <div id="chocolate">
@@ -92,8 +92,8 @@
                     <button name="oscuro" id="oscuro"></button>
                 </div>
                 <p id="mensaje"></p>
-				<!-- Canvas para el gráfico -->
-                                    <canvas id="miGrafico"></canvas>
+                <!-- Canvas para el gráfico -->
+                <canvas id="miGrafico"></canvas>
 
             </aside>
         </aside>
