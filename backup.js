@@ -1,4 +1,4 @@
-"use strict"
+/* "use strict"
 
 // script.js
 document.getElementById("claro").addEventListener("click", modoClaro);
@@ -440,3 +440,4 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 });
 
+ */
