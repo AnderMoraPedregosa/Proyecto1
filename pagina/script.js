@@ -5,11 +5,15 @@ document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
 
 document.getElementById("reset").addEventListener("click", resett);
 
-document.getElementById("automatico").addEventListener("click", opciones);
-document.getElementById("manual").addEventListener("click", opciones);
+//mensaje espere
+document.getElementById("mensaje").textContent = "Espere...";
+
+//saber si esta en automatico o manual (sin fetch)
+let modoAutomatico = false; // Inicialmente, el modo es manual
+
 
 //stop
-var elemento = document.getElementById('chocolate'); // Reemplaza 'miElemento' con el ID de tu elemento
+var elemento = document.getElementById('chocolate'); 
 
 document.getElementById("stop").addEventListener("click", detenerAnimacion);
 
@@ -18,13 +22,13 @@ var transformacionActual = window.getComputedStyle(elemento).getPropertyValue('t
 
 //manual
 
+/*
 var boton = document.createElement("button");
 boton.id = "continuar"; // Establece un ID
 boton.classList.add("bContinuar"); // Agrega una clase CSS
 
-document.getElementById("dContinuar").appendChild(boton); // Agrega el botón al cuerpo del documento
-
-//document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
+document.getElementById("dContinuar").appendChild(boton); // Agrega el botón al div dContinuar
+*/
 
 
 //GRAFICO
@@ -88,7 +92,7 @@ function moverElemento(color, posicion) {
 	setTimeout(() => {
 		// Regresar el círculo al principio
 		chocolate.style.transform = `translate(0, 0)`;
-	}, 10000)
+	}, 9000)
 	
 
 }
@@ -171,14 +175,13 @@ function cogerValores(){
 			.catch(error => {
 				console.error("Error en la solicitud: ", error);
 			});
-	}, 18000);
+	}, 9000);
 }
 
 function comprobar(color, martxa, automatico, posicion){
 
 	if (color === '2' || martxa === '0')  //0 = false
 	{
-		document.getElementById("mensaje").textContent = "Espere...";
 		document.getElementById("mensaje").style.color = "white";
 		console.log("no he salido");
 		document.getElementById("mensaje").style.display = "block";
@@ -188,7 +191,7 @@ function comprobar(color, martxa, automatico, posicion){
 	}
 
 	else {
-		if (automatico === '1') { // 1 = true
+		if (modoAutomatico) { // 1 = true
 			document.getElementById("mensaje").style.display = "none";
 			document.getElementById("continuar").style.display = "none";
 
@@ -204,12 +207,19 @@ function comprobar(color, martxa, automatico, posicion){
 
 
 		else {
+
 			console.log("manual");
 			document.getElementById("continuar").style.display = "block";
+			document.getElementById("mensaje").style.display = "block";
+
 
 			document.getElementById("continuar").addEventListener("click", function() {
-			cambiarImagen(color); 
-			moverElemento(color, posicion); 
+				document.getElementById("mensaje").style.display = "none";
+				
+				cogerValores();
+
+				cambiarImagen(color); 
+				moverElemento(color, posicion); 
 		});
 			//GRAFICO
 			document.getElementById("continuar").addEventListener("click", function(){
@@ -239,6 +249,7 @@ function activarStop() {
 }
 
 function activarAutomatico() {
+	modoAutomatico  = true;
 		document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
     const data = new URLSearchParams();
     data.append('"DB_DATOS_DAW".automatico', '1');
@@ -246,6 +257,7 @@ function activarAutomatico() {
 }
 
 function activarManual() {
+	modoAutomatico = false;
 	//mostrar boton
 		document.getElementById("continuar").style.display = "block"; // Oculta el botón por ID
     const data = new URLSearchParams();

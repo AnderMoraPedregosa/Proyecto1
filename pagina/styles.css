@@ -255,7 +255,7 @@ footer {
 }
 
 /* Botón Continuar */
-.bContinuar {
+#continuar {
     grid-area: cont;
     background-image: url("imagenes/bc.png");
     background-size: cover;
