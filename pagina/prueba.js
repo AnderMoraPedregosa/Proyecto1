@@ -217,7 +217,7 @@ function cogerValoresAutomatico() {
 						// Usar las variables almacenadas en el array
 						var martxa = variables[0].trim();
 						var resett = variables[1].trim();
-						var pos = variables[2].trim();					var contadorNegro = variables[3].trim();
+						var pos = variables[2].trim(); var contadorNegro = variables[3].trim();
 						var contadorBlanco = variables[4].trim();
 						var automatico = variables[5].trim();
 						var color = variables[6].trim();
@@ -239,9 +239,8 @@ function cogerValoresAutomatico() {
 					})
 					.catch(error => {
 						if (error.name === 'AbortError') {
-							console.log('La solicitud fue cancelada');
-							console.log("modo manual: " + modoManual);
-							console.log("modo automatico: " + modoAutomatico);
+							return error;
+
 						} else {
 							console.error("Error en la solicitud: ", error);
 						}
@@ -261,7 +260,6 @@ function cogerValoresAutomatico() {
 
 function cogerValoresManual() {
 	try {
-		console.log(modoAutomatico + ".......................");
 
 		fetch("variables.html")
 			.then(response => response.text())
@@ -470,7 +468,7 @@ function moverElemento(color, posicion) {
 
 		} else {
 			cambiarPosicionAutomatico();
-			cambiarColorAutomatico()
+
 		}
 	} catch (error) {
 		console.log(error)
