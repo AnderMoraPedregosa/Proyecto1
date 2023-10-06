@@ -182,12 +182,11 @@ function activarStop() {
 
 
 
-		if(modoAutomatico !== null){
 			const data = new URLSearchParams();
 			data.append('"DB_DATOS_DAW".martxa', '0');
 			enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
 			modoAutomatico = null;
-		}
+		
 	} catch (error) {
 		console.log(error);
 	}
@@ -220,7 +219,9 @@ function cogerValoresAutomatico() {
 
                             var posicion = "a" + pos;
 
-                            moverElemento(color, posicion, );
+							comprobar(color, martxa, posicion)
+
+                            //moverElemento(color, posicion, );
                             
                             
 
@@ -235,14 +236,15 @@ function cogerValoresAutomatico() {
                         })
                         .catch(error => {
                             if (error.name === 'AbortError') {
+								return;
                                 console.log('La solicitud fue cancelada');
-                                console.log("modo manual: " + modoManual);
-                                console.log("modo automatico: " + modoAutomatico);
+                               // console.log("modo manual: " + modoManual);
+                                //console.log("modo automatico: " + modoAutomatico);
                             } else {
                                 console.error("Error en la solicitud: ", error);
                             }
                         });
-                }, 9000);
+                }, 12100);
 
                 controllerAutomatico.fetchInterval = fetchInterval;
 
@@ -329,6 +331,8 @@ function comprobar(color, martxa, automatico, posicion) {
 
 				console.log("he salido");
                 console.log(modoAutomatico);
+
+				moverElemento();
 				
 
 				//GRAFICO
