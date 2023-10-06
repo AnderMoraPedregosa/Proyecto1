@@ -5,7 +5,10 @@ document.getElementById("oscuro").addEventListener("click", modoOscuro);
 document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
 let audio = document.getElementById("audio")
 //reset
+
+
 document.getElementById("reset").addEventListener("click", resett);
+
 
 document.getElementById("opciones").style.display = "block";
 document.getElementById("martxa").style.display = "none";
@@ -515,16 +518,30 @@ function modoOscuro() {
 	}
 }
 
-function resett() {
-	try {
-		audio?.play();
+function reproducirAudio() {
+	// Reproducir el audio
+	audio.play();
+	// Resto de tu lógica aquí
 
-		var resultado = window.confirm('Estas seguro?');
-		if (resultado === true) {
+}
+
+
+function resett() {
+
+	try {
+
+		reproducirAudio();
+		setTimeout(() => {
+			var resultado = window.confirm('Estas seguro?');
+			if (resultado === true) {
+
+				contadorNegro = 0;
+				contadorBlanco = 0;
+			}
+
 			location.reload();
-			contadorNegro = 0;
-			contadorBlanco = 0;
-		}
+		}, 400)
+
 
 	} catch (error) {
 		console.log(error);
@@ -555,7 +572,6 @@ function guardarContador() {
 
 document.addEventListener('DOMContentLoaded', function () {
 	try {
-		// Crear un nuevo gráfico de barras con colores azul y rojo
 		const ctx = document.getElementById('miGrafico').getContext('2d');
 		const myChart = new Chart(ctx, {
 			type: 'bar',
@@ -563,14 +579,14 @@ document.addEventListener('DOMContentLoaded', function () {
 				labels: ['Azul (contadorBlanco)', 'Rojo (contadorNegro)'],
 				datasets: [{
 					label: 'Contador de Colores',
-					data: [contadorBlanco, contadorNegro], // Utiliza las variables correctas
+					data: [contadorBlanco, contadorNegro],
 					backgroundColor: [
-						'rgba(54, 162, 235, 0.2)', // Azul (transparente)
-						'rgba(255, 99, 132, 0.2)' // Rojo (transparente)
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 99, 132, 0.2)'
 					],
 					borderColor: [
-						'rgba(54, 162, 235, 1)', // Azul
-						'rgba(255, 99, 132, 1)' // Rojo
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 99, 132, 1)'
 					],
 					borderWidth: 1
 				}]
@@ -583,8 +599,13 @@ document.addEventListener('DOMContentLoaded', function () {
 				}
 			}
 		});
+
+		// Función para redibujar el gráfico cuando cambia el tamaño de la pantalla
+		window.addEventListener('resize', function () {
+			myChart.update(); // Actualiza el gráfico
+		});
+
 	} catch (error) {
 		console.log(error);
 	}
 });
-
