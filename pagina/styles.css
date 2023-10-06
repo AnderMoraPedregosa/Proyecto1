@@ -250,7 +250,7 @@ footer {
 
 #redesSociales {
     margin-left: 30px;
-    display: block;
+    display: inline-block;
     white-space: nowrap; /* Evita que los elementos se separen en varias líneas */
 }
 
@@ -260,11 +260,11 @@ footer {
     margin: 0 1em; /* Agrega un espacio entre cada ícono */
     text-decoration: none;
     transition: transform 0.3s;
+    display: inline-block; /* Añadido */
 }
 
-
 .social-icon:hover {
-    transform: scale(1.6);
+    transform: scale(1.4);
 }
 
 /* Botón Continuar */
