@@ -82,8 +82,6 @@ radioAutomatico.addEventListener("click", function () {
 });
 
 
-
-
 function activarAutomatico() {
 	try {
 		modoAutomatico = true;
@@ -219,8 +217,7 @@ function cogerValoresAutomatico() {
 						// Usar las variables almacenadas en el array
 						var martxa = variables[0].trim();
 						var resett = variables[1].trim();
-						var pos = variables[2].trim();
-						var contadorNegro = variables[3].trim();
+						var pos = variables[2].trim();					var contadorNegro = variables[3].trim();
 						var contadorBlanco = variables[4].trim();
 						var automatico = variables[5].trim();
 						var color = variables[6].trim();
