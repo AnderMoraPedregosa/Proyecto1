@@ -105,8 +105,14 @@ main {
     justify-items: start;
 }
 
+
+#reset:hover{
+    background: linear-gradient(to right, orange, yellow);
+}
 /* Tabla de chocolates */
 .tabla-chocolates {
+    position: relative;
+    max-height: 150em;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
@@ -223,6 +229,7 @@ main {
 }
 
 /* Pie de página y redes sociales */
+/* Pie de página y redes sociales */
 footer {
     background-color: black;
     color: #fff;
@@ -233,25 +240,31 @@ footer {
     max-width: 1200px;
     position: fixed;
     bottom: 0;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+
+    
 }
+
 
 #redesSociales {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    margin-left: 30px;
+    display: block;
+    white-space: nowrap; /* Evita que los elementos se separen en varias líneas */
 }
-
 
 .social-icon {
     font-size: 1.5em;
     color: #fff;
-    margin: 0 10em;
+    margin: 0 1em; /* Agrega un espacio entre cada ícono */
     text-decoration: none;
     transition: transform 0.3s;
 }
 
+
 .social-icon:hover {
-    transform: scale(1.2);
+    transform: scale(1.6);
 }
 
 /* Botón Continuar */
