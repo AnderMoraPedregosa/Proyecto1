@@ -172,6 +172,18 @@ main {
     }
 }
 
+/* Estilos para el contenedor del gráfico */
+#miGrafico {
+    max-width: 100%; /* Ajusta el ancho máximo del gráfico */
+}
+
+/* Asegúrate de que el contenedor del gráfico tenga un tamaño */
+#contenedorGrafico {
+    width: 100%;
+    max-width: 600px; /* Establece el ancho máximo del contenedor del gráfico */
+    margin: 0 auto; /* Centra el contenedor */
+}
+ 
 /* Modo de fondo y botones de cambio de tema */
 #modoFondo {
     display: flex;
