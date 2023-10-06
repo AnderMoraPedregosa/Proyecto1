@@ -3,12 +3,12 @@ let urlPlc = "http://10.0.2.100/awp/reto1/index.html";
 document.getElementById("claro").addEventListener("click", modoClaro);
 document.getElementById("oscuro").addEventListener("click", modoOscuro);
 document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
-
+let audio = document.getElementById("audio")
 //reset
 document.getElementById("reset").addEventListener("click", resett);
 
-//ocultar radiobuttons hasta que no le de a marcha
-document.getElementById("opciones").style.display = "none";
+document.getElementById("opciones").style.display = "block";
+document.getElementById("martxa").style.display = "none";
 
 //mensaje espere
 document.getElementById("mensaje").textContent = "Espere...";
@@ -69,6 +69,8 @@ radioAutomatico.addEventListener("click", function () {
 	try {
 		modoAutomatico = true;
 		modoManual = false;
+		document.getElementById("martxa").style.display = "block";
+
 
 
 
@@ -86,7 +88,6 @@ function activarAutomatico() {
 	try {
 		modoAutomatico = true;
 		modoManual = false;
-
 
 		// Crear un nuevo AbortController para el modo automático
 		controllerAutomatico = new AbortController();
@@ -115,6 +116,8 @@ const radioManual = document.getElementById("manual");
 
 radioManual.addEventListener("click", function () {
 	try {
+
+		document.getElementById("martxa").style.display = "block";
 		modoAutomatico = false;
 		modoManual = true;
 		console.log('prueba false: ' + modoAutomatico)
@@ -161,7 +164,7 @@ document.getElementById("continuar").addEventListener("click", function () {
 
 function activarMartxa() {
 	try {
-		document.getElementById("opciones").style.display = "block";
+
 		document.getElementById("martxa").style.backgroundColor = "greenyellow";
 		document.getElementById("stop").style.backgroundColor = "red";
 
@@ -183,7 +186,7 @@ function activarStop() {
 	try {
 		console.log(modoAutomatico);
 		document.getElementById("martxa").style.backgroundColor = "red";
-		document.getElementById("opciones").style.display = "none";
+		document.getElementById("opciones").style.backgroundColor = "greenyellow";
 		document.getElementById("stop").style.backgroundColor = "greenyellow";
 
 
@@ -514,9 +517,15 @@ function modoOscuro() {
 
 function resett() {
 	try {
-		location.reload();
-		contadorNegro = 0;
-		contadorBlanco = 0;
+		audio?.play();
+
+		var resultado = window.confirm('Estas seguro?');
+		if (resultado === true) {
+			location.reload();
+			contadorNegro = 0;
+			contadorBlanco = 0;
+		}
+
 	} catch (error) {
 		console.log(error);
 	}
