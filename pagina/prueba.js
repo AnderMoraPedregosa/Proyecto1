@@ -1,3 +1,4 @@
+let urlPlc = "http://10.0.2.100/awp/reto1/index.html";
 //modo claro y modo oscuro
 document.getElementById("claro").addEventListener("click", modoClaro);
 document.getElementById("oscuro").addEventListener("click", modoOscuro);
@@ -38,9 +39,9 @@ var posActual = '0';
 
 //abortar fetch
 // Declarar el controlador a nivel global
- // Crear un nuevo AbortController para el modo automático
- let controllerAutomatico = null;
- let signalAutomatico = null;
+// Crear un nuevo AbortController para el modo automático
+let controllerAutomatico = null;
+let signalAutomatico = null;
 
 
 
@@ -66,12 +67,12 @@ const radioAutomatico = document.getElementById("automatico");
 
 radioAutomatico.addEventListener("click", function () {
 	try {
-        modoAutomatico = true;
-        modoManual = false;
+		modoAutomatico = true;
+		modoManual = false;
 
-        
 
-        console.log('prueba true: ' + modoAutomatico)
+
+		console.log('prueba true: ' + modoAutomatico)
 
 		activarAutomatico();
 
@@ -80,25 +81,30 @@ radioAutomatico.addEventListener("click", function () {
 	}
 });
 
+
+
+
 function activarAutomatico() {
 	try {
-        modoAutomatico = true;
-        modoManual = false;
-
-       
-         // Crear un nuevo AbortController para el modo automático
-         controllerAutomatico = new AbortController();
-         signalAutomatico = controllerAutomatico.signal; // Define signalAutomatico aquí
- 
-
-			document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
-			const data = new URLSearchParams();
-			data.append('"DB_DATOS_DAW".automatico', '1');
-			enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+		modoAutomatico = true;
+		modoManual = false;
 
 
-        cogerValoresAutomatico();
-		
+		// Crear un nuevo AbortController para el modo automático
+		controllerAutomatico = new AbortController();
+		signalAutomatico = controllerAutomatico.signal; // Define signalAutomatico aquí
+
+
+		document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
+		const data = new URLSearchParams();
+		data.append('"DB_DATOS_DAW".automatico', '1');
+
+
+		enviarDatos(urlPlc, data);
+
+
+		cogerValoresAutomatico();
+
 	} catch (error) {
 		console.log(error);
 	}
@@ -111,45 +117,47 @@ const radioManual = document.getElementById("manual");
 
 radioManual.addEventListener("click", function () {
 	try {
-        modoAutomatico = false;
-        modoManual = true;
-        console.log('prueba false: ' + modoAutomatico)
+		modoAutomatico = false;
+		modoManual = true;
+		console.log('prueba false: ' + modoAutomatico)
 		activarManual();
-
 	} catch (error) {
 		console.log(error);
 	}
 });
 
+
+
 function activarManual() {
 	try {
 
-        modoAutomatico = false;
-        modoManual = true;
+		modoAutomatico = false;
+		modoManual = true;
 
-        if (controllerAutomatico) {
-            // Abortar la solicitud fetch si existe
-            controllerAutomatico.abort();
-        }
+		if (controllerAutomatico) {
+			// Abortar la solicitud fetch si existe
+			controllerAutomatico.abort();
+		}
 
-        console.log("estoy en activarManual(): " + modoManual)
+		console.log("estoy en activarManual(): " + modoManual)
 
-			//mostrar boton
-			    document.getElementById("continuar").style.display = "block"; 
-			const data = new URLSearchParams();
-			data.append('"DB_DATOS_DAW".automatico', '0');
-			enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
-		
+		//mostrar boton
+		document.getElementById("continuar").style.display = "block";
+		const data = new URLSearchParams();
+		data.append('"DB_DATOS_DAW".automatico', '0');
+		enviarDatos(urlPlc, data);
+
 	} catch (error) {
 		console.log(error);
 	}
 }
 
 document.getElementById("continuar").addEventListener("click", function () {
-    console.log("continuar pulsado");
+	console.log("continuar pulsado");
 
-    cogerValoresManual();
-   
+	cogerValoresManual();
+	cambiarColor();
+	cambiarPosicion();
 });
 
 
@@ -160,12 +168,12 @@ function activarMartxa() {
 		document.getElementById("stop").style.backgroundColor = "red";
 
 
-		if(modoAutomatico === null){
+		if (modoAutomatico === null) {
 			cogerValoresManual();
-			
-		const data = new URLSearchParams();
-		data.append('"DB_DATOS_DAW".martxa', '1');
-		enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+
+			const data = new URLSearchParams();
+			data.append('"DB_DATOS_DAW".martxa', '1');
+			enviarDatos(urlPlc, data);
 		}
 
 	} catch (error) {
@@ -182,10 +190,10 @@ function activarStop() {
 
 
 
-		if(modoAutomatico !== null){
+		if (modoAutomatico !== null) {
 			const data = new URLSearchParams();
 			data.append('"DB_DATOS_DAW".martxa', '0');
-			enviarDatos("http://10.0.2.100/awp/reto1/index.html", data);
+			enviarDatos(urlPlc, data);
 			modoAutomatico = null;
 		}
 	} catch (error) {
@@ -194,118 +202,119 @@ function activarStop() {
 }
 
 function cogerValoresAutomatico() {
-    try {
-        console.log(modoAutomatico + ".......................");
-        if (modoManual === true) {
-            console.log("En modo manual, no se ejecuta el fetch automático.");
-            return;
-        } else {
-            const fetchInterval = setInterval(function () {
-                fetch("variables.html", { signal: signalAutomatico }) // Pasa el signal aquí
-                    .then(response => response.text())
-                    .then(data => {
-                            var variables = data.trim().split("\n");
-                            console.log("Variables recuperadas:", variables);
-                            
-                            console.log("ander estuvo aqui " + modoAutomatico)
+	try {
+		console.log(modoAutomatico + ".......................");
+		if (modoManual === true) {
+			console.log("En modo manual, no se ejecuta el fetch automático.");
+			return;
+		} else {
+			const fetchInterval = setInterval(function () {
+				fetch("variables.html", { signal: signalAutomatico }) // Pasa el signal aquí
+					.then(response => response.text())
+					.then(data => {
+						var variables = data.trim().split("\n");
+						console.log("Variables recuperadas:", variables);
 
-                            // Usar las variables almacenadas en el array
-                            var martxa = variables[0].trim();
-                            var resett = variables[1].trim();
-                            var pos = variables[2].trim();
-                            var contadorNegro = variables[3].trim();
-                            var contadorBlanco = variables[4].trim();
-                            var automatico = variables[5].trim();
-                            var color = variables[6].trim();
 
-                            var posicion = "a" + pos;
+						// Usar las variables almacenadas en el array
+						var martxa = variables[0].trim();
+						var resett = variables[1].trim();
+						var pos = variables[2].trim();
+						var contadorNegro = variables[3].trim();
+						var contadorBlanco = variables[4].trim();
+						var automatico = variables[5].trim();
+						var color = variables[6].trim();
 
-                            moverElemento(color, posicion, );
-                            
-                            
+						var posicion = "a" + pos;
 
-                            //comprobaciones
-                            console.log("Posición actual: " + posicion);
-                            console.log("Color: " + color);
-                            console.log("martxa: " + martxa);
-                            console.log("automatico: " + automatico);
-                            console.log("contador blanco: " + contadorBlanco);
-                            console.log("contador negro: " + contadorNegro);
+						moverElemento(color, posicion,);
+						cambiarImagen(color);
 
-                        })
-                        .catch(error => {
-                            if (error.name === 'AbortError') {
-                                console.log('La solicitud fue cancelada');
-                                console.log("modo manual: " + modoManual);
-                                console.log("modo automatico: " + modoAutomatico);
-                            } else {
-                                console.error("Error en la solicitud: ", error);
-                            }
-                        });
-                }, 9000);
 
-                controllerAutomatico.fetchInterval = fetchInterval;
+						//comprobaciones
+						console.log("Posición actual: " + posicion);
+						console.log("Color: " + color);
+						console.log("martxa: " + martxa);
+						console.log("automatico: " + automatico);
+						console.log("contador blanco: " + contadorBlanco);
+						console.log("contador negro: " + contadorNegro);
 
-            }
+					})
+					.catch(error => {
+						if (error.name === 'AbortError') {
+							console.log('La solicitud fue cancelada');
+							console.log("modo manual: " + modoManual);
+							console.log("modo automatico: " + modoAutomatico);
+						} else {
+							console.error("Error en la solicitud: ", error);
+						}
+					});
+
+
+			}, 9000);
+
+			controllerAutomatico.fetchInterval = fetchInterval;
+
+		}
 	} catch (error) {
 		console.log(error);
 	}
-    
+
 }
 
-function cogerValoresManual(){
-        try {
-            console.log(modoAutomatico + ".......................");
-           
-                fetch("variables.html")
-                        .then(response => response.text())
-                        .then(data => {
-                            var variables = data.trim().split("\n");
-                            console.log("Variables recuperadas:", variables);
-    
-                            console.log("javi estuvo aqui " + modoAutomatico)
-    
-                            // Usar las variables almacenadas en el array
-                            var martxa = variables[0].trim();
-                            var resett = variables[1].trim();
-                            var pos = variables[2].trim();
-                            var contadorNegro = variables[3].trim();
-                            var contadorBlanco = variables[4].trim();
-                            var automatico = variables[5].trim();
-                            var color = variables[6].trim();
-    
-                            var posicion = "a" + pos;
-                            
-    
-    
-                            //comprobaciones
-                            console.log("Posición actual: " + posicion);
-                            console.log("Color: " + color);
-                            console.log("martxa: " + martxa);
-                            console.log("automatico: " + automatico);
-                            console.log("contador blanco: " + contadorBlanco);
-                            console.log("contador negro: " + contadorNegro);
-    
-    
-                            if(modoAutomatico !== null){
-                                comprobar(color, martxa, automatico, posicion);
+function cogerValoresManual() {
+	try {
+		console.log(modoAutomatico + ".......................");
 
-                                cambiarImagen(color);
-                                moverElemento(color, posicion);
-                            
-                                //GRAFICO
-                                sumarContador(color);
-                                guardarContador();
-                            }
-    
-                        })
-                        .catch(error => {
-                            console.error("Error en la solicitud: ", error);
-                        });
-        } catch (error) {
-            console.log(error);
-        
-    }
+		fetch("variables.html")
+			.then(response => response.text())
+			.then(data => {
+				var variables = data.trim().split("\n");
+				console.log("Variables recuperadas:", variables);
+
+
+
+				// Usar las variables almacenadas en el array
+				var martxa = variables[0].trim();
+				var resett = variables[1].trim();
+				var pos = variables[2].trim();
+				var contadorNegro = variables[3].trim();
+				var contadorBlanco = variables[4].trim();
+				var automatico = variables[5].trim();
+				var color = variables[6].trim();
+
+				var posicion = "a" + pos;
+
+
+
+				//comprobaciones
+				console.log("Posición actual: " + posicion);
+				console.log("Color: " + color);
+				console.log("martxa: " + martxa);
+				console.log("automatico: " + automatico);
+				console.log("contador blanco: " + contadorBlanco);
+				console.log("contador negro: " + contadorNegro);
+
+
+				if (modoAutomatico !== null) {
+					comprobar(color, martxa, automatico, posicion);
+
+					cambiarImagen(color);
+					moverElemento(color, posicion);
+
+					//GRAFICO
+					sumarContador(color);
+					guardarContador();
+				}
+
+			})
+			.catch(error => {
+				console.error("Error en la solicitud: ", error);
+			});
+	} catch (error) {
+		console.log(error);
+
+	}
 }
 
 
@@ -328,8 +337,8 @@ function comprobar(color, martxa, automatico, posicion) {
 				document.getElementById("continuar").style.display = "none";
 
 				console.log("he salido");
-                console.log(modoAutomatico);
-				
+				console.log(modoAutomatico);
+
 
 				//GRAFICO
 				sumarContador(color);
@@ -340,17 +349,17 @@ function comprobar(color, martxa, automatico, posicion) {
 
 			else {
 				console.log("manual");
-                console.log('estoy en el else del comprobar: ' + modoAutomatico);
+				console.log('estoy en el else del comprobar: ' + modoAutomatico);
 
 				document.getElementById("continuar").style.display = "block";
 				document.getElementById("mensaje").style.display = "block";
 
-                console.log('esperando pulsar boton continuar')
-				
-                console.log('me he saltado el boton continuar')
+				console.log('esperando pulsar boton continuar')
+
+				console.log('me he saltado el boton continuar')
 
 				//GRAFICO
-				
+
 
 			}
 		}
@@ -359,7 +368,15 @@ function comprobar(color, martxa, automatico, posicion) {
 	}
 }
 
+function cambiarPosicionAutomatico() {
+	const data = new URLSearchParams();
+	posRandom = Math.floor(Math.random() * (25 - 1 + 1)) + 1;
+	colorRandom = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+	data.append('"DB_DATOS_DAW".color', colorRandom);
+	data.append('"DB_DATOS_DAW".posicion', posRandom);
+	enviarDatos(urlPlc, data);
 
+}
 function cambiarImagen(color) {
 	try {
 		if (color === '1') {
@@ -408,8 +425,8 @@ function enviarDatos(url, data) {
 function moverElemento(color, posicion) {
 	try {
 		console.log("pos: " + posicion);
-		console.log("actual: " +posActual);
-		if(posActual !== posicion){
+		console.log("actual: " + posActual);
+		if (posActual !== posicion) {
 			document.getElementById("mensaje").textContent = "Moviendo...";
 
 
@@ -442,19 +459,34 @@ function moverElemento(color, posicion) {
 
 			console.log("acabado")
 
-            posActual = posicion;
-			
+			posActual = posicion;
+			cambiarPosicionAutomatico();
 
 			setTimeout(() => {
 				// Regresar el círculo al principio
 				chocolate.style.transform = `translate(0, 0)`;
 				document.getElementById("mensaje").textContent = "Espere...";
-			}, 9000)
 
+			}, 4000)
+
+
+
+		} else {
+			cambiarPosicionAutomatico();
+			cambiarColorAutomatico()
 		}
 	} catch (error) {
 		console.log(error)
 	}
+}
+
+function cambiarColorAutomatico() {
+	const data = new URLSearchParams();
+
+	colorRandom = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+	data.append('"DB_DATOS_DAW".color', colorRandom);
+
+	enviarDatos(urlPlc, data);
 }
 
 function modoClaro() {
