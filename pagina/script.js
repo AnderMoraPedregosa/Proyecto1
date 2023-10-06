@@ -6,8 +6,7 @@ document.getElementById("oscuro").addEventListener("click", modoOscuro);
 document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
 
 document.getElementById("reset").addEventListener("click", resett);
-document.getElementById("opciones").style.display = "block";
-document.getElementById("martxa").style.display = "none";
+
 
 //mensaje espere
 document.getElementById("mensaje").textContent = "Espere...";
