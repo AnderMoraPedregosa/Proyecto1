@@ -12,6 +12,7 @@ document.getElementById("reset").addEventListener("click", resett);
 
 document.getElementById("opciones").style.display = "block";
 document.getElementById("martxa").style.display = "none";
+document.getElementById("dContinuar").style.display = "none";
 
 //mensaje espere
 document.getElementById("mensaje").textContent = "Espere...";
@@ -97,7 +98,7 @@ function activarAutomatico() {
 		signalAutomatico = controllerAutomatico.signal; // Define signalAutomatico aquí
 
 
-		document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
+		document.getElementById("dContinuar").style.display = "none"; // Oculta el botón por ID
 		const data = new URLSearchParams();
 		data.append('"DB_DATOS_DAW".automatico', '1');
 
@@ -146,7 +147,7 @@ function activarManual() {
 		console.log("estoy en activarManual(): " + modoManual)
 
 		//mostrar boton
-		document.getElementById("continuar").style.display = "block";
+		document.getElementById("dContinuar").style.display = "block";
 		const data = new URLSearchParams();
 		data.append('"DB_DATOS_DAW".automatico', '0');
 		enviarDatos(urlPlc, data);
@@ -162,6 +163,7 @@ document.getElementById("continuar").addEventListener("click", function () {
 	cogerValoresManual();
 	cambiarColorAutomatico();
 	cambiarPosicionAutomatico();
+	document.getElementById("dContinuar").style.display = "none";
 });
 
 
@@ -189,7 +191,7 @@ function activarStop() {
 	try {
 		console.log(modoAutomatico);
 		document.getElementById("martxa").style.backgroundColor = "red";
-		document.getElementById("opciones").style.backgroundColor = "greenyellow";
+
 		document.getElementById("stop").style.backgroundColor = "greenyellow";
 
 
@@ -208,7 +210,7 @@ function activarStop() {
 function cogerValoresAutomatico() {
 	try {
 		console.log(modoAutomatico + ".......................");
-		if (modoManual === true) {
+		if (modoManual) {
 			console.log("En modo manual, no se ejecuta el fetch automático.");
 			return;
 		} else {
@@ -302,12 +304,16 @@ function cogerValoresManual() {
 				if (modoAutomatico !== null) {
 					comprobar(color, martxa, automatico, posicion);
 
-					cambiarImagen(color);
-					moverElemento(color, posicion);
+					if (posActual != posicion) {
+						cambiarImagen(color);
+						moverElemento(color, posicion);
+						//GRAFICO
+						sumarContador(color);
+						guardarContador();
+						posActual = posicion;
+					}
 
-					//GRAFICO
-					sumarContador(color);
-					guardarContador();
+
 				}
 
 			})
@@ -411,7 +417,7 @@ function enviarDatos(url, data) {
 		})
 			.then((response) => {
 				if (!response.ok) {
-					throw new Error('Network response was not ok');
+					throw new Error('Error de red');
 				}
 				const contentType = response.headers.get('Content-Type');
 				return contentType.includes('application/json') ? response.json() : response.text();
@@ -462,7 +468,7 @@ function moverElemento(color, posicion) {
 
 			console.log("acabado")
 
-			posActual = posicion;
+
 			cambiarPosicionAutomatico();
 
 			setTimeout(() => {
@@ -471,13 +477,11 @@ function moverElemento(color, posicion) {
 				document.getElementById("mensaje").textContent = "Espere...";
 
 			}, 4000)
+			document.getElementById("dContinuar").style.display = "block";
 
-
-
-		} else {
-			cambiarPosicionAutomatico();
 
 		}
+
 	} catch (error) {
 		console.log(error)
 	}
@@ -542,7 +546,7 @@ function resett() {
 			}
 
 			location.reload();
-		}, 400)
+		}, 200)
 
 
 	} catch (error) {
