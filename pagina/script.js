@@ -1,3 +1,4 @@
+//URL para los Fetch GET y POST
 urlPlc = "http://10.0.2.100/awp/reto1/index.html";
 
 // script.js
@@ -16,9 +17,9 @@ var modoAutomatico = null; // Inicialmente, el modo es manual
 var posActual = '0';
 
 
-//stop
-var elemento = document.getElementById('chocolate');
 
+var elemento = document.getElementById('chocolate');
+//stop
 document.getElementById("stop").addEventListener("click", detenerAnimacion);
 
 //variable global, valor transformacion actual
@@ -40,7 +41,7 @@ document.getElementById("dContinuar").appendChild(boton); // Agrega el botón al
 let contadorNegro = parseInt(localStorage.getItem('contadorNegro')) || 0;
 let contadorBlanco = parseInt(localStorage.getItem('contadorBlanco')) || 0;
 
-
+//paramos animación
 function detenerAnimacion() {
 	try {
 		elemento.style.transform = 'none';
@@ -49,11 +50,12 @@ function detenerAnimacion() {
 	}
 }
 
-//POST
+
 
 document.getElementById("martxa").addEventListener("click", activarMartxa);
 document.getElementById("stop").addEventListener("click", activarStop);
 
+//cuando cambie el Radiobutton a automatico
 const radioAutomatico = document.getElementById("automatico");
 
 radioAutomatico.addEventListener("change", function () {
@@ -66,6 +68,7 @@ radioAutomatico.addEventListener("change", function () {
 		console.log(error);
 	}
 });
+//cuando cambie el Radiobutton a manual
 
 const radioManual = document.getElementById("manual");
 
@@ -80,7 +83,7 @@ radioManual.addEventListener("change", function () {
 	}
 });
 
-
+//"animacion" movimiento del muffin
 function moverElemento(color, posicion) {
 	try {
 		console.log("pos: " + posicion);
@@ -182,6 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 */
 
+//Fetch GET
 function cogerValores() {
 	try {
 		console.log(modoAutomatico + ".......................");
@@ -271,7 +275,7 @@ function cogerValores() {
 		console.log(error);
 	}
 }
-
+//Funcion para ver si los datos han sido recogidos
 function comprobar(color, martxa, automatico, posicion) {
 
 	try {
@@ -330,7 +334,7 @@ function comprobar(color, martxa, automatico, posicion) {
 
 
 
-
+// cambia variable PLC "martxa" a True cuando se llama a esta funcion
 function activarMartxa() {
 	try {
 		/* document.getElementById("opciones").style.display = "block"; */
@@ -350,7 +354,7 @@ function activarMartxa() {
 		console.log(error);
 	}
 }
-
+//cambia variable PLC "martxa" a false cuando llama a esta funcion
 function activarStop() {
 	try {
 		console.log(modoAutomatico);
@@ -404,7 +408,8 @@ function activarManual() {
 	}
 }
 
-
+//muffin blanco para chocolate blanco
+//muffin negro para chocolate negro
 function cambiarImagen(color) {
 	try {
 		if (color === '1') {
@@ -424,7 +429,7 @@ function cambiarImagen(color) {
 	}
 
 }
-
+//Fetch POST
 function enviarDatos(url, data) {
 	try {
 		fetch(url, {
@@ -448,7 +453,7 @@ function enviarDatos(url, data) {
 		console.log(error);
 	}
 }
-
+//opcion pantalla clara
 function modoClaro() {
 	try {
 		document.body.style.backgroundColor = "white"
@@ -462,7 +467,7 @@ function modoClaro() {
 		console.log(error);
 	}
 }
-
+//opcion pantalla oscura
 function modoOscuro() {
 	try {
 		document.getElementById("claro").style.backgroundColor = "grey";
@@ -476,18 +481,21 @@ function modoOscuro() {
 		console.log(error);
 	}
 }
-
+//reset de la pagina , localStorage a 0
 function resett() {
 	try {
 		location.reload();
 		contadorNegro = 0;
 		contadorBlanco = 0;
+						//resetear localstorage
+				//localStorage.removeItem('contadorNegro');
+                //localStorage.removeItem('contadorBlanco');
 	} catch (error) {
 		console.log(error);
 	}
 }
 
-//GRAFICO
+//funcion para la variable PLC contadorNegro y contadorBlanco
 function sumarContador(color) {
 	try {
 		if (color === '1') {
@@ -508,7 +516,7 @@ function guardarContador() {
 	}
 }
 
-
+//GRAFICO
 document.addEventListener('DOMContentLoaded', function () {
 	try {
 		// Crear un nuevo gráfico de barras con colores azul y rojo

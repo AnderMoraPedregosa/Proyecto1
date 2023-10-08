@@ -5,12 +5,12 @@ document.getElementById("oscuro").addEventListener("click", modoOscuro);
 document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
 let audio = document.getElementById("audio")
 //reset
-
-
 document.getElementById("reset").addEventListener("click", resett);
 
-
+//Automatico y Manual
 document.getElementById("opciones").style.display = "block";
+
+//Marcha
 document.getElementById("martxa").style.display = "none";
 document.getElementById("dContinuar").style.display = "none";
 
@@ -18,10 +18,11 @@ document.getElementById("dContinuar").style.display = "none";
 document.getElementById("mensaje").textContent = "Espere...";
 
 
-//stop
+
 
 var elemento = document.getElementById('chocolate');
 
+//stop
 document.getElementById("stop").addEventListener("click", detenerAnimacion);
 
 //variable global, valor transformacion actual
@@ -54,7 +55,7 @@ let signalAutomatico = null;
 let contadorNegro = parseInt(localStorage.getItem('contadorNegro')) || 0;
 let contadorBlanco = parseInt(localStorage.getItem('contadorBlanco')) || 0;
 
-
+//Funcion detener animacion
 function detenerAnimacion() {
 	try {
 		elemento.style.transform = 'none';
@@ -166,7 +167,7 @@ document.getElementById("continuar").addEventListener("click", function () {
 	document.getElementById("dContinuar").style.display = "none";
 });
 
-
+// cambia variable PLC "martxa" a True cuando se llama a esta funcion
 function activarMartxa() {
 	try {
 
@@ -187,6 +188,7 @@ function activarMartxa() {
 	}
 }
 
+//cambia variable PLC "martxa" a false cuando llama a esta funcion
 function activarStop() {
 	try {
 		console.log(modoAutomatico);
@@ -206,6 +208,9 @@ function activarStop() {
 		console.log(error);
 	}
 }
+
+
+//Fetch get Presentacion
 
 function cogerValoresAutomatico() {
 	try {
@@ -268,6 +273,8 @@ function cogerValoresAutomatico() {
 
 }
 
+//Fetch GET
+
 function cogerValoresManual() {
 	try {
 
@@ -327,6 +334,8 @@ function cogerValoresManual() {
 }
 
 
+//Funcion para ver si los datos han sido recogidos
+
 function comprobar(color, martxa, automatico, posicion) {
 
 	try {
@@ -367,7 +376,7 @@ function comprobar(color, martxa, automatico, posicion) {
 
 				console.log('me he saltado el boton continuar')
 
-				//GRAFICO
+				
 
 
 			}
@@ -377,6 +386,7 @@ function comprobar(color, martxa, automatico, posicion) {
 	}
 }
 
+//Presentacion
 function cambiarPosicionAutomatico() {
 	const data = new URLSearchParams();
 	posRandom = Math.floor(Math.random() * (25 - 1 + 1)) + 1;
@@ -386,6 +396,10 @@ function cambiarPosicionAutomatico() {
 	enviarDatos(urlPlc, data);
 
 }
+
+//muffin negro para chocolate negro
+//muffin blanco para chocolate blanco
+
 function cambiarImagen(color) {
 	try {
 		if (color === '1') {
@@ -406,6 +420,7 @@ function cambiarImagen(color) {
 
 }
 
+//Fetch POST
 function enviarDatos(url, data) {
 	try {
 		fetch(url, {
@@ -430,7 +445,7 @@ function enviarDatos(url, data) {
 	}
 }
 
-
+//"animacion" movimiento del muffin
 function moverElemento(color, posicion) {
 	try {
 		console.log("pos: " + posicion);
@@ -486,7 +501,7 @@ function moverElemento(color, posicion) {
 		console.log(error)
 	}
 }
-
+//presentacion
 function cambiarColorAutomatico() {
 	const data = new URLSearchParams();
 
@@ -495,7 +510,7 @@ function cambiarColorAutomatico() {
 
 	enviarDatos(urlPlc, data);
 }
-
+//opcion pantalla clara
 function modoClaro() {
 	try {
 		document.body.style.backgroundColor = "white"
@@ -509,7 +524,7 @@ function modoClaro() {
 		console.log(error);
 	}
 }
-
+//opcion pantalla oscura
 function modoOscuro() {
 	try {
 		document.getElementById("claro").style.backgroundColor = "grey";
@@ -527,11 +542,11 @@ function modoOscuro() {
 function reproducirAudio() {
 	// Reproducir el audio
 	audio.play();
-	// Resto de tu lógica aquí
+	
 
 }
 
-
+//reset de la pagina , localStorage a 0
 function resett() {
 
 	try {
@@ -543,6 +558,9 @@ function resett() {
 
 				contadorNegro = 0;
 				contadorBlanco = 0;
+				//resetear localstorage
+				//localStorage.removeItem('contadorNegro');
+                //localStorage.removeItem('contadorBlanco');
 			}
 
 			location.reload();
@@ -554,7 +572,7 @@ function resett() {
 	}
 }
 
-//GRAFICO
+//funcion para la variable PLC contadorNegro y contadorBlanco
 function sumarContador(color) {
 	try {
 		if (color === '1') {
@@ -575,7 +593,7 @@ function guardarContador() {
 	}
 }
 
-
+//Grafico
 document.addEventListener('DOMContentLoaded', function () {
 	try {
 		const ctx = document.getElementById('miGrafico').getContext('2d');
