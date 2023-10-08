@@ -111,23 +111,28 @@ main {
 }
 /* Tabla de chocolates */
 .tabla-chocolates {
-    position: relative;
-    max-height: 150em;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: .2em;
-    width: 80%;
-    /* Ajustado para mantener el mismo ancho */
-    height: 70%;
-    /* Ajustado para mantener el mismo alto */
-    margin: 0 auto;
-    background-color: #222;
-    border: 2px solid #ccc;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    border-radius: .6em;
-    padding: .4em;
-}
+    
+        position: sticky;
+        top: 0;
+        max-height: 150em;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        gap: .2em;
+        width: 80%;
+        /* Ajustado para mantener el mismo ancho */
+        height: 60vh;
+        /* Ajustado para mantener el mismo alto */
+        margin: 0 auto;
+        background-color: #222;
+        border: 2px solid #ccc;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        border-radius: .6em;
+        padding: .4em;
+        z-index: 1; /* Asegura que esté por debajo del chocolate */
+        /* z-index añadido */
+    }
+
 
 .tabla-chocolates>div {
     background-color: #6c757d;
@@ -231,13 +236,17 @@ main {
 
 /* Chocolate */
 #chocolate {
-    background-image: url("imagenes/cn.png");
-    background-size: cover;
-    width: 10em;
-    height: 10em;
-    grid-area: c;
-    transition: transform 3s ease-in-out;
-	position: relative;
+  
+        position: relative; /* Cambiado a posicionamiento absoluto */
+        background-image: url("imagenes/cn.png");
+        background-size: cover;
+        width: 10em;
+        height: 10em;
+        grid-area: c;
+        transition: transform 3s ease-in-out;
+        z-index: 2; 
+        background-position: center;/* Asegura que esté por encima de la tabla */
+        /* position y z-index añadidos */
 }
 
 /* Pie de página y redes sociales */
@@ -318,7 +327,14 @@ footer {
 
     #chocolate {
         transform: scale(0.8);
+        margin: 0 auto; /* Centra el chocolate en la pantalla */
     }
+
+    .tabla-chocolates {
+        max-height: 60em; /* Reduce la altura máxima */
+        margin: 0 auto; /* Centra la tabla en la pantalla */
+    }
+
 	body #contenedor #miGrafico {
         display: none !important;
     }
@@ -350,6 +366,12 @@ footer {
 
     #chocolate {
         transform: scale(0.5);
+        margin: 0 auto; /* Centra el chocolate en la pantalla */
+    }
+
+    .tabla-chocolates {
+        max-height: 40vh; /* Reduce la altura máxima */
+        margin: 0 auto; /* Centra la tabla en la pantalla */
     }
 
 

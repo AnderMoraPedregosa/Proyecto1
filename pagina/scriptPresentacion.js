@@ -160,8 +160,8 @@ document.getElementById("continuar").addEventListener("click", function () {
 	console.log("continuar pulsado");
 
 	cogerValoresManual();
-	cambiarColor();
-	cambiarPosicion();
+	cambiarColorAutomatico();
+	cambiarPosicionAutomatico();
 });
 
 
@@ -230,8 +230,10 @@ function cogerValoresAutomatico() {
 
 						var posicion = "a" + pos;
 
-						moverElemento(color, posicion,);
 						cambiarImagen(color);
+
+
+						moverElemento(color, posicion,);
 
 
 						//comprobaciones
