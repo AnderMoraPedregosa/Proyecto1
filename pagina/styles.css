@@ -1,23 +1,28 @@
-/* Estilos generales */
-*{
+/* Reset de estilos y estilos generales */
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+
 }
 
+/* Estilos del cuerpo de la página */
 body {
     font-family: Arial, sans-serif;
     background-color: #111;
     color: #fff;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
+/* Contenedor principal */
 #contenedor {
     height: 100vh;
     display: grid;
-    grid-template-columns: 2fr 6fr 2fr ;
+    grid-template-columns: 2fr 6fr 2fr;
     grid-template-rows: 88% 12%;
     grid-template-areas:
         "nav main login"
@@ -25,22 +30,24 @@ body {
     width: 90%;
     max-width: 1200px;
     background-color: #222;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 20em rgba(0, 0, 0, 0.5);
 }
 
-/* Estilos del video */
+/* Estilos del logotipo animado */
 .logo-animado {
-    display: block;
-    margin: 10px auto; /* Centra el video horizontalmente y agrega margen superior */
+    display: grid;
+    margin: .5em auto;
     max-width: 100%;
 }
 
-/* Estilos de la barra de navegación en la izquierda */
+/* Barra de navegación izquierda */
 #barra-izquierda {
     grid-area: nav;
     flex: 1;
-    padding: 10px;
+    padding: 1.2em;
     background-color: #333;
+    height: 100vh;
+
 }
 
 #barra-izquierda ul {
@@ -49,7 +56,7 @@ body {
 }
 
 #barra-izquierda li {
-    margin-bottom: 10px;
+    margin-bottom: 10em;
 }
 
 #barra-izquierda a {
@@ -63,66 +70,72 @@ body {
     color: #00ffcc;
 }
 
-
 .barra-izquierda ul li:hover {
-    background-color: #444; 
+    background-color: #444;
 }
 
-
+/* Área principal */
 main {
     grid-area: main;
     flex: 4;
-    padding: 20px;
+    padding: 1em;
     text-align: center;
-    min-height: calc(100vh -160px);
+    min-height: calc(100vh - 160px);
+    overflow-y: auto;
 }
 
+/* Selección de botones y opciones */
 #seleccionBotones {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(2);
-    grid-template-areas:
-    "botones c"
-    "radio ."
+    grid-template-columns: 1fr fr 1fr 1fr;
+    grid-template-areas: "botones c cont radio";
+    gap: 1em;
+    padding: .2em;
 }
 
-#botones{
+#botones {
     grid-area: botones;
 }
 
-#opciones{
+#opciones {
     grid-area: radio;
     justify-items: start;
-    
 }
 
 
+#reset:hover {
+    background: linear-gradient(to right, orange, yellow);
+}
 
-
+/* Tabla de chocolates */
 .tabla-chocolates {
+
+    position: sticky;
+    top: 0;
+    max-height: 150em;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    gap: 5px;
-    width: 350px; /* Ajusta el tamaño según lo necesites */
-    height: 350px; /* Ajusta el tamaño según lo necesites */
-    margin: 50px auto;
+    gap: .2em;
+    width: 80%;
+    height: 60vh;
+    margin: 0 auto;
     background-color: #222;
     border: 2px solid #ccc;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    padding: 5px;
-    width: 80%;
-    height: 70%;
+    border-radius: .6em;
+    padding: .4em;
+    z-index: 1;
 }
 
-.tabla-chocolates > div {
-    background-color: #6c757d; /* Cambia el color de fondo según tu preferencia */
-    border: 2px solid #52575c; /* Cambia el color del borde según tu preferencia */
-    box-shadow: 0 0 10px rgba(0,0,0,0.3); /* Cambia la sombra según tu preferencia */
-    border-radius: 10px;
-    width: 95%; /* Ocupa el 95% del contenedor */
-    height: 95%; /* Ocupa el 95% del contenedor */
+
+.tabla-chocolates>div {
+    background-color: #6c757d;
+    border: .2em solid #52575c;
+    box-shadow: 0 0 2em rgba(0, 0, 0, 0.3);
+    border-radius: 1em;
+    width: 95%;
+    height: 95%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -130,197 +143,249 @@ main {
     font-weight: bold;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-table th,
-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #444;
-}
-
 /* Estilos de la barra lateral derecha */
 #barra-derecha {
     grid-area: login;
     flex: 1;
-    padding: 10px;
+    padding: 1em;
     background-color: #333;
     display: flex;
     flex-direction: column;
+    height: 1025px;
 }
 
-
-
-#mensaje{
-	  animation: parpadeo 1s infinite;
-	  font-size:1.5em;
-
+/* Animación del mensaje */
+#mensaje {
+    animation: parpadeo 1s infinite;
+    font-size: 1.5em;
 }
 
 @keyframes parpadeo {
-            0%, 100% {
-                color: red;
-            }
-            50% {
-                color: black;
-            }
-        }
 
-#modoFondo{
+    0%,
+    100% {
+        color: red;
+    }
+
+    50% {
+        color: black;
+    }
+}
+
+/* Estilos para el contenedor del gráfico */
+#miGrafico {
+    max-width: 100%;
+}
+
+#contenedorGrafico {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Modo de fondo y botones de cambio de tema */
+#modoFondo {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-    /* Agrega estilos para el formulario de inicio de sesión */
+    margin-bottom: 1em;
 }
 
-
-
-#claro{
+#claro {
     background-image: url("imagenes/s1.png");
-    background-size: cover; /* Para ajustar la imagen al tamaño del botón */
-    width: 40px; /* Ancho del botón */
-    height: 40px; /* Alto del botón */
-    border: none; /* Para quitar el borde predeterminado */
+    background-size: cover;
+    width: 3em;
+    height: 3em;
+    border: none;
     cursor: pointer;
-    margin: 10px;
-    border-radius: 10px;
+    margin: 1em;
+    padding: 1.6em;
+    border-radius: 1em;
 }
 
-#claro:hover{
-        animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-
-}
-
-#oscuro{
+#oscuro {
     background-image: url("imagenes/l1.png");
-    background-size: cover; /* Para ajustar la imagen al tamaño del botón */
-    width: 40px; /* Ancho del botón */
-    height: 40px; /* Alto del botón */
-    border: none; /* Para quitar el borde predeterminado */
+    background-size: cover;
+    width: 3em;
+    height: 3em;
+    border: none;
     cursor: pointer;
-    margin: 10px;
-    border-radius: 10px;
-
+    margin: 1em;
+    padding: 1.6em;
+    border-radius: 1em;
 }
 
+#claro:hover,
+#oscuro:hover {
+    animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
 
-
- #botones > button{
-    padding: 8px;
-    margin: 10px;
-    border-radius: 10px;
+/* Estilos para botones generales */
+#botones>button {
+    padding: 1em;
+    margin: 1em;
+    border-radius: 1em;
     cursor: pointer;
-
 }
 
-#opciones{
-    padding: 20px;
-}
+/* Chocolate */
+#chocolate {
 
-#chocolate{
-    background-color: #00ffcc;
-    border-radius: 50%;
-    width: 6em;
-    height: 6em;
+    position: relative;
+    background-image: url("imagenes/cn.png");
+    background-size: cover;
+    width: 10em;
+    height: 10em;
     grid-area: c;
-    transition: transform 3s ease-in-out; /* Transición en la propiedad 'transform' durante 0.5 segundos con una aceleración/deceleración suave */
+    transition: transform 3s ease-in-out;
+    z-index: 2;
+    background-position: center;
 }
 
+/* Pie de página y redes sociales */
 footer {
-    height: 100%;
-        bottom: 0;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        padding: 25px;
-        width: 100%;
-        grid-area: foo;
-            max-width: 1200px;
-}
-
-#redesSociales{
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 1em;
+    width: 100%;
+    grid-area: foo;
+    max-width: 1200px;
+    position: fixed;
+    bottom: 0;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+
 
 }
 
-footer p{
-    display: block;
-}
-.social-icons {
-    background-color: red;
-    display: flex;
-    justify-content: space-between;
+
+#redesSociales {
+    margin-left: 30px;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .social-icon {
-    font-size: 30px;
+    font-size: 1.5em;
     color: #fff;
-    margin: 0 10px;
+    margin: 0 1em;
     text-decoration: none;
     transition: transform 0.3s;
+    display: inline-block;
 }
 
 .social-icon:hover {
-    transform: scale(1.2);
+    transform: scale(1.4);
+}
+
+/* Botón Continuar */
+#continuar {
+    grid-area: cont;
+    background-image: url("imagenes/bc.png");
+    background-size: cover;
+    padding: 1em;
+    border-radius: 1em;
+    width: 4em;
+    height: 4em;
+    border: none;
+    cursor: pointer;
+    background-color: greenyellow;
+
 }
 
 
 
+/* Estilos para pantallas pequeñas */
+@media (max-width: 1000px) {
+    #contenedor {
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;        
+        grid-template-rows: 10% 80% 10%;
+        grid-template-areas:
+        "nav nav login login"
+        "main main main main"
+        "foo foo foo foo";
+    }
 
 
-@media(max-width: 1000px) {
-    #contenedor{
+
+    .logo-animado {
+        max-width: 30%;
+    }
+
+    #chocolate {
+        transform: scale(0.8);
+        margin: 0 auto;
+    }
+
+    .tabla-chocolates {
+        max-height: 60em;
+        margin: 0 auto;
+    }
+
+    body #contenedor #miGrafico {
+        display: none !important;
+    }
+
+     #barra-derecha{
+        height: 10vh;
+    }
+
+    #barra-izquierda{
+        height: 10vh;
+    }
+
+}
+
+
+
+@media (max-width: 600px) {
+     #contenedor {
         height: 100vh;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: 20% 60% 20%;
+        grid-template-rows: 10% 80% 10%;
         grid-template-areas:
             "nav nav login login"
-            "main main main main" 
-            "foo foo foo foo"           
+            "main main main main"
+            "foo foo foo foo";
     }
 
-  
+
+    #barra-derecha{
+        height: 10vh;
+    }
+
+    #barra-izquierda{
+        height: 10vh;
+    }
+
+
+    body #contenedor #miGrafico {
+        display: none !important;
+    }
 
     .logo-animado {
         max-width: 50%;
     }
 
+    #chocolate {
+        transform: scale(0.5);
+        margin: 0 auto;
+    }
 
-  }
-
-  @media(max-width: 600px) {
-    #contenedor{
-        height: 100vh;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 20% 20% 40% 20%;
-        grid-template-areas:
-            "login login"
-            "nav nav"
-            "main main"     
-            "foo foo"       
+    .tabla-chocolates {
+        max-height: 40vh;
+        margin: 0 auto;
     }
 
 
-    .logo-animado {
-        max-width: 50%;
-    }
+   
 
 
 
-  }
-
-
-
-  
-
-
-
+}
 

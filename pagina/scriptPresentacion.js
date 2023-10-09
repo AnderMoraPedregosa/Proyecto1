@@ -24,7 +24,7 @@ document.getElementById("mensaje").textContent = "Espere...";
 var elemento = document.getElementById('chocolate');
 
 //stop
-//document.getElementById("stop").addEventListener("click", detenerAnimacion);
+document.getElementById("stop").addEventListener("click", detenerAnimacion);
 
 //variable global, valor transformacion actual
 var transformacionActual = window.getComputedStyle(elemento).getPropertyValue('transform');
@@ -172,7 +172,8 @@ document.getElementById("continuar").addEventListener("click", function () {
 	console.log("continuar pulsado");
 
 	cogerValoresManual();
-
+	cambiarColorAutomatico();
+	cambiarPosicionAutomatico();
 	document.getElementById("dContinuar").style.display = "none";
 });
 
@@ -217,14 +218,6 @@ function activarStop() {
 			enviarDatos(urlPlc, data);
 			comprobarEstado = null;
 		}
-
-		const data = new URLSearchParams();
-		data.append('"DB_DATOS_DAW".stop', '1');
-
-
-			enviarDatos(urlPlc, data);
-
-		detenerAnimacion();
 	} catch (error) {
 		console.log(error);
 	}
@@ -280,6 +273,7 @@ function cogerValoresAutomatico() {
 						console.log("automatico: " + automatico);
 						console.log("contador blanco: " + contadorBlanco);
 						console.log("contador negro: " + contadorNegro);
+						cambiarPosicionAutomatico();
 					})
 					.catch(error => {
 						if (error.name === 'AbortError') {
@@ -427,7 +421,16 @@ function comprobar(color, martxa, automatico, posicion) {
 	}
 }
 
+//Presentacion
+function cambiarPosicionAutomatico() {
+	const data = new URLSearchParams();
+	posRandom = Math.floor(Math.random() * (25 - 1 + 1)) + 1;
+	colorRandom = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+	data.append('"DB_DATOS_DAW".color', colorRandom);
+	data.append('"DB_DATOS_DAW".posicion', posRandom);
+	enviarDatos(urlPlc, data);
 
+}
 
 //muffin negro para chocolate negro
 //muffin blanco para chocolate blanco
@@ -540,7 +543,15 @@ function moverElemento(color, posicion) {
 
 
 
+//presentacion
+function cambiarColorAutomatico() {
+	const data = new URLSearchParams();
 
+	colorRandom = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+	data.append('"DB_DATOS_DAW".color', colorRandom);
+
+	enviarDatos(urlPlc, data);
+}
 //opcion pantalla clara
 function modoClaro() {
 	try {

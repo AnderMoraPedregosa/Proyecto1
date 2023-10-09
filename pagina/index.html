@@ -1,100 +1,122 @@
 <!-- DECLARACION VARIABLES-->
-<!-- AWP_In_Variable Name='"DB_DATOS_DAW".marcha' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".martxa' -->
 <!-- AWP_In_Variable Name='"DB_DATOS_DAW".posicion' -->
-<!-- AWP_In_Variable Name='"DB_DATOS_DAW".tipo' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".color' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".contadorNegro' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".contadorBlanco' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".automatico' -->
+<!-- AWP_In_Variable Name='"DB_DATOS_DAW".stop' -->
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Futurista</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <audio id="audio" type="audio/wav" src="audios/AnderCuidado.wav"></audio>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 <body>
     <div id="contenedor">
         <nav id="barra-izquierda">
             <video src="imagenes/logoanimado.mp4" autoplay loop muted class="logo-animado"></video>
-           <p id="pos">:="DB_DATOS_DAW".posicion:</p>
+
         </nav>
         <main>
-          
+
             <section id="seleccionBotones">
                 <div id="botones">
                     <button name="martxa" id="martxa" value="1">Marcha</button>
                     <button name="stop" id="stop" value="0">Stop</button>
                     <button name="reset" id="reset" value="-1">Reset</button>
-                   
-                </div>  
+                </div>
                 <div id="opciones">
                     <input type="radio" name="op" id="automatico" value="automatico">
                     <label for="automatico">Automatico</label><br><br>
                     <input type="radio" name="op" id="manual" value="manual">
                     <label for="manual">Manual</label>
+                    <div id="dContinuar">
+                        <button id="continuar"></button>
+                    </div>
+                    <p id="etiqueta"></p>
                 </div>
                 <div id="chocolate">
                 </div>
             </section>
-            
 
-        <section >
-            
-        </section>
-        <section class="tabla-chocolates">
-            
-            <div class="a1">1</div>
-            <div class="a2">2</div>
-            <div class="a3">3</div>
-            <div class="a4">4</div>
-             <div class="a5">5</div>
-            <div class="a6">6</div>
-             <div class="a7">7</div>
-            <div class="a8">8</div>
-             <div class="a9">9</div>
-             <div class="a10">10</div>
-             <div class="a11">11</div>
-             <div class="a12">12</div>
-            <div class="a13">13</div>
-            <div class="a14">14</div>
-             <div class="a15">15</div>
-             <div class="a16">16</div>
-             <div class="a17">17</div>
-            <div class="a18">18</div>
-            <div class="a19">19</div>
-            <div class="a20">20</div>
-            <div class="a21">21</div>
-             <div class="a22">22</div>
-             <div class="a23">23</div>
-            <div class="a24">24</div>
-             <div class="a25">25</div>
+
+            <section>
+
             </section>
+            <div id="tabla">
+                <section class="tabla-chocolates">
+
+                    <div class="a1">1</div>
+                    <div class="a2">2</div>
+                    <div class="a3">3</div>
+                    <div class="a4">4</div>
+                    <div class="a5">5</div>
+                    <div class="a6">6</div>
+                    <div class="a7">7</div>
+                    <div class="a8">8</div>
+                    <div class="a9">9</div>
+                    <div class="a10">10</div>
+                    <div class="a11">11</div>
+                    <div class="a12">12</div>
+                    <div class="a13">13</div>
+                    <div class="a14">14</div>
+                    <div class="a15">15</div>
+                    <div class="a16">16</div>
+                    <div class="a17">17</div>
+                    <div class="a18">18</div>
+                    <div class="a19">19</div>
+                    <div class="a20">20</div>
+                    <div class="a21">21</div>
+                    <div class="a22">22</div>
+                    <div class="a23">23</div>
+                    <div class="a24">24</div>
+                    <div class="a25">25</div>
+                </section>
+            </div>
             <div class="chart-container">
                 <div class="chart" id="chart"></div>
-              </div>
-              
+            </div>
+
         </main>
 
         <aside id="barra-derecha">
-            <aside class="barra-derecha">
                 <div id="modoFondo">
                     <button name="claro" id="claro"></button>
                     <button name="oscuro" id="oscuro"></button>
                 </div>
-               <p id="mensaje"></p>
-            </aside>
+                <p id="mensaje"></p>
+                <!-- Canvas para el gráfico -->
+                <div id="contenedorGrafico">
+                    <canvas id="miGrafico"></canvas>
+                </div>
+
         </aside>
         <footer>
             <p>&copy;Txarli y la fabrica de chocolate</p>
             <div id="redesSociales">
-                <a href="#" class="social-icon" id="facebook"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="social-icon" id="twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-icon" id="instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon" id="linkedin"><i class="fab fa-linkedin"></i></a>
-                </div>
+                <a href="https://losjavas.wordpress.com/" class="social-icon" id="facebook"><i class="fab fa-facebook" target="_blank"></i></a>
+                <a href="https://twitter.com/losjavas?lang=es" class="social-icon" id="twitter"><i class="fab fa-twitter" target="blank"></i></a>
+                <a href="https://www.instagram.com/losjavas/?hl=es" class="social-icon" id="instagram"><i class="fab fa-instagram" target="_blank"></i></a>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="social-icon" id="linkedin"><i class="fab fa-linkedin" target="_blank"></i></a>
+            </div>
         </footer>
     </div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+  
     <script src="script.js"></script>
 </body>
+
 </html>
