@@ -81,8 +81,6 @@ main {
     text-align: center;
     min-height: calc(100vh - 160px);
     overflow-y: auto;
-
-
 }
 
 /* Selección de botones y opciones */
@@ -153,6 +151,7 @@ main {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    max-width: 12em;
 }
 
 /* Animación del mensaje */
@@ -303,12 +302,12 @@ footer {
     #contenedor {
         height: 100vh;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;        
         grid-template-rows: 10% 80% 10%;
         grid-template-areas:
-            "nav nav login login"
-            "main main main main"
-            "foo foo foo foo";
+        "nav nav login login"
+        "main main main main"
+        "foo foo foo foo";
     }
 
 
@@ -329,6 +328,10 @@ footer {
 
     body #contenedor #miGrafico {
         display: none !important;
+    }
+
+    #barra-derecha {
+        max-width: 10em;
     }
 }
 
@@ -368,41 +371,12 @@ footer {
     }
 
 
-
-}
-
-@media (max-height: 600px) {
-    #contenedor {
-        height: 100vh;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 5% 5% 1fr 5%;
-        grid-template-areas:
-            "login login"
-            "nav nav"
-            "main main"
-            "foo foo";
-
-    }
-
-    body #contenedor #miGrafico {
-        display: none !important;
-    }
-
-    .logo-animado {
-        max-width: 10%;
-    }
-
-    #chocolate {
-        transform: scale(0.5);
-        margin: 0 auto;
-    }
-
-    .tabla-chocolates {
-        max-height: 40vh;
-        margin: 0 auto;
+    #barra-derecha {
+       
+        max-width: 5em;
     }
 
 
 
 }
+
