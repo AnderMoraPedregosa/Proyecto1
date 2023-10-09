@@ -24,7 +24,7 @@ document.getElementById("mensaje").textContent = "Espere...";
 var elemento = document.getElementById('chocolate');
 
 //stop
-document.getElementById("stop").addEventListener("click", detenerAnimacion);
+//document.getElementById("stop").addEventListener("click", detenerAnimacion);
 
 //variable global, valor transformacion actual
 var transformacionActual = window.getComputedStyle(elemento).getPropertyValue('transform');
@@ -35,7 +35,7 @@ document.getElementById("stop").addEventListener("click", activarStop);
 //martxa
 document.getElementById("martxa").addEventListener("click", activarMartxa);
 
-var comprobarEstado = null;
+var comprobarEstado = null; // true = automatico
 
 var modoManual = false;
 
@@ -109,8 +109,8 @@ function activarAutomatico() {
 
 			enviarDatos(urlPlc, data);
 
-
 			cogerValoresAutomatico();
+			
 		}
 
 	} catch (error) {
@@ -125,13 +125,15 @@ var radioManual = document.getElementById("manual");
 
 radioManual.addEventListener("click", function () {
 	try {
-
-
 		document.getElementById("martxa").style.display = "block";
+
+		if(encendido){
+		
 		comprobarEstado = false;
 		modoManual = true;
 		console.log('prueba false: ' + comprobarEstado)
 		activarManual();
+		}
 	} catch (error) {
 		console.log(error);
 	}
@@ -142,6 +144,7 @@ radioManual.addEventListener("click", function () {
 function activarManual() {
 	try {
 
+		console.log("estoy en activar manual");
 		comprobarEstado = false;
 		modoManual = true;
 
@@ -153,7 +156,6 @@ function activarManual() {
 		console.log("estoy en activarManual(): " + modoManual)
 
 		if (encendido) {
-
 			//mostrar boton
 			document.getElementById("dContinuar").style.display = "block";
 			document.getElementById("continuar").style.display = "block";
@@ -186,11 +188,21 @@ function activarMartxa() {
 		document.getElementById("martxa").style.backgroundColor = "greenyellow";
 		document.getElementById("stop").style.backgroundColor = "red";
 
-
-
-
-
-		cogerValoresManual();
+		if(comprobarEstado){
+				// Crear un nuevo AbortController para el modo automático
+				controllerAutomatico = new AbortController();
+				signalAutomatico = controllerAutomatico.signal; // Define signalAutomatico aquí
+	
+			cogerValoresAutomatico();
+			
+		}
+		else{
+			if (controllerAutomatico) {
+				// Abortar la solicitud fetch si existe
+				controllerAutomatico.abort();
+			}
+			cogerValoresManual();
+		}
 
 		const data = new URLSearchParams();
 		data.append('"DB_DATOS_DAW".martxa', '1');
@@ -205,19 +217,34 @@ function activarMartxa() {
 //cambia variable PLC "martxa" a false cuando llama a esta funcion
 function activarStop() {
 	try {
+
+		if (controllerAutomatico) {
+			// Abortar la solicitud fetch si existe
+			controllerAutomatico.abort();
+		}
+		encendido = false;
 		console.log(comprobarEstado);
 		document.getElementById("martxa").style.backgroundColor = "red";
 
 		document.getElementById("stop").style.backgroundColor = "greenyellow";
 
 
-
+		
 		if (comprobarEstado !== null) {
 			const data = new URLSearchParams();
 			data.append('"DB_DATOS_DAW".martxa', '0');
 			enviarDatos(urlPlc, data);
 			comprobarEstado = null;
 		}
+		
+
+		const data = new URLSearchParams();
+		data.append('"DB_DATOS_DAW".stop', '1');
+
+
+			enviarDatos(urlPlc, data);
+
+		detenerAnimacion();
 	} catch (error) {
 		console.log(error);
 	}
@@ -251,17 +278,19 @@ function cogerValoresAutomatico() {
 
 						var posicion = "a" + pos;
 
-						cambiarImagen(color);
+						//cambiarImagen(color);
 						posActual = posicion;
 						console.log(posicionesOcupadas, " ", posActual);
 						console.log(comprobarPosiciones(posicionesOcupadas))
 						if (!comprobarPosiciones(posicionesOcupadas)) {
 							posicionesOcupadas.push(posicion);
 							cambiarImagen(color);
-							moverElemento(color, posicion);
+							moverElemento(color, martxa, posicion);
 							//GRAFICO
 							sumarContador(color);
 							guardarContador();
+							cambiarPosicionAutomatico();
+						cambiarColorAutomatico();
 
 						}
 
@@ -273,7 +302,7 @@ function cogerValoresAutomatico() {
 						console.log("automatico: " + automatico);
 						console.log("contador blanco: " + contadorBlanco);
 						console.log("contador negro: " + contadorNegro);
-						cambiarPosicionAutomatico();
+						
 					})
 					.catch(error => {
 						if (error.name === 'AbortError') {
@@ -338,7 +367,7 @@ function cogerValoresManual() {
 						posicionesOcupadas.push(posicion);
 
 						cambiarImagen(color);
-						moverElemento(color, posicion);
+						moverElemento(color,martxa, posicion);
 						//GRAFICO
 						sumarContador(color);
 						guardarContador();
@@ -481,8 +510,11 @@ function enviarDatos(url, data) {
 }
 
 //"animacion" movimiento del muffin
-function moverElemento(color, posicion) {
+function moverElemento(color, martxa, posicion) {
 	try {
+
+
+		if(martxa === '1'){
 		console.log("pos: " + posicion);
 		console.log("actual: " + posActual);
 
@@ -531,6 +563,7 @@ function moverElemento(color, posicion) {
 
 		radioManual.checked = false;
 
+	}
 
 	} catch (error) {
 		console.log(error)
