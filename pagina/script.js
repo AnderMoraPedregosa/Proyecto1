@@ -13,7 +13,7 @@ document.getElementById("reset").addEventListener("click", resett);
 document.getElementById("mensaje").textContent = "Espere...";
 
 //saber si esta en automatico o manual (sin fetch)
-var modoAutomatico = null; // Inicialmente, el modo es manual
+var modoAutomatico = true; // Inicialmente, el modo es manual
 var posActual = '0';
 
 
@@ -202,6 +202,8 @@ function cogerValores() {
 					var contadorBlanco = variables[4].trim();
 					var automatico = variables[5].trim();
 					var color = variables[6].trim();
+					var stop = variables[7].trim();
+
 
 					var posicion = "a" + pos;
 
@@ -214,6 +216,8 @@ function cogerValores() {
 					console.log("automatico: " + automatico);
 					console.log("contador blanco: " + contadorBlanco);
 					console.log("contador negro: " + contadorNegro);
+					console.log("Stop: " + stop);
+
 
 
 					comprobar(color, martxa, automatico, posicion);
@@ -233,7 +237,7 @@ function cogerValores() {
 function comprobar(color, martxa, automatico, posicion) {
 
 	try {
-		if (color === '2' || martxa === '0')  //0 = false
+		if (color === '2')  //0 = false
 		{
 			document.getElementById("mensaje").style.color = "white";
 			console.log("no he salido");
@@ -296,11 +300,13 @@ function activarMartxa() {
 		document.getElementById("stop").style.backgroundColor = "grey";
 
 
-		if (modoAutomatico === null) {
+		if (!modoAutomatico) {
 			cogerValores();
-
+			modoAutomatico = true;
 			const data = new URLSearchParams();
 			data.append('"DB_DATOS_DAW".martxa', '1');
+			data.append('"DB_DATOS_DAW".stop', '0');
+
 			enviarDatos(urlPlc, data);
 		}
 
@@ -317,11 +323,14 @@ function activarStop() {
 
 
 
-		if (modoAutomatico !== null) {
+		if (modoAutomatico) {
+			cogerValores();
 			const data = new URLSearchParams();
 			data.append('"DB_DATOS_DAW".martxa', '0');
+			data.append('"DB_DATOS_DAW".stop', '1');
+			modoAutomatico = false;
 			enviarDatos(urlPlc, data);
-			modoAutomatico = null;
+
 		}
 	} catch (error) {
 		console.log(error);
@@ -441,9 +450,9 @@ function resett() {
 		location.reload();
 		contadorNegro = 0;
 		contadorBlanco = 0;
-						//resetear localstorage
-				//localStorage.removeItem('contadorNegro');
-                //localStorage.removeItem('contadorBlanco');
+		//resetear localstorage
+		//localStorage.removeItem('contadorNegro');
+		//localStorage.removeItem('contadorBlanco');
 	} catch (error) {
 		console.log(error);
 	}
