@@ -1,4 +1,5 @@
 let urlPlc = "http://10.0.2.100/awp/reto1/index.html";
+let posicionesOcupadas = [];
 //modo claro y modo oscuro
 document.getElementById("claro").addEventListener("click", modoClaro);
 document.getElementById("oscuro").addEventListener("click", modoOscuro);
@@ -238,9 +239,18 @@ function cogerValoresAutomatico() {
 						var posicion = "a" + pos;
 
 						cambiarImagen(color);
+						posActual = posicion;
+						console.log(posicionesOcupadas, " ", posActual);
+						console.log(comprobarPosiciones(posicionesOcupadas))
+						if (!comprobarPosiciones(posicionesOcupadas)) {
+							posicionesOcupadas.push(posicion);
+							cambiarImagen(color);
+							moverElemento(color, posicion);
+							//GRAFICO
+							sumarContador(color);
+							guardarContador();
 
-
-						moverElemento(color, posicion,);
+						}
 
 
 						//comprobaciones
@@ -250,7 +260,7 @@ function cogerValoresAutomatico() {
 						console.log("automatico: " + automatico);
 						console.log("contador blanco: " + contadorBlanco);
 						console.log("contador negro: " + contadorNegro);
-
+						cambiarPosicionAutomatico();
 					})
 					.catch(error => {
 						if (error.name === 'AbortError') {
@@ -310,14 +320,18 @@ function cogerValoresManual() {
 
 				if (modoAutomatico !== null) {
 					comprobar(color, martxa, automatico, posicion);
+					posActual = posicion;
+					if (!comprobarPosiciones(posicionesOcupadas)) {
+						posicionesOcupadas.push(posicion);
 
-					if (posActual != posicion) {
 						cambiarImagen(color);
 						moverElemento(color, posicion);
 						//GRAFICO
 						sumarContador(color);
 						guardarContador();
-						posActual = posicion;
+
+					} else {
+						alert("Casilla ocupada por otro chocolate!")
 					}
 
 
@@ -333,6 +347,14 @@ function cogerValoresManual() {
 	}
 }
 
+function comprobarPosiciones(lista) {
+	if (lista.includes(posActual)) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
 
 //Funcion para ver si los datos han sido recogidos
 
@@ -344,7 +366,7 @@ function comprobar(color, martxa, automatico, posicion) {
 			document.getElementById("mensaje").style.color = "white";
 			console.log("no he salido");
 			document.getElementById("mensaje").style.display = "block";
-			document.getElementById("continuar").style.display = "none";
+			document.getElementById("dContinuar").style.display = "none";
 
 
 		}
@@ -352,7 +374,7 @@ function comprobar(color, martxa, automatico, posicion) {
 		else {
 			if (modoAutomatico) { // 1 = true
 				document.getElementById("mensaje").style.display = "none";
-				document.getElementById("continuar").style.display = "none";
+				document.getElementById("dContinuar").style.display = "none";
 
 				console.log("he salido");
 				console.log(modoAutomatico);
@@ -376,7 +398,7 @@ function comprobar(color, martxa, automatico, posicion) {
 
 				console.log('me he saltado el boton continuar')
 
-				
+
 
 
 			}
@@ -450,52 +472,52 @@ function moverElemento(color, posicion) {
 	try {
 		console.log("pos: " + posicion);
 		console.log("actual: " + posActual);
-		if (posActual !== posicion) {
-			document.getElementById("mensaje").textContent = "Moviendo...";
+
+		document.getElementById("mensaje").textContent = "Moviendo...";
 
 
-			console.log("moverElemento: color = " + color + " posicion = " + posicion);
-			const chocolate = document.getElementById("chocolate");
+		console.log("moverElemento: color = " + color + " posicion = " + posicion);
+		const chocolate = document.getElementById("chocolate");
 
-			// Obtener el div objetivo
-			const divObjetivo = document.querySelector(`.tabla-chocolates .${posicion}`);
+		// Obtener el div objetivo
+		const divObjetivo = document.querySelector(`.tabla-chocolates .${posicion}`);
 
-			const rectChoco = chocolate.getBoundingClientRect();
-			const rectObjetivo = divObjetivo.getBoundingClientRect();
+		const rectChoco = chocolate.getBoundingClientRect();
+		const rectObjetivo = divObjetivo.getBoundingClientRect();
 
-			// Calcular la distancia
-			const distanciaX = rectObjetivo.left + (rectObjetivo.width / 2) - (rectChoco.width / 2) - rectChoco.left;
-			const distanciaY = rectObjetivo.top + (rectObjetivo.height / 2) - (rectChoco.height / 2) - rectChoco.top;
+		// Calcular la distancia
+		const distanciaX = rectObjetivo.left + (rectObjetivo.width / 2) - (rectChoco.width / 2) - rectChoco.left;
+		const distanciaY = rectObjetivo.top + (rectObjetivo.height / 2) - (rectChoco.height / 2) - rectChoco.top;
 
-			console.log("[moverElemento()]: distanciaX = " + distanciaX + " distanciaY =  " + distanciaY);
-			// Mover el chocolate al centro del objetivo
-			chocolate.style.transform = `translate(${distanciaX}px, ${distanciaY}px)`;
+		console.log("[moverElemento()]: distanciaX = " + distanciaX + " distanciaY =  " + distanciaY);
+		// Mover el chocolate al centro del objetivo
+		chocolate.style.transform = `translate(${distanciaX}px, ${distanciaY}px)`;
 
-			//cambiar color fondo, 1 blanco 0 negro
-			if (color === '1') {
-				divObjetivo.style.backgroundColor = "#804000";
-
-			}
-			else {
-				divObjetivo.style.backgroundColor = "white";
-				divObjetivo.style.color = "black";
-			}
-
-			console.log("acabado")
-
-
-			cambiarPosicionAutomatico();
-
-			setTimeout(() => {
-				// Regresar el círculo al principio
-				chocolate.style.transform = `translate(0, 0)`;
-				document.getElementById("mensaje").textContent = "Espere...";
-
-			}, 4000)
-			document.getElementById("dContinuar").style.display = "block";
-
+		//cambiar color fondo, 1 blanco 0 negro
+		if (color === '1') {
+			divObjetivo.style.backgroundColor = "#804000";
 
 		}
+		else {
+			divObjetivo.style.backgroundColor = "white";
+			divObjetivo.style.color = "black";
+		}
+
+		console.log("acabado")
+
+
+
+
+		setTimeout(() => {
+			// Regresar el círculo al principio
+			chocolate.style.transform = `translate(0, 0)`;
+			document.getElementById("mensaje").textContent = "Espere...";
+
+		}, 4000)
+
+
+
+
 
 	} catch (error) {
 		console.log(error)
@@ -542,7 +564,7 @@ function modoOscuro() {
 function reproducirAudio() {
 	// Reproducir el audio
 	audio.play();
-	
+
 
 }
 
@@ -560,7 +582,7 @@ function resett() {
 				contadorBlanco = 0;
 				//resetear localstorage
 				//localStorage.removeItem('contadorNegro');
-                //localStorage.removeItem('contadorBlanco');
+				//localStorage.removeItem('contadorBlanco');
 			}
 
 			location.reload();
