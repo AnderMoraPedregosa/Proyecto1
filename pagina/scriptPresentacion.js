@@ -524,13 +524,13 @@ function moverElemento(color, posicion) {
 
 
 
-			setTimeout(() => {
-				// Regresar el círculo al principio
-				chocolate.style.transform = `translate(0, 0)`;
-				document.getElementById("mensaje").textContent = "Espere...";
+		setTimeout(() => {
+			// Regresar el círculo al principio
+			chocolate.style.transform = `translate(0, 0)`;
+			document.getElementById("mensaje").textContent = "Espere...";
 
-			}, 4000)
-			document.getElementById("dContinuar").style.display = "block";
+		}, 4000)
+		document.getElementById("dContinuar").style.display = "block";
 
 		radioManual.checked = false;
 
@@ -606,9 +606,10 @@ function resett() {
 				//resetear localstorage
 				localStorage.removeItem('contadorNegro');
 				localStorage.removeItem('contadorBlanco');
+				location.reload();
 			}
 
-			location.reload();
+
 		}, 200)
 
 

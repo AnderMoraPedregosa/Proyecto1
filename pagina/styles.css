@@ -335,18 +335,17 @@ footer {
 
 
 @media (max-width: 600px) {
-    #contenedor {
+     #contenedor {
         height: 100vh;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 5% 5% 1fr 5%;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 10% 80% 10%;
         grid-template-areas:
-            "login login"
-            "nav nav"
-            "main main"
-            "foo foo";
-
+            "nav nav login login"
+            "main main main main"
+            "foo foo foo foo";
     }
+
 
 
 
