@@ -12,6 +12,7 @@ body {
     background-color: #111;
     color: #fff;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -150,8 +151,7 @@ main {
     background-color: #333;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    max-width: 12em;
+    height: 1025px;
 }
 
 /* Animación del mensaje */
@@ -330,9 +330,14 @@ footer {
         display: none !important;
     }
 
-    #barra-derecha {
-        max-width: 10em;
+     #barra-derecha{
+        height: 10vh;
     }
+
+    #barra-izquierda{
+        height: 10vh;
+    }
+
 }
 
 
@@ -350,6 +355,13 @@ footer {
     }
 
 
+    #barra-derecha{
+        height: 10vh;
+    }
+
+    #barra-izquierda{
+        height: 10vh;
+    }
 
 
     body #contenedor #miGrafico {
@@ -357,7 +369,7 @@ footer {
     }
 
     .logo-animado {
-        max-width: 10%;
+        max-width: 50%;
     }
 
     #chocolate {
@@ -371,10 +383,7 @@ footer {
     }
 
 
-    #barra-derecha {
-       
-        max-width: 5em;
-    }
+   
 
 
 
