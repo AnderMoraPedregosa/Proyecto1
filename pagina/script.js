@@ -139,52 +139,6 @@ function moverElemento(color, posicion) {
 	}
 }
 
-/*
-document.addEventListener("DOMContentLoaded", function () {
-	try {
-		setInterval(function () {
-			fetch("variables.html")
-				.then(response => response.text())
-				.then(data => {
-					var variables = data.trim().split("\n");
-					console.log("Variables recuperadas:", variables);
-	
-					// Usar las variables almacenadas en el array
-					var martxa = variables[0].trim();
-					var resett = variables[1].trim();
-					var pos = variables[2].trim();
-					var contadorNegro = variables[3].trim();
-					var contadorBlanco = variables[4].trim();
-					var automatico = variables[5].trim();
-					var color = variables[6].trim();
-	
-					var posicion = "a" + pos;
-	
-					//comprobaciones
-					console.log("Posición actual: " + posicion);
-					console.log("Color: " + color);
-					console.log("martxa: " + martxa);
-					console.log("automatico: " + automatico);
-					console.log("contador blanco: " + contadorBlanco);
-					console.log("contador negro: " + contadorNegro);
-	
-	
-					comprobar(color, martxa, automatico, posicion);
-					
-					
-	
-				})
-				.catch(error => {
-					console.error("Error en la solicitud: ", error);
-				});
-		}, 18000);
-		
-	} catch (error) {
-		console.log(error);
-	}
-});
-*/
-
 //Fetch GET
 function cogerValores() {
 	try {

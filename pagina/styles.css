@@ -91,9 +91,7 @@ main {
     grid-template-columns: 1fr fr 1fr 1fr;
     grid-template-areas: "botones c cont radio";
     gap: 1em;
-    /* Agregamos un espacio entre los elementos */
     padding: .2em;
-    /* Agregamos espacio dentro del contenedor */
 }
 
 #botones {
@@ -121,9 +119,7 @@ main {
     grid-template-rows: repeat(5, 1fr);
     gap: .2em;
     width: 80%;
-    /* Ajustado para mantener el mismo ancho */
     height: 60vh;
-    /* Ajustado para mantener el mismo alto */
     margin: 0 auto;
     background-color: #222;
     border: 2px solid #ccc;
@@ -131,8 +127,6 @@ main {
     border-radius: .6em;
     padding: .4em;
     z-index: 1;
-    /* Asegura que esté por debajo del chocolate */
-    /* z-index añadido */
 }
 
 
@@ -182,16 +176,12 @@ main {
 /* Estilos para el contenedor del gráfico */
 #miGrafico {
     max-width: 100%;
-    /* Ajusta el ancho máximo del gráfico */
 }
 
-/* Asegúrate de que el contenedor del gráfico tenga un tamaño */
 #contenedorGrafico {
     width: 100%;
     max-width: 600px;
-    /* Establece el ancho máximo del contenedor del gráfico */
     margin: 0 auto;
-    /* Centra el contenedor */
 }
 
 /* Modo de fondo y botones de cambio de tema */
@@ -243,7 +233,6 @@ main {
 #chocolate {
 
     position: relative;
-    /* Cambiado a posicionamiento absoluto */
     background-image: url("imagenes/cn.png");
     background-size: cover;
     width: 10em;
@@ -252,11 +241,8 @@ main {
     transition: transform 3s ease-in-out;
     z-index: 2;
     background-position: center;
-    /* Asegura que esté por encima de la tabla */
-    /* position y z-index añadidos */
 }
 
-/* Pie de página y redes sociales */
 /* Pie de página y redes sociales */
 footer {
     background-color: black;
@@ -280,18 +266,15 @@ footer {
     margin-left: 30px;
     display: inline-block;
     white-space: nowrap;
-    /* Evita que los elementos se separen en varias líneas */
 }
 
 .social-icon {
     font-size: 1.5em;
     color: #fff;
     margin: 0 1em;
-    /* Agrega un espacio entre cada ícono */
     text-decoration: none;
     transition: transform 0.3s;
     display: inline-block;
-    /* Añadido */
 }
 
 .social-icon:hover {
@@ -306,7 +289,6 @@ footer {
     padding: 1em;
     border-radius: 1em;
     width: 4em;
-    /* Cambiado el ancho del botón */
     height: 4em;
     border: none;
     cursor: pointer;
@@ -338,14 +320,11 @@ footer {
     #chocolate {
         transform: scale(0.8);
         margin: 0 auto;
-        /* Centra el chocolate en la pantalla */
     }
 
     .tabla-chocolates {
         max-height: 60em;
-        /* Reduce la altura máxima */
         margin: 0 auto;
-        /* Centra la tabla en la pantalla */
     }
 
     body #contenedor #miGrafico {
@@ -361,7 +340,6 @@ footer {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 5% 5% 1fr 5%;
-        /* Ajuste aquí */
         grid-template-areas:
             "login login"
             "nav nav"
@@ -383,14 +361,11 @@ footer {
     #chocolate {
         transform: scale(0.5);
         margin: 0 auto;
-        /* Centra el chocolate en la pantalla */
     }
 
     .tabla-chocolates {
         max-height: 40vh;
-        /* Reduce la altura máxima */
         margin: 0 auto;
-        /* Centra la tabla en la pantalla */
     }
 
 
@@ -403,7 +378,6 @@ footer {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 5% 5% 1fr 5%;
-        /* Ajuste aquí */
         grid-template-areas:
             "login login"
             "nav nav"
@@ -425,14 +399,11 @@ footer {
     #chocolate {
         transform: scale(0.5);
         margin: 0 auto;
-        /* Centra el chocolate en la pantalla */
     }
 
     .tabla-chocolates {
         max-height: 40vh;
-        /* Reduce la altura máxima */
         margin: 0 auto;
-        /* Centra la tabla en la pantalla */
     }
 
 
