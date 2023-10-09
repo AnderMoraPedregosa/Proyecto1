@@ -1,39 +1,56 @@
-//URL para los Fetch GET y POST
-urlPlc = "http://10.0.2.100/awp/reto1/index.html";
-
-// script.js
+let urlPlc = "http://10.0.2.100/awp/reto1/index.html";
+let posicionesOcupadas = [];
+//modo claro y modo oscuro
 document.getElementById("claro").addEventListener("click", modoClaro);
 document.getElementById("oscuro").addEventListener("click", modoOscuro);
 document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
-
+let audio = document.getElementById("audio")
+//reset
 document.getElementById("reset").addEventListener("click", resett);
 
+//Automatico y Manual
+document.getElementById("opciones").style.display = "block";
+
+//Marcha
+document.getElementById("martxa").style.display = "none";
+document.getElementById("dContinuar").style.display = "none";
 
 //mensaje espere
 document.getElementById("mensaje").textContent = "Espere...";
 
-//saber si esta en automatico o manual (sin fetch)
-var modoAutomatico = true; // Inicialmente, el modo es manual
-var posActual = '0';
 
 
 
 var elemento = document.getElementById('chocolate');
+
 //stop
-document.getElementById("stop").addEventListener("click", detenerAnimacion);
+//document.getElementById("stop").addEventListener("click", detenerAnimacion);
 
 //variable global, valor transformacion actual
 var transformacionActual = window.getComputedStyle(elemento).getPropertyValue('transform');
 
-//manual
+//post stop
+document.getElementById("stop").addEventListener("click", activarStop);
 
-/*
-var boton = document.createElement("button");
-boton.id = "continuar"; // Establece un ID
-boton.classList.add("bContinuar"); // Agrega una clase CSS
+//martxa
+document.getElementById("martxa").addEventListener("click", activarMartxa);
 
-document.getElementById("dContinuar").appendChild(boton); // Agrega el botón al div dContinuar
-*/
+var comprobarEstado = null;
+
+var modoManual = false;
+
+var fetchManualActivo = false;
+
+var posActual = '0';
+
+var encendido = false;
+
+//abortar fetch
+// Declarar el controlador a nivel global
+// Crear un nuevo AbortController para el modo automático
+let controllerAutomatico = null;
+let signalAutomatico = null;
+
 
 
 //GRAFICO
@@ -41,9 +58,10 @@ document.getElementById("dContinuar").appendChild(boton); // Agrega el botón al
 let contadorNegro = parseInt(localStorage.getItem('contadorNegro')) || 0;
 let contadorBlanco = parseInt(localStorage.getItem('contadorBlanco')) || 0;
 
-//paramos animación
+//Funcion detener animacion
 function detenerAnimacion() {
 	try {
+		encendido = false;
 		elemento.style.transform = 'none';
 	} catch (error) {
 		console.log(error);
@@ -52,118 +70,207 @@ function detenerAnimacion() {
 
 
 
-document.getElementById("martxa").addEventListener("click", activarMartxa);
-document.getElementById("stop").addEventListener("click", activarStop);
+//automatico
 
-//cuando cambie el Radiobutton a automatico
 const radioAutomatico = document.getElementById("automatico");
 
-radioAutomatico.addEventListener("change", function () {
+radioAutomatico.addEventListener("click", function () {
 	try {
-		activarAutomatico();
-		cogerValores();
+		comprobarEstado = true;
+		modoManual = false;
 		document.getElementById("martxa").style.display = "block";
 
-	} catch (error) {
-		console.log(error);
-	}
-});
-//cuando cambie el Radiobutton a manual
+		console.log('prueba true: ' + comprobarEstado)
 
-const radioManual = document.getElementById("manual");
-
-radioManual.addEventListener("change", function () {
-	document.getElementById("martxa").style.display = "block";
-
-	try {
-		activarManual();
+		activarAutomatico();
 
 	} catch (error) {
 		console.log(error);
 	}
 });
 
-//"animacion" movimiento del muffin
-function moverElemento(color, posicion) {
+
+function activarAutomatico() {
 	try {
-		console.log("pos: " + posicion);
-		console.log("actual: " + posActual);
-		if (posActual !== posicion) {
-			document.getElementById("mensaje").textContent = "Moviendo...";
+		comprobarEstado = true;
+		modoManual = false;
+
+		if (encendido) {
+
+			// Crear un nuevo AbortController para el modo automático
+			controllerAutomatico = new AbortController();
+			signalAutomatico = controllerAutomatico.signal; // Define signalAutomatico aquí
 
 
-			console.log("moverElemento: color = " + color + " posicion = " + posicion);
-			const chocolate = document.getElementById("chocolate");
-
-			// Obtener el div objetivo
-			const divObjetivo = document.querySelector(`.tabla-chocolates .${posicion}`);
-
-			const rectChoco = chocolate.getBoundingClientRect();
-			const rectObjetivo = divObjetivo.getBoundingClientRect();
-
-			// Calcular la distancia
-			const distanciaX = rectObjetivo.left + (rectObjetivo.width / 2) - (rectChoco.width / 2) - rectChoco.left;
-			const distanciaY = rectObjetivo.top + (rectObjetivo.height / 2) - (rectChoco.height / 2) - rectChoco.top;
-
-			console.log("[moverElemento()]: distanciaX = " + distanciaX + " distanciaY =  " + distanciaY);
-			// Mover el chocolate al centro del objetivo
-			chocolate.style.transform = `translate(${distanciaX}px, ${distanciaY}px)`;
-
-			//cambiar color fondo, 1 blanco 0 negro
-			if (color === '1') {
-				divObjetivo.style.backgroundColor = "#804000";
-
-			}
-			else {
-				divObjetivo.style.backgroundColor = "white";
-				divObjetivo.style.color = "black";
-			}
-
-			console.log("acabado")
-
-			posActual = posicion;
+			document.getElementById("dContinuar").style.display = "none"; // Oculta el botón por ID
+			const data = new URLSearchParams();
+			data.append('"DB_DATOS_DAW".automatico', '1');
 
 
-			setTimeout(() => {
-				// Regresar el círculo al principio
-				chocolate.style.transform = `translate(0, 0)`;
-				document.getElementById("mensaje").textContent = "Espere...";
-
-			}, 4000)
+			enviarDatos(urlPlc, data);
 
 
-
+			cogerValoresAutomatico();
 		}
+
 	} catch (error) {
-		console.log(error)
+		console.log(error);
 	}
 }
 
-//Fetch GET
-function cogerValores() {
-	try {
-		console.log(modoAutomatico + ".......................");
-		if (modoAutomatico) {
 
-			setInterval(function () {
-				fetch("variables.html")
+//manual
+
+var radioManual = document.getElementById("manual");
+
+radioManual.addEventListener("click", function () {
+	try {
+
+
+		document.getElementById("martxa").style.display = "block";
+		comprobarEstado = false;
+		modoManual = true;
+		console.log('prueba false: ' + comprobarEstado)
+		activarManual();
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+
+
+function activarManual() {
+	try {
+
+		comprobarEstado = false;
+		modoManual = true;
+
+		if (controllerAutomatico) {
+			// Abortar la solicitud fetch si existe
+			controllerAutomatico.abort();
+		}
+
+		console.log("estoy en activarManual(): " + modoManual)
+
+		if (encendido) {
+
+			//mostrar boton
+			document.getElementById("dContinuar").style.display = "block";
+			document.getElementById("continuar").style.display = "block";
+
+			const data = new URLSearchParams();
+			data.append('"DB_DATOS_DAW".automatico', '0');
+			enviarDatos(urlPlc, data);
+		}
+
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+document.getElementById("continuar").addEventListener("click", function () {
+	console.log("continuar pulsado");
+
+	cogerValoresManual();
+
+	document.getElementById("dContinuar").style.display = "none";
+});
+
+// cambia variable PLC "martxa" a True cuando se llama a esta funcion
+function activarMartxa() {
+	try {
+
+		encendido = true;
+
+		document.getElementById("martxa").style.backgroundColor = "greenyellow";
+		document.getElementById("stop").style.backgroundColor = "red";
+
+
+
+
+
+		cogerValoresManual();
+
+		const data = new URLSearchParams();
+		data.append('"DB_DATOS_DAW".martxa', '1');
+		enviarDatos(urlPlc, data);
+
+
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+//cambia variable PLC "martxa" a false cuando llama a esta funcion
+function activarStop() {
+	try {
+		console.log(comprobarEstado);
+		document.getElementById("martxa").style.backgroundColor = "red";
+
+		document.getElementById("stop").style.backgroundColor = "greenyellow";
+
+
+
+		if (comprobarEstado !== null) {
+			const data = new URLSearchParams();
+			data.append('"DB_DATOS_DAW".martxa', '0');
+			enviarDatos(urlPlc, data);
+			comprobarEstado = null;
+		}
+
+		const data = new URLSearchParams();
+		data.append('"DB_DATOS_DAW".stop', '1');
+
+
+			enviarDatos(urlPlc, data);
+
+		detenerAnimacion();
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+
+//Fetch get Presentacion
+
+function cogerValoresAutomatico() {
+	try {
+		console.log(comprobarEstado + ".......................");
+		if (modoManual) {
+			console.log("En modo manual, no se ejecuta el fetch automático.");
+			return;
+		} else {
+			const fetchInterval = setInterval(function () {
+				fetch("variables.html", { signal: signalAutomatico }) // Pasa el signal aquí
 					.then(response => response.text())
 					.then(data => {
 						var variables = data.trim().split("\n");
 						console.log("Variables recuperadas:", variables);
 
-						console.log("ander estuvo aqui")
 
 						// Usar las variables almacenadas en el array
 						var martxa = variables[0].trim();
 						var resett = variables[1].trim();
-						var pos = variables[2].trim();
-						var contadorNegro = variables[3].trim();
+						var pos = variables[2].trim(); var contadorNegro = variables[3].trim();
 						var contadorBlanco = variables[4].trim();
 						var automatico = variables[5].trim();
 						var color = variables[6].trim();
 
 						var posicion = "a" + pos;
+
+						cambiarImagen(color);
+						posActual = posicion;
+						console.log(posicionesOcupadas, " ", posActual);
+						console.log(comprobarPosiciones(posicionesOcupadas))
+						if (!comprobarPosiciones(posicionesOcupadas)) {
+							posicionesOcupadas.push(posicion);
+							cambiarImagen(color);
+							moverElemento(color, posicion);
+							//GRAFICO
+							sumarContador(color);
+							guardarContador();
+
+						}
 
 
 						//comprobaciones
@@ -173,88 +280,124 @@ function cogerValores() {
 						console.log("automatico: " + automatico);
 						console.log("contador blanco: " + contadorBlanco);
 						console.log("contador negro: " + contadorNegro);
-
-
-						comprobar(color, martxa, automatico, posicion);
-
-
-
 					})
 					.catch(error => {
-						console.error("Error en la solicitud: ", error);
+						if (error.name === 'AbortError') {
+							return error;
+
+						} else {
+							console.error("Error en la solicitud: ", error);
+						}
 					});
+
+
 			}, 9000);
-		}
-		else {
-			fetch("variables.html")
-				.then(response => response.text())
-				.then(data => {
-					var variables = data.trim().split("\n");
-					console.log("Variables recuperadas:", variables);
 
-					console.log("javi estuvo aqui")
+			controllerAutomatico.fetchInterval = fetchInterval;
 
-					// Usar las variables almacenadas en el array
-					var martxa = variables[0].trim();
-					var resett = variables[1].trim();
-					var pos = variables[2].trim();
-					var contadorNegro = variables[3].trim();
-					var contadorBlanco = variables[4].trim();
-					var automatico = variables[5].trim();
-					var color = variables[6].trim();
-					var stop = variables[7].trim();
-
-
-					var posicion = "a" + pos;
-
-
-
-					//comprobaciones
-					console.log("Posición actual: " + posicion);
-					console.log("Color: " + color);
-					console.log("martxa: " + martxa);
-					console.log("automatico: " + automatico);
-					console.log("contador blanco: " + contadorBlanco);
-					console.log("contador negro: " + contadorNegro);
-					console.log("Stop: " + stop);
-
-
-
-					comprobar(color, martxa, automatico, posicion);
-
-
-
-				})
-				.catch(error => {
-					console.error("Error en la solicitud: ", error);
-				});
 		}
 	} catch (error) {
 		console.log(error);
 	}
+
 }
+
+//Fetch GET
+
+function cogerValoresManual() {
+	try {
+
+		fetch("variables.html")
+			.then(response => response.text())
+			.then(data => {
+				var variables = data.trim().split("\n");
+				console.log("Variables recuperadas:", variables);
+
+
+
+				// Usar las variables almacenadas en el array
+				var martxa = variables[0].trim();
+				var resett = variables[1].trim();
+				var pos = variables[2].trim();
+				var contadorNegro = variables[3].trim();
+				var contadorBlanco = variables[4].trim();
+				var automatico = variables[5].trim();
+				var color = variables[6].trim();
+
+				var posicion = "a" + pos;
+
+
+
+				//comprobaciones
+				console.log("Posición actual: " + posicion);
+				console.log("Color: " + color);
+				console.log("martxa: " + martxa);
+				console.log("automatico: " + automatico);
+				console.log("contador blanco: " + contadorBlanco);
+				console.log("contador negro: " + contadorNegro);
+
+
+				if (comprobarEstado !== null) {
+					comprobar(color, martxa, automatico, posicion);
+					posActual = posicion;
+					if (!comprobarPosiciones(posicionesOcupadas)) {
+						posicionesOcupadas.push(posicion);
+
+						cambiarImagen(color);
+						moverElemento(color, posicion);
+						//GRAFICO
+						sumarContador(color);
+						guardarContador();
+
+					} else {
+						alert("Casilla ocupada por otro chocolate!")
+					}
+
+
+				}
+
+			})
+			.catch(error => {
+				console.error("Error en la solicitud: ", error);
+			});
+	} catch (error) {
+		console.log(error);
+
+	}
+}
+
+function comprobarPosiciones(lista) {
+	if (lista.includes(posActual)) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
 //Funcion para ver si los datos han sido recogidos
+
 function comprobar(color, martxa, automatico, posicion) {
 
 	try {
-		if (color === '2')  //0 = false
+		if (color === '2' || martxa === '0')  //0 = false
 		{
 			document.getElementById("mensaje").style.color = "white";
 			console.log("no he salido");
 			document.getElementById("mensaje").style.display = "block";
-			document.getElementById("continuar").style.display = "none";
+			document.getElementById("dContinuar").style.display = "none";
 
 
 		}
 
 		else {
-			if (modoAutomatico) { // 1 = true
+			if (automatico === '1') { // 1 = true
 				document.getElementById("mensaje").style.display = "none";
-				document.getElementById("continuar").style.display = "none";
+				document.getElementById("dContinuar").style.display = "none";
 
 				console.log("he salido");
-				cambiarImagen(color);
-				moverElemento(color, posicion);
+				console.log(comprobarEstado);
+
 
 				//GRAFICO
 				sumarContador(color);
@@ -264,24 +407,18 @@ function comprobar(color, martxa, automatico, posicion) {
 
 
 			else {
-
 				console.log("manual");
+				console.log('estoy en el else del comprobar: ' + comprobarEstado);
+
 				document.getElementById("continuar").style.display = "block";
 				document.getElementById("mensaje").style.display = "block";
 
+				console.log('esperando pulsar boton continuar')
 
-				document.getElementById("continuar").addEventListener("click", function () {
+				console.log('me he saltado el boton continuar')
 
-					cogerValores();
 
-					cambiarImagen(color);
-					moverElemento(color, posicion);
-				});
-				//GRAFICO
-				document.getElementById("continuar").addEventListener("click", function () {
-					sumarContador(color);
-				});
-				document.getElementById("continuar").addEventListener("click", guardarContador);
+
 
 			}
 		}
@@ -292,87 +429,9 @@ function comprobar(color, martxa, automatico, posicion) {
 
 
 
-// cambia variable PLC "martxa" a True cuando se llama a esta funcion
-function activarMartxa() {
-	try {
-		/* document.getElementById("opciones").style.display = "block"; */
-		document.getElementById("martxa").style.backgroundColor = "greenyellow";
-		document.getElementById("stop").style.backgroundColor = "grey";
-
-
-		if (!modoAutomatico) {
-			cogerValores();
-			modoAutomatico = true;
-			const data = new URLSearchParams();
-			data.append('"DB_DATOS_DAW".martxa', '1');
-			data.append('"DB_DATOS_DAW".stop', '0');
-
-			enviarDatos(urlPlc, data);
-		}
-
-	} catch (error) {
-		console.log(error);
-	}
-}
-//cambia variable PLC "martxa" a false cuando llama a esta funcion
-function activarStop() {
-	try {
-		console.log(modoAutomatico);
-		document.getElementById("stop").style.backgroundColor = "red";
-		document.getElementById("martxa").style.display = "none";
-
-
-
-		if (modoAutomatico) {
-			cogerValores();
-			const data = new URLSearchParams();
-			data.append('"DB_DATOS_DAW".martxa', '0');
-			data.append('"DB_DATOS_DAW".stop', '1');
-			modoAutomatico = false;
-			enviarDatos(urlPlc, data);
-
-		}
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-function activarAutomatico() {
-	document.getElementById("martxa").style.display = "block";
-	try {
-		if (!modoAutomatico) {
-
-
-			modoAutomatico = true;
-			document.getElementById("continuar").style.display = "none"; // Oculta el botón por ID
-			const data = new URLSearchParams();
-			data.append('"DB_DATOS_DAW".automatico', '1');
-			enviarDatos(urlPlc, data);
-			document.getElementById("martxa").style.display = "none";
-
-		}
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-function activarManual() {
-	try {
-		if (modoAutomatico) {
-			modoAutomatico = false;
-			//mostrar boton
-			document.getElementById("continuar").style.display = "block"; // Oculta el botón por ID
-			const data = new URLSearchParams();
-			data.append('"DB_DATOS_DAW".automatico', '0');
-			enviarDatos(urlPlc, data);
-		}
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-//muffin blanco para chocolate blanco
 //muffin negro para chocolate negro
+//muffin blanco para chocolate blanco
+
 function cambiarImagen(color) {
 	try {
 		if (color === '1') {
@@ -392,6 +451,7 @@ function cambiarImagen(color) {
 	}
 
 }
+
 //Fetch POST
 function enviarDatos(url, data) {
 	try {
@@ -404,7 +464,7 @@ function enviarDatos(url, data) {
 		})
 			.then((response) => {
 				if (!response.ok) {
-					throw new Error('Network response was not ok');
+					throw new Error('Error de red');
 				}
 				const contentType = response.headers.get('Content-Type');
 				return contentType.includes('application/json') ? response.json() : response.text();
@@ -416,6 +476,71 @@ function enviarDatos(url, data) {
 		console.log(error);
 	}
 }
+
+//"animacion" movimiento del muffin
+function moverElemento(color, posicion) {
+	try {
+		console.log("pos: " + posicion);
+		console.log("actual: " + posActual);
+
+		document.getElementById("mensaje").textContent = "Moviendo...";
+
+
+		console.log("moverElemento: color = " + color + " posicion = " + posicion);
+		const chocolate = document.getElementById("chocolate");
+
+		// Obtener el div objetivo
+		const divObjetivo = document.querySelector(`.tabla-chocolates .${posicion}`);
+
+		const rectChoco = chocolate.getBoundingClientRect();
+		const rectObjetivo = divObjetivo.getBoundingClientRect();
+
+		// Calcular la distancia
+		const distanciaX = rectObjetivo.left + (rectObjetivo.width / 2) - (rectChoco.width / 2) - rectChoco.left;
+		const distanciaY = rectObjetivo.top + (rectObjetivo.height / 2) - (rectChoco.height / 2) - rectChoco.top;
+
+		console.log("[moverElemento()]: distanciaX = " + distanciaX + " distanciaY =  " + distanciaY);
+		// Mover el chocolate al centro del objetivo
+		chocolate.style.transform = `translate(${distanciaX}px, ${distanciaY}px)`;
+
+		//cambiar color fondo, 1 blanco 0 negro
+		if (color === '1') {
+			divObjetivo.style.backgroundColor = "#804000";
+
+		}
+		else {
+			divObjetivo.style.backgroundColor = "white";
+			divObjetivo.style.color = "black";
+		}
+
+		console.log("acabado")
+
+
+
+
+		setTimeout(() => {
+			// Regresar el círculo al principio
+			chocolate.style.transform = `translate(0, 0)`;
+			document.getElementById("mensaje").textContent = "Espere...";
+
+		}, 4000)
+		document.getElementById("dContinuar").style.display = "block";
+
+		radioManual.checked = false;
+
+
+	} catch (error) {
+		console.log(error)
+	}
+	document.getElementById("dContinuar").style.display = "none";
+	document.getElementById("continuar").style.display = "none";
+
+
+}
+
+
+
+
 //opcion pantalla clara
 function modoClaro() {
 	try {
@@ -444,15 +569,35 @@ function modoOscuro() {
 		console.log(error);
 	}
 }
+
+function reproducirAudio() {
+	// Reproducir el audio
+	audio.play();
+
+
+}
+
 //reset de la pagina , localStorage a 0
 function resett() {
+
 	try {
-		location.reload();
-		contadorNegro = 0;
-		contadorBlanco = 0;
-		//resetear localstorage
-		//localStorage.removeItem('contadorNegro');
-		//localStorage.removeItem('contadorBlanco');
+		encendido = false;
+		reproducirAudio();
+		setTimeout(() => {
+			var resultado = window.confirm('Estas seguro?');
+			if (resultado === true) {
+
+				contadorNegro = 0;
+				contadorBlanco = 0;
+				//resetear localstorage
+				localStorage.removeItem('contadorNegro');
+				localStorage.removeItem('contadorBlanco');
+				location.reload();
+			}
+
+		}, 200)
+
+
 	} catch (error) {
 		console.log(error);
 	}
@@ -479,10 +624,9 @@ function guardarContador() {
 	}
 }
 
-//GRAFICO
+//Grafico
 document.addEventListener('DOMContentLoaded', function () {
 	try {
-		// Crear un nuevo gráfico de barras con colores azul y rojo
 		const ctx = document.getElementById('miGrafico').getContext('2d');
 		const myChart = new Chart(ctx, {
 			type: 'bar',
@@ -490,14 +634,14 @@ document.addEventListener('DOMContentLoaded', function () {
 				labels: ['Azul (contadorBlanco)', 'Rojo (contadorNegro)'],
 				datasets: [{
 					label: 'Contador de Colores',
-					data: [contadorBlanco, contadorNegro], // Utiliza las variables correctas
+					data: [contadorBlanco, contadorNegro],
 					backgroundColor: [
-						'rgba(54, 162, 235, 0.2)', // Azul (transparente)
-						'rgba(255, 99, 132, 0.2)' // Rojo (transparente)
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 99, 132, 0.2)'
 					],
 					borderColor: [
-						'rgba(54, 162, 235, 1)', // Azul
-						'rgba(255, 99, 132, 1)' // Rojo
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 99, 132, 1)'
 					],
 					borderWidth: 1
 				}]
@@ -510,8 +654,13 @@ document.addEventListener('DOMContentLoaded', function () {
 				}
 			}
 		});
+
+		// Función para redibujar el gráfico cuando cambia el tamaño de la pantalla
+		window.addEventListener('resize', function () {
+			myChart.update(); // Actualiza el gráfico
+		});
+
 	} catch (error) {
 		console.log(error);
 	}
 });
-

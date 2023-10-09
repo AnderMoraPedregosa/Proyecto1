@@ -35,7 +35,7 @@ document.getElementById("stop").addEventListener("click", activarStop);
 //martxa
 document.getElementById("martxa").addEventListener("click", activarMartxa);
 
-var modoAutomatico = null;
+var comprobarEstado = null;
 
 var modoManual = false;
 
@@ -76,14 +76,11 @@ const radioAutomatico = document.getElementById("automatico");
 
 radioAutomatico.addEventListener("click", function () {
 	try {
-		modoAutomatico = true;
+		comprobarEstado = true;
 		modoManual = false;
 		document.getElementById("martxa").style.display = "block";
 
-
-
-
-		console.log('prueba true: ' + modoAutomatico)
+		console.log('prueba true: ' + comprobarEstado)
 
 		activarAutomatico();
 
@@ -95,7 +92,7 @@ radioAutomatico.addEventListener("click", function () {
 
 function activarAutomatico() {
 	try {
-		modoAutomatico = true;
+		comprobarEstado = true;
 		modoManual = false;
 
 		if (encendido) {
@@ -131,9 +128,9 @@ radioManual.addEventListener("click", function () {
 
 
 		document.getElementById("martxa").style.display = "block";
-		modoAutomatico = false;
+		comprobarEstado = false;
 		modoManual = true;
-		console.log('prueba false: ' + modoAutomatico)
+		console.log('prueba false: ' + comprobarEstado)
 		activarManual();
 	} catch (error) {
 		console.log(error);
@@ -145,7 +142,7 @@ radioManual.addEventListener("click", function () {
 function activarManual() {
 	try {
 
-		modoAutomatico = false;
+		comprobarEstado = false;
 		modoManual = true;
 
 		if (controllerAutomatico) {
@@ -208,18 +205,18 @@ function activarMartxa() {
 //cambia variable PLC "martxa" a false cuando llama a esta funcion
 function activarStop() {
 	try {
-		console.log(modoAutomatico);
+		console.log(comprobarEstado);
 		document.getElementById("martxa").style.backgroundColor = "red";
 
 		document.getElementById("stop").style.backgroundColor = "greenyellow";
 
 
 
-		if (modoAutomatico !== null) {
+		if (comprobarEstado !== null) {
 			const data = new URLSearchParams();
 			data.append('"DB_DATOS_DAW".martxa', '0');
 			enviarDatos(urlPlc, data);
-			modoAutomatico = null;
+			comprobarEstado = null;
 		}
 	} catch (error) {
 		console.log(error);
@@ -231,7 +228,7 @@ function activarStop() {
 
 function cogerValoresAutomatico() {
 	try {
-		console.log(modoAutomatico + ".......................");
+		console.log(comprobarEstado + ".......................");
 		if (modoManual) {
 			console.log("En modo manual, no se ejecuta el fetch automático.");
 			return;
@@ -334,7 +331,7 @@ function cogerValoresManual() {
 				console.log("contador negro: " + contadorNegro);
 
 
-				if (modoAutomatico !== null) {
+				if (comprobarEstado !== null) {
 					comprobar(color, martxa, automatico, posicion);
 					posActual = posicion;
 					if (!comprobarPosiciones(posicionesOcupadas)) {
@@ -388,12 +385,12 @@ function comprobar(color, martxa, automatico, posicion) {
 		}
 
 		else {
-			if (modoAutomatico) { // 1 = true
+			if (automatico === '1') { // 1 = true
 				document.getElementById("mensaje").style.display = "none";
 				document.getElementById("dContinuar").style.display = "none";
 
 				console.log("he salido");
-				console.log(modoAutomatico);
+				console.log(comprobarEstado);
 
 
 				//GRAFICO
@@ -405,7 +402,7 @@ function comprobar(color, martxa, automatico, posicion) {
 
 			else {
 				console.log("manual");
-				console.log('estoy en el else del comprobar: ' + modoAutomatico);
+				console.log('estoy en el else del comprobar: ' + comprobarEstado);
 
 				document.getElementById("continuar").style.display = "block";
 				document.getElementById("mensaje").style.display = "block";
