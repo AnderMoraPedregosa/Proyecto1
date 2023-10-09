@@ -606,9 +606,9 @@ function resett() {
 				//resetear localstorage
 				localStorage.removeItem('contadorNegro');
 				localStorage.removeItem('contadorBlanco');
+				location.reload();
 			}
 
-			location.reload();
 		}, 200)
 
 
