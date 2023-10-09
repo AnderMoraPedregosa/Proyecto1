@@ -43,6 +43,8 @@ var fetchManualActivo = false;
 
 var posActual = '0';
 
+var encendido = false;
+
 //abortar fetch
 // Declarar el controlador a nivel global
 // Crear un nuevo AbortController para el modo automático
@@ -59,6 +61,7 @@ let contadorBlanco = parseInt(localStorage.getItem('contadorBlanco')) || 0;
 //Funcion detener animacion
 function detenerAnimacion() {
 	try {
+		encendido = false;
 		elemento.style.transform = 'none';
 	} catch (error) {
 		console.log(error);
@@ -95,20 +98,23 @@ function activarAutomatico() {
 		modoAutomatico = true;
 		modoManual = false;
 
-		// Crear un nuevo AbortController para el modo automático
-		controllerAutomatico = new AbortController();
-		signalAutomatico = controllerAutomatico.signal; // Define signalAutomatico aquí
+		if (encendido) {
+
+			// Crear un nuevo AbortController para el modo automático
+			controllerAutomatico = new AbortController();
+			signalAutomatico = controllerAutomatico.signal; // Define signalAutomatico aquí
 
 
-		document.getElementById("dContinuar").style.display = "none"; // Oculta el botón por ID
-		const data = new URLSearchParams();
-		data.append('"DB_DATOS_DAW".automatico', '1');
+			document.getElementById("dContinuar").style.display = "none"; // Oculta el botón por ID
+			const data = new URLSearchParams();
+			data.append('"DB_DATOS_DAW".automatico', '1');
 
 
-		enviarDatos(urlPlc, data);
+			enviarDatos(urlPlc, data);
 
 
-		cogerValoresAutomatico();
+			cogerValoresAutomatico();
+		}
 
 	} catch (error) {
 		console.log(error);
@@ -118,10 +124,11 @@ function activarAutomatico() {
 
 //manual
 
-const radioManual = document.getElementById("manual");
+var radioManual = document.getElementById("manual");
 
 radioManual.addEventListener("click", function () {
 	try {
+
 
 		document.getElementById("martxa").style.display = "block";
 		modoAutomatico = false;
@@ -148,11 +155,16 @@ function activarManual() {
 
 		console.log("estoy en activarManual(): " + modoManual)
 
-		//mostrar boton
-		document.getElementById("dContinuar").style.display = "block";
-		const data = new URLSearchParams();
-		data.append('"DB_DATOS_DAW".automatico', '0');
-		enviarDatos(urlPlc, data);
+		if (encendido) {
+
+			//mostrar boton
+			document.getElementById("dContinuar").style.display = "block";
+			document.getElementById("continuar").style.display = "block";
+
+			const data = new URLSearchParams();
+			data.append('"DB_DATOS_DAW".automatico', '0');
+			enviarDatos(urlPlc, data);
+		}
 
 	} catch (error) {
 		console.log(error);
@@ -172,17 +184,21 @@ document.getElementById("continuar").addEventListener("click", function () {
 function activarMartxa() {
 	try {
 
+		encendido = true;
+
 		document.getElementById("martxa").style.backgroundColor = "greenyellow";
 		document.getElementById("stop").style.backgroundColor = "red";
 
 
-		if (modoAutomatico === null) {
-			cogerValoresManual();
 
-			const data = new URLSearchParams();
-			data.append('"DB_DATOS_DAW".martxa', '1');
-			enviarDatos(urlPlc, data);
-		}
+
+
+		cogerValoresManual();
+
+		const data = new URLSearchParams();
+		data.append('"DB_DATOS_DAW".martxa', '1');
+		enviarDatos(urlPlc, data);
+
 
 	} catch (error) {
 		console.log(error);
@@ -508,21 +524,28 @@ function moverElemento(color, posicion) {
 
 
 
-		setTimeout(() => {
-			// Regresar el círculo al principio
-			chocolate.style.transform = `translate(0, 0)`;
-			document.getElementById("mensaje").textContent = "Espere...";
+			setTimeout(() => {
+				// Regresar el círculo al principio
+				chocolate.style.transform = `translate(0, 0)`;
+				document.getElementById("mensaje").textContent = "Espere...";
 
-		}, 4000)
+			}, 4000)
+			document.getElementById("dContinuar").style.display = "block";
 
-
-
+		radioManual.checked = false;
 
 
 	} catch (error) {
 		console.log(error)
 	}
+	document.getElementById("dContinuar").style.display = "none";
+	document.getElementById("continuar").style.display = "none";
+
+
 }
+
+
+
 //presentacion
 function cambiarColorAutomatico() {
 	const data = new URLSearchParams();
@@ -572,7 +595,7 @@ function reproducirAudio() {
 function resett() {
 
 	try {
-
+		encendido = false;
 		reproducirAudio();
 		setTimeout(() => {
 			var resultado = window.confirm('Estas seguro?');
@@ -581,8 +604,8 @@ function resett() {
 				contadorNegro = 0;
 				contadorBlanco = 0;
 				//resetear localstorage
-				//localStorage.removeItem('contadorNegro');
-				//localStorage.removeItem('contadorBlanco');
+				localStorage.removeItem('contadorNegro');
+				localStorage.removeItem('contadorBlanco');
 			}
 
 			location.reload();
