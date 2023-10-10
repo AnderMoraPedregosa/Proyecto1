@@ -64,6 +64,9 @@ function reproducirAudio() {
 function resett() {
 
 	try {
+        //vaciar array
+            posicionesOcupadas = [];
+
 		encendido = false;
 		reproducirAudio();
 		setTimeout(() => {
@@ -80,11 +83,25 @@ function resett() {
 
 		}, 200)
 
+        //poner variables a false
+            const data = new URLSearchParams();
+            data.append('"DB_DATOS_DAW".automatico', '0');
+            
+            enviarDatos(urlPlc, data);
+
+            data.append('"DB_DATOS_DAW".martxa', '0');
+            
+            enviarDatos(urlPlc, data);
+
+
+
 
 	} catch (error) {
 		console.log(error);
 	}
 }
+
+
 
 function detenerAnimacion() {
     try {
@@ -102,7 +119,7 @@ radioAutomatico.addEventListener("click", function () {
         comprobarEstado = true;
         modoManual = false;
         document.getElementById("martxa").style.display = "block";
-        console.log('prueba true: ' + comprobarEstado)
+        //console.log('prueba true: ' + comprobarEstado)
         activarAutomatico();
     } catch (error) {
         console.log(error);
@@ -142,7 +159,7 @@ radioManual.addEventListener("click", function () {
         comprobarEstado = false;
         if(encendido){
             modoManual = true;
-            console.log('prueba false: ' + comprobarEstado)
+            //console.log('prueba false: ' + comprobarEstado)
             activarManual();
         }
     } catch (error) {
@@ -152,14 +169,14 @@ radioManual.addEventListener("click", function () {
 
 function activarManual() {
     try {
-        console.log("estoy en activar manual");
+        //console.log("estoy en activar manual");
         comprobarEstado = false;
         modoManual = true;
         if (fetchAutomaticoActivo) {
             clearInterval(fetchAutomaticoActivo);
             fetchAutomaticoActivo = null;
         }
-        console.log("estoy en activarManual(): " + modoManual)
+       // console.log("estoy en activarManual(): " + modoManual)
         if (encendido) {
             
             const data = new URLSearchParams();
@@ -172,7 +189,7 @@ function activarManual() {
 }
 
 document.getElementById("continuar").addEventListener("click", function () {
-    console.log("continuar pulsado");
+    //console.log("continuar pulsado");
 	document.getElementById("dContinuar").style.display = "none";
 	document.getElementById("continuar").style.display = "none";
     cogerValoresManual();
@@ -219,7 +236,7 @@ function activarStop() {
             fetchAutomaticoActivo = null;
         }
         encendido = false;
-        console.log(comprobarEstado);
+        //console.log(comprobarEstado);
         document.getElementById("martxa").style.backgroundColor = "red";
         document.getElementById("stop").style.backgroundColor = "greenyellow";
         const data = new URLSearchParams();
@@ -234,14 +251,14 @@ function cogerValoresAutomatico() {
     try {
         console.log(comprobarEstado + ".......................");
         if (!comprobarEstado) {
-            console.log("En modo manual, no se ejecuta el fetch automático.");
+            //console.log("En modo manual, no se ejecuta el fetch automático.");
             return;
         } else {
             fetch("variables.html")
                 .then(response => response.text())
                 .then(data => {
                     var variables = data.trim().split("\n");
-                    console.log("Variables recuperadas:", variables);
+                    //console.log("Variables recuperadas:", variables);
                     var martxa = variables[0].trim();
                     var resett = variables[1].trim();
                     var pos = variables[2].trim(); 
@@ -251,8 +268,8 @@ function cogerValoresAutomatico() {
                     var color = variables[6].trim();
                     var posicion = "a" + pos;
                     posActual = posicion;
-                    console.log(posicionesOcupadas, " ", posActual);
-                    console.log(comprobarPosiciones(posicionesOcupadas))
+                    //console.log(posicionesOcupadas, " ", posActual);
+                   // console.log(comprobarPosiciones(posicionesOcupadas))
                     if (!comprobarPosiciones(posicionesOcupadas, posActual)) {
                         posicionesOcupadas.push(posActual);
                         cambiarImagen(color);
@@ -262,12 +279,14 @@ function cogerValoresAutomatico() {
                         cambiarPosicionAutomatico();
                         cambiarColorAutomatico();
                     }
+                    /*
                     console.log("Posición actual: " + posicion);
                     console.log("Color: " + color);
                     console.log("martxa: " + martxa);
                     console.log("automatico: " + automatico);
                     console.log("contador blanco: " + contadorBlanco);
                     console.log("contador negro: " + contadorNegro);
+                    */
                 })
                 .catch(error => {
                     console.error("Error en la solicitud: ", error);
@@ -284,7 +303,7 @@ function cogerValoresManual() {
             .then(response => response.text())
             .then(data => {
                 var variables = data.trim().split("\n");
-                console.log("Variables recuperadas:", variables);
+                //console.log("Variables recuperadas:", variables);
                 var martxa = variables[0].trim();
                 var resett = variables[1].trim();
                 var pos = variables[2].trim();
@@ -293,12 +312,14 @@ function cogerValoresManual() {
                 var automatico = variables[5].trim();
                 var color = variables[6].trim();
                 var posicion = "a" + pos;
+                /*
                 console.log("Posición actual: " + posicion);
                 console.log("Color: " + color);
                 console.log("martxa: " + martxa);
                 console.log("automatico: " + automatico);
                 console.log("contador blanco: " + contadorBlanco);
                 console.log("contador negro: " + contadorNegro);
+                */
                 if (comprobarEstado !== null) {
                     comprobar(color, martxa, automatico, posicion);
                     posActual = posicion;
@@ -329,24 +350,22 @@ function comprobar(color, martxa, automatico, posicion) {
     try {
         if (color === '2' || martxa === '0') {
             document.getElementById("mensaje").style.color = "white";
-            console.log("no he salido");
+            //console.log("no he salido");
             document.getElementById("mensaje").style.display = "block";
             document.getElementById("dContinuar").style.display = "none";
         } else {
             if (automatico === '1') {
                 document.getElementById("mensaje").style.display = "none";
                 document.getElementById("dContinuar").style.display = "none";
-                console.log("he salido");
-                console.log(comprobarEstado);
+                //console.log("he salido");
+                //console.log(comprobarEstado);
                 sumarContador(color);
                 guardarContador();
             } else {
-                console.log("manual");
-                console.log('estoy en el else del comprobar: ' + comprobarEstado);
+                //console.log("manual");
+                //console.log('estoy en el else del comprobar: ' + comprobarEstado);
                 //document.getElementById("continuar").style.display = "block";
                 document.getElementById("mensaje").style.display = "block";
-                console.log('esperando pulsar boton continuar');
-                console.log('me he saltado el boton continuar');
             }
         }
     } catch (error) {
@@ -358,12 +377,10 @@ function cambiarPosicionAutomatico() {
     let posRandom;
     do {
         posRandom = Math.floor(Math.random() * (25 - 1 + 1)) + 1;
-    } while (posicionesOcupadas.includes(posRandom));
-	posActual = "a" + posRandom;
-    posicionesOcupadas.push(posRandom);
-    if (posicionesOcupadas.length === 25) {
-        posicionesOcupadas.length = 0;
-    }
+        posActual = "a" + posRandom;
+        //console.log("prueba do while");
+
+    } while (posicionesOcupadas.includes(posActual));
     const data = new URLSearchParams();
     data.append('"DB_DATOS_DAW".color', Math.floor(Math.random() * 2));
     data.append('"DB_DATOS_DAW".posicion', posRandom);
@@ -413,32 +430,47 @@ function enviarDatos(url, data) {
 function moverElemento(color, martxa, posicion) {
     try {
         if(martxa === '1'){
-            console.log("pos: " + posicion);
-            console.log("actual: " + posActual);
+            //console.log("pos: " + posicion);
+           // console.log("actual: " + posActual);
+            
             document.getElementById("mensaje").textContent = "Moviendo...";
-            console.log("moverElemento: color = " + color + " posicion = " + posicion);
+            
+           // console.log("moverElemento: color = " + color + " posicion = " + posicion);
+            
+            // Obtiene referencias a los elementos relevantes
             const chocolate = document.getElementById("chocolate");
             const divObjetivo = document.querySelector(`.tabla-chocolates .${posicion}`);
+            
+            // Obtiene dimensiones y posiciones de los elementos
             const rectChoco = chocolate.getBoundingClientRect();
             const rectObjetivo = divObjetivo.getBoundingClientRect();
             const distanciaX = rectObjetivo.left + (rectObjetivo.width / 2) - (rectChoco.width / 2) - rectChoco.left;
             const distanciaY = rectObjetivo.top + (rectObjetivo.height / 2) - (rectChoco.height / 2) - rectChoco.top;
-            console.log("[moverElemento()]: distanciaX = " + distanciaX + " distanciaY =  " + distanciaY);
+            
+            //console.log("[moverElemento()]: distanciaX = " + distanciaX + " distanciaY =  " + distanciaY);
+            
+            // Aplica una transformación CSS para mover el elemento
             chocolate.style.transform = `translate(${distanciaX}px, ${distanciaY}px)`;
+            
             if (color === '1') {
                 divObjetivo.style.backgroundColor = "#804000";
             } else {
                 divObjetivo.style.backgroundColor = "white";
                 divObjetivo.style.color = "black";
             }
-            console.log("acabado");
+            
+           // console.log("acabado");
+            
+            // Después de 4 segundos, restaura la posición original del chocolate
             setTimeout(() => {
                 chocolate.style.transform = `translate(0, 0)`;
                 document.getElementById("mensaje").textContent = "Espere...";
             }, 4000);
+            
             document.getElementById("dContinuar").style.display = "none";
 			document.getElementById("continuar").style.display = "none";
 
+            // Desmarca el radio button con el id "radioManual"
             radioManual.checked = false;
         }
     } catch (error) {
@@ -446,13 +478,15 @@ function moverElemento(color, martxa, posicion) {
     }
 }
 
-function cambiarColorAutomatico() {
-    const data = new URL
-	SearchParams();
-    data.append('"DB_DATOS_DAW".color', Math.floor(Math.random() * 2));
-    enviarDatos(urlPlc, data);
-}
 
+function cambiarColorAutomatico() {
+	const data = new URLSearchParams();
+
+	colorRandom = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+	data.append('"DB_DATOS_DAW".color', colorRandom);
+
+	enviarDatos(urlPlc, data);
+}
 function cambiarImagen(color) {
     try {
         if (color === '1') {
@@ -491,27 +525,6 @@ function enviarDatos(url, data) {
     } catch (error) {
         console.log(error);
     }
-}
-
-function cambiarColorAutomatico() {
-    const data = new URLSearchParams();
-    data.append('"DB_DATOS_DAW".color', Math.floor(Math.random() * 2));
-    enviarDatos(urlPlc, data);
-}
-
-function cambiarPosicionAutomatico() {
-    let posRandom;
-    do {
-        posRandom = Math.floor(Math.random() * (25 - 1 + 1)) + 1;
-    } while (posicionesOcupadas.includes(posRandom));
-    posicionesOcupadas.push(posRandom);
-    if (posicionesOcupadas.length === 25) {
-        posicionesOcupadas.length = 0;
-    }
-    const data = new URLSearchParams();
-    data.append('"DB_DATOS_DAW".color', Math.floor(Math.random() * 2));
-    data.append('"DB_DATOS_DAW".posicion', posRandom);
-    enviarDatos(urlPlc, data);
 }
 
 function sumarContador(color) {
