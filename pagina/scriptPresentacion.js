@@ -540,3 +540,35 @@ function guardarContador() {
     localStorage.setItem('contadorBlanco', contadorBlanco);
 }
 
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Crear un nuevo gráfico de barras con colores azul y rojo
+    const ctx = document.getElementById('miGrafico').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Azul (contadorBlanco)', 'Rojo (contadorNegro)'],
+            datasets: [{
+                label: 'Contador de Colores',
+                data: [contadorBlanco, contadorNegro], // Utiliza las variables correctas
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)', // Azul (transparente)
+                    'rgba(255, 99, 132, 0.2)' // Rojo (transparente)
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)', // Azul
+                    'rgba(255, 99, 132, 1)' // Rojo
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
