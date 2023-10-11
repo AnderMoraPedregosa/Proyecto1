@@ -14,7 +14,7 @@ var elemento = document.getElementById('chocolate');
 var transformacionActual = window.getComputedStyle(elemento).getPropertyValue('transform');
 document.getElementById("stop").addEventListener("click", activarStop);
 document.getElementById("martxa").addEventListener("click", activarMartxa);
-var comprobarEstado = null; 
+var comprobarEstado = null;
 var modoManual = false;
 var fetchAutomaticoActivo = null;
 var posActual = '0';
@@ -25,37 +25,37 @@ let contadorBlanco = parseInt(localStorage.getItem('contadorBlanco')) || 0;
 
 
 function modoClaro() {
-	try {
-		document.body.style.backgroundColor = "white"
-		document.getElementById("oscuro").style.backgroundColor = "grey";
-		document.getElementById("barra-derecha").style.backgroundColor = "darkgrey"
-		document.getElementById("barra-izquierda").style.backgroundColor = "darkgrey"
-		document.getElementById("contenedor").style.backgroundColor = "lightgrey"
-		document.body.style.color = "black"
-		document.getElementById("claro").style.backgroundColor = "yellow";
-	} catch (error) {
-		console.log(error);
-	}
+    try {
+        document.body.style.backgroundColor = "white"
+        document.getElementById("oscuro").style.backgroundColor = "grey";
+        document.getElementById("barra-derecha").style.backgroundColor = "darkgrey"
+        document.getElementById("barra-izquierda").style.backgroundColor = "darkgrey"
+        document.getElementById("contenedor").style.backgroundColor = "lightgrey"
+        document.body.style.color = "black"
+        document.getElementById("claro").style.backgroundColor = "yellow";
+    } catch (error) {
+        console.log(error);
+    }
 }
 //opcion pantalla oscura
 function modoOscuro() {
-	try {
-		document.getElementById("claro").style.backgroundColor = "grey";
-		document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
-		document.body.style.backgroundColor = "#111"
-		document.getElementById("barra-derecha").style.backgroundColor = "#333"
-		document.getElementById("barra-izquierda").style.backgroundColor = "#333"
-		document.getElementById("contenedor").style.backgroundColor = "#222"
-		document.body.style.color = "white"
-	} catch (error) {
-		console.log(error);
-	}
+    try {
+        document.getElementById("claro").style.backgroundColor = "grey";
+        document.getElementById("oscuro").style.backgroundColor = "#00ffcc";
+        document.body.style.backgroundColor = "#111"
+        document.getElementById("barra-derecha").style.backgroundColor = "#333"
+        document.getElementById("barra-izquierda").style.backgroundColor = "#333"
+        document.getElementById("contenedor").style.backgroundColor = "#222"
+        document.body.style.color = "white"
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
 function reproducirAudio() {
-	// Reproducir el audio
-	audio.play();
+    // Reproducir el audio
+    audio.play();
 
 
 }
@@ -63,42 +63,42 @@ function reproducirAudio() {
 //reset de la pagina , localStorage a 0
 function resett() {
 
-	try {
+    try {
         //vaciar array
-            posicionesOcupadas = [];
+        posicionesOcupadas = [];
 
-		encendido = false;
-		reproducirAudio();
-		setTimeout(() => {
-			var resultado = window.confirm('Estas seguro?');
-			if (resultado === true) {
+        encendido = false;
+        reproducirAudio();
+        setTimeout(() => {
+            var resultado = window.confirm('Estas seguro?');
+            if (resultado === true) {
 
-				contadorNegro = 0;
-				contadorBlanco = 0;
-				//resetear localstorage
-				localStorage.removeItem('contadorNegro');
-				localStorage.removeItem('contadorBlanco');
-				location.reload();
-			}
+                contadorNegro = 0;
+                contadorBlanco = 0;
+                //resetear localstorage
+                localStorage.removeItem('contadorNegro');
+                localStorage.removeItem('contadorBlanco');
+                location.reload();
+            }
 
-		}, 200)
+        }, 200)
 
         //poner variables a false
-            const data = new URLSearchParams();
-            data.append('"DB_DATOS_DAW".automatico', '0');
-            
-            enviarDatos(urlPlc, data);
+        const data = new URLSearchParams();
+        data.append('"DB_DATOS_DAW".automatico', '0');
 
-            data.append('"DB_DATOS_DAW".martxa', '0');
-            
-            enviarDatos(urlPlc, data);
+        enviarDatos(urlPlc, data);
 
+        data.append('"DB_DATOS_DAW".martxa', '0');
 
+        enviarDatos(urlPlc, data);
 
 
-	} catch (error) {
-		console.log(error);
-	}
+
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
@@ -136,7 +136,7 @@ function activarAutomatico() {
         }
         fetchAutomaticoActivo = setInterval(cogerValoresAutomatico, 10000);
         document.getElementById("dContinuar").style.display = "none";
-		document.getElementById("continuar").style.display = "none";
+        document.getElementById("continuar").style.display = "none";
 
         const data = new URLSearchParams();
         data.append('"DB_DATOS_DAW".automatico', '1');
@@ -153,11 +153,11 @@ var radioManual = document.getElementById("manual");
 
 radioManual.addEventListener("click", function () {
     try {
-		document.getElementById("dContinuar").style.display = "block";
+        document.getElementById("dContinuar").style.display = "block";
         document.getElementById("continuar").style.display = "block";
         document.getElementById("martxa").style.display = "block";
         comprobarEstado = false;
-        if(encendido){
+        if (encendido) {
             modoManual = true;
             //console.log('prueba false: ' + comprobarEstado)
             activarManual();
@@ -176,9 +176,9 @@ function activarManual() {
             clearInterval(fetchAutomaticoActivo);
             fetchAutomaticoActivo = null;
         }
-       // console.log("estoy en activarManual(): " + modoManual)
+        // console.log("estoy en activarManual(): " + modoManual)
         if (encendido) {
-            
+
             const data = new URLSearchParams();
             data.append('"DB_DATOS_DAW".automatico', '0');
             enviarDatos(urlPlc, data);
@@ -190,12 +190,12 @@ function activarManual() {
 
 document.getElementById("continuar").addEventListener("click", function () {
     //console.log("continuar pulsado");
-	document.getElementById("dContinuar").style.display = "none";
-	document.getElementById("continuar").style.display = "none";
+    document.getElementById("dContinuar").style.display = "none";
+    document.getElementById("continuar").style.display = "none";
     cogerValoresManual();
     cambiarColorAutomatico();
     cambiarPosicionAutomatico();
-	
+
 
 });
 
@@ -204,7 +204,7 @@ function activarMartxa() {
         encendido = true;
         document.getElementById("martxa").style.backgroundColor = "greenyellow";
         document.getElementById("stop").style.backgroundColor = "red";
-        if(comprobarEstado){
+        if (comprobarEstado) {
             if (fetchAutomaticoActivo) {
                 clearInterval(fetchAutomaticoActivo);
                 fetchAutomaticoActivo = null;
@@ -261,7 +261,7 @@ function cogerValoresAutomatico() {
                     //console.log("Variables recuperadas:", variables);
                     var martxa = variables[0].trim();
                     var resett = variables[1].trim();
-                    var pos = variables[2].trim(); 
+                    var pos = variables[2].trim();
                     var contadorNegro = variables[3].trim();
                     var contadorBlanco = variables[4].trim();
                     var automatico = variables[5].trim();
@@ -269,7 +269,7 @@ function cogerValoresAutomatico() {
                     var posicion = "a" + pos;
                     posActual = posicion;
                     //console.log(posicionesOcupadas, " ", posActual);
-                   // console.log(comprobarPosiciones(posicionesOcupadas))
+                    // console.log(comprobarPosiciones(posicionesOcupadas))
                     if (!comprobarPosiciones(posicionesOcupadas, posActual)) {
                         posicionesOcupadas.push(posActual);
                         cambiarImagen(color);
@@ -326,11 +326,12 @@ function cogerValoresManual() {
                     if (!comprobarPosiciones(posicionesOcupadas, posActual)) {
                         posicionesOcupadas.push(posActual);
                         cambiarImagen(color);
-                        moverElemento(color,martxa, posicion);
+                        moverElemento(color, martxa, posicion);
                         sumarContador(color);
                         guardarContador();
                     } else {
-                        alert("Casilla ocupada por otro chocolate!")
+                        radioManual.checked = false;
+                        alert("Casilla ocupada por otro chocolate!");
                     }
                 }
             })
@@ -343,7 +344,7 @@ function cogerValoresManual() {
 }
 
 function comprobarPosiciones(lista, posicion) {
-	return lista.includes(posicion);
+    return lista.includes(posicion);
 }
 
 function comprobar(color, martxa, automatico, posicion) {
@@ -429,46 +430,46 @@ function enviarDatos(url, data) {
 
 function moverElemento(color, martxa, posicion) {
     try {
-        if(martxa === '1'){
+        if (martxa === '1') {
             //console.log("pos: " + posicion);
-           // console.log("actual: " + posActual);
-            
+            // console.log("actual: " + posActual);
+
             document.getElementById("mensaje").textContent = "Moviendo...";
-            
-           // console.log("moverElemento: color = " + color + " posicion = " + posicion);
-            
+
+            // console.log("moverElemento: color = " + color + " posicion = " + posicion);
+
             // Obtiene referencias a los elementos relevantes
             const chocolate = document.getElementById("chocolate");
             const divObjetivo = document.querySelector(`.tabla-chocolates .${posicion}`);
-            
+
             // Obtiene dimensiones y posiciones de los elementos
             const rectChoco = chocolate.getBoundingClientRect();
             const rectObjetivo = divObjetivo.getBoundingClientRect();
             const distanciaX = rectObjetivo.left + (rectObjetivo.width / 2) - (rectChoco.width / 2) - rectChoco.left;
             const distanciaY = rectObjetivo.top + (rectObjetivo.height / 2) - (rectChoco.height / 2) - rectChoco.top;
-            
+
             //console.log("[moverElemento()]: distanciaX = " + distanciaX + " distanciaY =  " + distanciaY);
-            
+
             // Aplica una transformación CSS para mover el elemento
             chocolate.style.transform = `translate(${distanciaX}px, ${distanciaY}px)`;
-            
+
             if (color === '1') {
                 divObjetivo.style.backgroundColor = "#804000";
             } else {
                 divObjetivo.style.backgroundColor = "white";
                 divObjetivo.style.color = "black";
             }
-            
-           // console.log("acabado");
-            
+
+            // console.log("acabado");
+
             // Después de 4 segundos, restaura la posición original del chocolate
             setTimeout(() => {
                 chocolate.style.transform = `translate(0, 0)`;
                 document.getElementById("mensaje").textContent = "Espere...";
             }, 4000);
-            
+
             document.getElementById("dContinuar").style.display = "none";
-			document.getElementById("continuar").style.display = "none";
+            document.getElementById("continuar").style.display = "none";
 
             // Desmarca el radio button con el id "radioManual"
             radioManual.checked = false;
@@ -480,12 +481,12 @@ function moverElemento(color, martxa, posicion) {
 
 
 function cambiarColorAutomatico() {
-	const data = new URLSearchParams();
+    const data = new URLSearchParams();
 
-	colorRandom = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
-	data.append('"DB_DATOS_DAW".color', colorRandom);
+    colorRandom = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+    data.append('"DB_DATOS_DAW".color', colorRandom);
 
-	enviarDatos(urlPlc, data);
+    enviarDatos(urlPlc, data);
 }
 function cambiarImagen(color) {
     try {
@@ -542,7 +543,7 @@ function guardarContador() {
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Crear un nuevo gráfico de barras con colores azul y rojo
     const ctx = document.getElementById('miGrafico').getContext('2d');
     const myChart = new Chart(ctx, {
