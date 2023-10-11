@@ -190,11 +190,17 @@ function activarManual() {
 
 document.getElementById("continuar").addEventListener("click", function () {
     //console.log("continuar pulsado");
-    document.getElementById("dContinuar").style.display = "none";
-    document.getElementById("continuar").style.display = "none";
-    cogerValoresManual();
-    cambiarColorAutomatico();
-    cambiarPosicionAutomatico();
+    //console.log("continuar pulsado");
+    console.log(encendido);
+    if (encendido) {
+        document.getElementById("dContinuar").style.display = "none";
+        document.getElementById("continuar").style.display = "none";
+        cogerValoresManual();
+        cambiarColorAutomatico();
+        cambiarPosicionAutomatico();
+    } else {
+        alert("Marcha debe estar activado")
+    }
 
 
 });
@@ -249,7 +255,7 @@ function activarStop() {
 
 function cogerValoresAutomatico() {
     try {
-        console.log(comprobarEstado + ".......................");
+        //console.log(comprobarEstado + ".......................");
         if (!comprobarEstado) {
             //console.log("En modo manual, no se ejecuta el fetch automático.");
             return;
@@ -270,15 +276,20 @@ function cogerValoresAutomatico() {
                     posActual = posicion;
                     //console.log(posicionesOcupadas, " ", posActual);
                     // console.log(comprobarPosiciones(posicionesOcupadas))
-                    if (!comprobarPosiciones(posicionesOcupadas, posActual)) {
-                        posicionesOcupadas.push(posActual);
-                        cambiarImagen(color);
-                        moverElemento(color, martxa, posicion);
-                        sumarContador(color);
-                        guardarContador();
-                        cambiarPosicionAutomatico();
-                        cambiarColorAutomatico();
+                    if (encendido) {
+                        if (!comprobarPosiciones(posicionesOcupadas, posActual)) {
+                            posicionesOcupadas.push(posActual);
+                            cambiarImagen(color);
+                            moverElemento(color, martxa, posicion);
+                            sumarContador(color);
+                            guardarContador();
+                            cambiarPosicionAutomatico();
+                            cambiarColorAutomatico();
+                        }
+                    } else{
+                        alert("Marcha debe estar activado")
                     }
+
                     /*
                     console.log("Posición actual: " + posicion);
                     console.log("Color: " + color);
@@ -331,7 +342,8 @@ function cogerValoresManual() {
                         guardarContador();
                     } else {
                         radioManual.checked = false;
-                        alert("Casilla ocupada por otro chocolate!");
+                        alert("Casilla ocupada por otro chocolate!")
+
                     }
                 }
             })
