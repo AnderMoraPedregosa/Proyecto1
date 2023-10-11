@@ -202,7 +202,6 @@ document.getElementById("continuar").addEventListener("click", function () {
         alert("Marcha debe estar activado")
     }
 
-
 });
 
 function activarMartxa() {
